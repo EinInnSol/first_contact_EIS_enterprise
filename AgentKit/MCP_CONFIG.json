@@ -1,0 +1,37 @@
+{
+  "mcpServers": {
+    "firebase": {
+      "command": "npx",
+      "args": ["-y", "firebase-tools@latest", "mcp"],
+      "description": "Firebase/GCP integration for deployment"
+    },
+    "filesystem": {
+      "command": "npx",
+      "args": ["-y", "@anthropic/mcp-filesystem"],
+      "env": {
+        "ALLOWED_PATHS": "C:\\Users\\James\\Projects\\FirstContactEIS"
+      },
+      "description": "File system access for project directory"
+    }
+  },
+  "settings": {
+    "maxTools": 50,
+    "defaultModel": "claude-sonnet-4-5",
+    "terminalPolicy": "auto",
+    "agentMode": "agent-assisted"
+  },
+  "notes": {
+    "gcp_project": "einharjer-valhalla",
+    "region": "us-east5",
+    "database": "first-contact-db",
+    "setup_instructions": [
+      "1. Copy this file to ~/.gemini/antigravity/mcp_config.json",
+      "2. Run: gcloud auth application-default login",
+      "3. Run: gcloud config set project einharjer-valhalla",
+      "4. Start Cloud SQL Proxy for local development:",
+      "   ./cloud-sql-proxy einharjer-valhalla:us-east5:first-contact-db",
+      "5. Open Antigravity and verify MCP servers connected",
+      "6. Point agent to AgentKit folder and start Task 1.1"
+    ]
+  }
+}

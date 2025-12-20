@@ -1,0 +1,504 @@
+{
+  "programs": {
+    "income": [
+      {
+        "code": "ssi",
+        "name": "Supplemental Security Income",
+        "category": "income",
+        "typical_amount": 1183,
+        "description": "Federal disability income for individuals with limited income and resources",
+        "eligibility": {
+          "requires": ["disability_documentation", "low_income", "limited_resources"],
+          "excludes": [],
+          "age": "any"
+        },
+        "timeline": "3-6 months (with SOAR assistance can be faster)",
+        "dependencies": {
+          "enables": ["ihss", "medi_cal_automatic"]
+        },
+        "notes": "Apply through SSA. SOAR program helps homeless individuals navigate process."
+      },
+      {
+        "code": "ssdi",
+        "name": "Social Security Disability Insurance",
+        "category": "income",
+        "typical_amount": 1500,
+        "description": "Disability insurance based on work history",
+        "eligibility": {
+          "requires": ["disability_documentation", "sufficient_work_credits"],
+          "excludes": [],
+          "work_credits_needed": true
+        },
+        "timeline": "3-6 months",
+        "dependencies": {
+          "enables": ["medicare_after_24_months"]
+        },
+        "notes": "Amount varies based on work history. Can receive both SSDI and SSI in some cases."
+      },
+      {
+        "code": "gr",
+        "name": "General Relief",
+        "category": "income",
+        "typical_amount": 221,
+        "description": "County cash assistance for single adults without dependents",
+        "eligibility": {
+          "requires": ["no_dependents", "low_income", "not_receiving_ssi_ssdi"],
+          "excludes": ["ssi", "ssdi", "calworks"],
+          "residency": "county"
+        },
+        "timeline": "2-4 weeks",
+        "dependencies": {
+          "enables": ["gr_housing_subsidy"],
+          "modified_by": {
+            "gr_housing_subsidy": {
+              "effect": "reduces_amount",
+              "reduction": 100,
+              "new_amount": 121
+            }
+          }
+        },
+        "notes": "Apply through DPSS. Expedited for homeless individuals."
+      },
+      {
+        "code": "calworks",
+        "name": "CalWORKs",
+        "category": "income",
+        "typical_amount": 750,
+        "description": "Cash aid for families with children",
+        "eligibility": {
+          "requires": ["has_dependent_children", "low_income"],
+          "excludes": ["gr"],
+          "family_type": "families_with_children"
+        },
+        "timeline": "2-4 weeks",
+        "dependencies": {
+          "enables": ["calworks_housing_support"]
+        },
+        "notes": "Amount varies by family size. Includes work requirements and support services."
+      },
+      {
+        "code": "veterans_pension",
+        "name": "Veterans Pension",
+        "category": "income",
+        "typical_amount": 1200,
+        "description": "Monthly benefit for wartime veterans with limited income",
+        "eligibility": {
+          "requires": ["veteran_status", "wartime_service", "low_income"],
+          "excludes": [],
+          "age": "65+ or disabled"
+        },
+        "timeline": "2-4 months",
+        "dependencies": {},
+        "notes": "Apply through VA. Can be combined with other benefits."
+      }
+    ],
+    "housing": [
+      {
+        "code": "gr_housing_subsidy",
+        "name": "GR Housing Subsidy",
+        "category": "housing",
+        "typical_amount": 575,
+        "description": "Rental assistance for General Relief recipients",
+        "eligibility": {
+          "requires": ["gr_recipient", "housed_or_housing_found"],
+          "excludes": []
+        },
+        "timeline": "1-2 weeks once housed",
+        "dependencies": {
+          "affects": {
+            "gr": {
+              "effect": "reduces_amount",
+              "reduction": 100
+            }
+          }
+        },
+        "notes": "CRITICAL: Reduces GR by $100, so net housing benefit is $575 but total GR becomes $121 instead of $221."
+      },
+      {
+        "code": "section8",
+        "name": "Section 8 Housing Choice Voucher",
+        "category": "housing",
+        "typical_amount": 1200,
+        "description": "Federal rental assistance covering most of rent",
+        "eligibility": {
+          "requires": ["low_income", "on_waitlist"],
+          "excludes": []
+        },
+        "timeline": "Waitlist is 3-7 years in most areas",
+        "dependencies": {},
+        "notes": "Extremely long waitlist. Check if waitlist is even open."
+      },
+      {
+        "code": "vash",
+        "name": "HUD-VASH Voucher",
+        "category": "housing",
+        "typical_amount": 1200,
+        "description": "VA rental assistance for homeless veterans",
+        "eligibility": {
+          "requires": ["veteran_status", "homeless_status", "va_healthcare_eligible"],
+          "excludes": []
+        },
+        "timeline": "1-3 months",
+        "dependencies": {},
+        "notes": "Much faster than regular Section 8. Includes case management support."
+      },
+      {
+        "code": "rrh",
+        "name": "Rapid Rehousing",
+        "category": "housing",
+        "typical_amount": 800,
+        "description": "Time-limited rental assistance",
+        "eligibility": {
+          "requires": ["homeless_status", "income_potential"],
+          "excludes": [],
+          "vi_spdat_range": "4-8"
+        },
+        "timeline": "2-8 weeks",
+        "duration": "6-24 months",
+        "dependencies": {},
+        "notes": "Best for individuals who can increase income during subsidy period."
+      },
+      {
+        "code": "psh",
+        "name": "Permanent Supportive Housing",
+        "category": "housing",
+        "typical_amount": 1400,
+        "description": "Long-term housing with ongoing support services",
+        "eligibility": {
+          "requires": ["chronic_homeless_status", "disability_documentation"],
+          "excludes": [],
+          "vi_spdat_range": "8+"
+        },
+        "timeline": "3-12 months",
+        "dependencies": {},
+        "notes": "Requires documented disability. Best for highest-acuity individuals."
+      },
+      {
+        "code": "shallow_subsidy",
+        "name": "Shallow Subsidy",
+        "category": "housing",
+        "typical_amount": 400,
+        "description": "Smaller ongoing rental assistance",
+        "eligibility": {
+          "requires": ["at_risk_of_homelessness", "some_income"],
+          "excludes": []
+        },
+        "timeline": "2-4 weeks",
+        "dependencies": {},
+        "notes": "Good bridge for those with partial income."
+      },
+      {
+        "code": "calworks_housing",
+        "name": "CalWORKs Housing Support Program",
+        "category": "housing",
+        "typical_amount": 1000,
+        "description": "Housing assistance for CalWORKs families",
+        "eligibility": {
+          "requires": ["calworks_recipient", "homeless_or_at_risk"],
+          "excludes": []
+        },
+        "timeline": "2-4 weeks",
+        "dependencies": {},
+        "notes": "Includes security deposit and ongoing rental assistance."
+      }
+    ],
+    "healthcare": [
+      {
+        "code": "medi_cal",
+        "name": "Medi-Cal",
+        "category": "healthcare",
+        "typical_amount": 0,
+        "description": "California Medicaid - comprehensive health coverage",
+        "eligibility": {
+          "requires": ["low_income", "california_resident"],
+          "excludes": [],
+          "income_limit_fpl": 138
+        },
+        "timeline": "1-2 weeks",
+        "dependencies": {
+          "enables": ["ihss"]
+        },
+        "notes": "Covers medical, dental, vision, mental health, substance abuse treatment. Expedited for homeless."
+      },
+      {
+        "code": "ihss",
+        "name": "In-Home Supportive Services",
+        "category": "healthcare",
+        "typical_amount": 1200,
+        "description": "Pays for in-home care - FAMILY MEMBER CAN BE PAID AS PROVIDER",
+        "eligibility": {
+          "requires": ["medi_cal_or_ssi", "needs_assistance_with_daily_activities"],
+          "excludes": []
+        },
+        "timeline": "4-8 weeks after SSI/Medi-Cal",
+        "dependencies": {
+          "requires": ["medi_cal", "OR", "ssi"]
+        },
+        "notes": "CRITICAL: A spouse, child, parent, or friend can be paid $800-$1,500/month as the IHSS provider. This is household income."
+      },
+      {
+        "code": "medicare",
+        "name": "Medicare",
+        "category": "healthcare",
+        "typical_amount": 0,
+        "description": "Federal health insurance for 65+ or disabled",
+        "eligibility": {
+          "requires": ["age_65_or_older", "OR", "ssdi_24_months"],
+          "excludes": []
+        },
+        "timeline": "Automatic at 65, or after 24 months of SSDI",
+        "dependencies": {},
+        "notes": "Can have both Medicare and Medi-Cal (Medi-Medi)."
+      },
+      {
+        "code": "va_healthcare",
+        "name": "VA Healthcare",
+        "category": "healthcare",
+        "typical_amount": 0,
+        "description": "Comprehensive healthcare for veterans",
+        "eligibility": {
+          "requires": ["veteran_status", "honorable_discharge"],
+          "excludes": [],
+          "priority_groups": "Homeless veterans get Priority Group 5"
+        },
+        "timeline": "1-2 weeks",
+        "dependencies": {},
+        "notes": "Includes mental health and substance abuse treatment."
+      }
+    ],
+    "food": [
+      {
+        "code": "calfresh",
+        "name": "CalFresh (Food Stamps/SNAP)",
+        "category": "food",
+        "typical_amount": 234,
+        "description": "Monthly food benefits on EBT card",
+        "eligibility": {
+          "requires": ["low_income"],
+          "excludes": [],
+          "gross_income_limit_fpl": 200
+        },
+        "timeline": "3-7 days (expedited for homeless)",
+        "dependencies": {},
+        "notes": "Expedited within 3 days for those with income <$150 and resources <$100. Homeless can use at participating restaurants."
+      },
+      {
+        "code": "restaurant_meals",
+        "name": "Restaurant Meals Program",
+        "category": "food",
+        "typical_amount": 0,
+        "description": "Use CalFresh at participating restaurants",
+        "eligibility": {
+          "requires": ["calfresh_recipient", "homeless_elderly_or_disabled"],
+          "excludes": []
+        },
+        "timeline": "Automatic with CalFresh",
+        "dependencies": {
+          "requires": ["calfresh"]
+        },
+        "notes": "Important for those without cooking facilities."
+      }
+    ],
+    "utilities": [
+      {
+        "code": "liheap",
+        "name": "LIHEAP (Energy Assistance)",
+        "category": "utilities",
+        "typical_amount": 500,
+        "description": "One-time payment for utility bills",
+        "eligibility": {
+          "requires": ["low_income", "utility_bill_in_name"],
+          "excludes": []
+        },
+        "timeline": "2-4 weeks",
+        "frequency": "Once per year",
+        "dependencies": {},
+        "notes": "Apply through community action agency. Seasonal program."
+      },
+      {
+        "code": "care",
+        "name": "CARE (Utility Rate Discount)",
+        "category": "utilities",
+        "typical_amount": 50,
+        "description": "30-35% discount on electricity and gas",
+        "eligibility": {
+          "requires": ["low_income", "utility_account"],
+          "excludes": []
+        },
+        "timeline": "1-2 weeks",
+        "dependencies": {},
+        "notes": "Ongoing monthly savings. Auto-enrolled if receiving CalFresh/Medi-Cal."
+      },
+      {
+        "code": "fera",
+        "name": "FERA (Family Electric Rate Assistance)",
+        "category": "utilities",
+        "typical_amount": 30,
+        "description": "18% discount on electricity for families",
+        "eligibility": {
+          "requires": ["household_3_or_more", "income_between_care_and_200_fpl"],
+          "excludes": []
+        },
+        "timeline": "1-2 weeks",
+        "dependencies": {},
+        "notes": "For families who earn slightly too much for CARE."
+      },
+      {
+        "code": "lifeline",
+        "name": "Lifeline (Phone Service)",
+        "category": "phone",
+        "typical_amount": 15,
+        "description": "Free or reduced-cost phone service",
+        "eligibility": {
+          "requires": ["low_income", "OR", "program_participant"],
+          "qualifying_programs": ["calfresh", "medi_cal", "ssi", "calworks"]
+        },
+        "timeline": "Same day - 1 week",
+        "dependencies": {},
+        "notes": "Free smartphone with unlimited talk/text through providers like SafeLink."
+      }
+    ],
+    "other": [
+      {
+        "code": "dmv_fee_waiver",
+        "name": "DMV ID Fee Waiver",
+        "category": "documents",
+        "typical_amount": 35,
+        "description": "Free California ID for homeless individuals",
+        "eligibility": {
+          "requires": ["homeless_verification_letter"],
+          "excludes": []
+        },
+        "timeline": "Same day at DMV",
+        "dependencies": {},
+        "notes": "Need letter from shelter or service provider verifying homeless status."
+      },
+      {
+        "code": "birth_cert_waiver",
+        "name": "Birth Certificate Fee Waiver",
+        "category": "documents",
+        "typical_amount": 25,
+        "description": "Free birth certificate for homeless/GR recipients",
+        "eligibility": {
+          "requires": ["homeless_status", "OR", "gr_recipient"],
+          "excludes": []
+        },
+        "timeline": "2-4 weeks (faster if born in county)",
+        "dependencies": {},
+        "notes": "Apply through county registrar. GR caseworker can provide fee waiver form."
+      },
+      {
+        "code": "metro_pass",
+        "name": "Free Metro Pass",
+        "category": "transportation",
+        "typical_amount": 100,
+        "description": "Free or reduced transit passes",
+        "eligibility": {
+          "requires": ["low_income", "OR", "program_participant"],
+          "varies_by_program": true
+        },
+        "timeline": "Varies",
+        "dependencies": {},
+        "notes": "Many homeless service programs include transit passes. Also GR recipients may qualify."
+      },
+      {
+        "code": "legal_aid",
+        "name": "Legal Aid",
+        "category": "legal",
+        "typical_amount": 0,
+        "description": "Free legal assistance",
+        "eligibility": {
+          "requires": ["low_income"],
+          "excludes": []
+        },
+        "timeline": "1-2 weeks for intake",
+        "dependencies": {},
+        "notes": "Can help with: ID issues, benefits denials, housing discrimination, record expungement."
+      },
+      {
+        "code": "gain",
+        "name": "GAIN (Employment Services)",
+        "category": "employment",
+        "typical_amount": 0,
+        "description": "Job training and placement services",
+        "eligibility": {
+          "requires": ["calworks_recipient", "OR", "gr_recipient"],
+          "excludes": []
+        },
+        "timeline": "Ongoing",
+        "dependencies": {},
+        "notes": "Includes job training, resume help, interview prep, childcare support."
+      }
+    ]
+  },
+  "calculation_rules": {
+    "gr_with_housing_subsidy": {
+      "description": "When GR Housing Subsidy is activated, GR cash amount reduces by $100",
+      "formula": {
+        "gr_base": 221,
+        "gr_housing_subsidy": 575,
+        "gr_reduction_when_subsidy_active": 100,
+        "gr_with_subsidy": 121
+      },
+      "example": {
+        "without_subsidy": {
+          "gr": 221,
+          "housing_help": 0,
+          "total": 221
+        },
+        "with_subsidy": {
+          "gr": 121,
+          "gr_housing_subsidy": 575,
+          "total_benefit": 696,
+          "note": "Net gain is $475 ($696 - $221)"
+        }
+      }
+    },
+    "ssi_calfresh_interaction": {
+      "description": "SSI recipients are now eligible for CalFresh in California (as of 2019)",
+      "note": "Previously SSI excluded CalFresh. Now can receive both."
+    },
+    "ihss_household_income": {
+      "description": "IHSS payments to a live-in family caregiver count as household income but not for the recipient's benefit calculations",
+      "example": {
+        "recipient_ssi": 1183,
+        "spouse_ihss_income": 1200,
+        "household_total": 2383
+      }
+    }
+  },
+  "application_sequencing": {
+    "recommended_order": [
+      {
+        "step": 1,
+        "programs": ["calfresh", "medi_cal", "gr"],
+        "reason": "Can apply simultaneously at DPSS. Fastest benefits.",
+        "timeline": "Week 1"
+      },
+      {
+        "step": 2,
+        "programs": ["lifeline", "care"],
+        "reason": "Quick wins while waiting for other benefits.",
+        "timeline": "Week 1-2"
+      },
+      {
+        "step": 3,
+        "programs": ["ssi"],
+        "reason": "Start application early - takes 3-6 months.",
+        "timeline": "Week 2"
+      },
+      {
+        "step": 4,
+        "programs": ["gr_housing_subsidy"],
+        "reason": "Once housing is secured and GR is active.",
+        "timeline": "When housed"
+      },
+      {
+        "step": 5,
+        "programs": ["ihss"],
+        "reason": "After SSI is approved.",
+        "timeline": "After SSI approval"
+      }
+    ]
+  }
+}

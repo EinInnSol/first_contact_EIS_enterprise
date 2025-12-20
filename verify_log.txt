@@ -1,0 +1,30 @@
+--- STARTING RLS VERIFICATION ---
+1. Creating Test Organizations and Vendors...
+Setup failed (maybe data exists): {'S': 'ERROR', 'V': 'ERROR', 'C': '23505', 'M': 'duplicate key value violates unique constraint "organizations_slug_key"', 'D': 'Key (slug)=(test-org-a) already exists.', 's': 'public', 't': 'organizations', 'n': 'organizations_slug_key', 'F': 'nbtinsert.c', 'L': '671', 'R': '_bt_check_unique'}
+2. Setting up test role to verify RLS...
+Role setup note: {'S': 'ERROR', 'V': 'ERROR', 'C': '42710', 'M': 'role "app_user" already exists', 'F': 'user.c', 'L': '334', 'R': 'CreateRole'}
+Traceback (most recent call last):
+  File "C:\Users\james\Downloads\FirstContactEIS\verify_rls.py", line 162, in <module>
+    asyncio.run(main())
+    ~~~~~~~~~~~^^^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\james\Downloads\FirstContactEIS\verify_rls.py", line 89, in main
+    cursor.execute("SET ROLE app_user")
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\pg8000\dbapi.py", line 470, in execute
+    self._context = self._c.execute_simple(operation)
+                    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\pg8000\core.py", line 694, in execute_simple
+    self.handle_messages(context)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\pg8000\core.py", line 844, in handle_messages
+    raise context.error
+pg8000.exceptions.DatabaseError: {'S': 'ERROR', 'V': 'ERROR', 'C': '42501', 'M': 'permission denied to set role "app_user"', 'F': 'guc.c', 'L': '12106', 'R': 'call_string_check_hook'}
