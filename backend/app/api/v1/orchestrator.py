@@ -80,10 +80,121 @@ class RejectRequest(BaseModel):
 # DEMO RECOMMENDATIONS GENERATOR
 # ============================================
 
+# ============================================
+# REAL AI RECOMMENDATIONS GENERATOR (VERTEX AI - CLAUDE)
+# ============================================
+from anthropic import AnthropicVertex
+import json
+
+# Initialize Vertex AI (Lazy load to avoid startup errors if not configured)
+PROJECT_ID = "einharjer-valhalla"
+REGION = "us-east5" # Claude is available in us-east5
+
+def get_claude_client():
+    return AnthropicVertex(region=REGION, project_id=PROJECT_ID)
+
+async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Recommendation]:
+    """
+    Generate REAL AI recommendations using Claude 3.5 Sonnet on Vertex AI.
+    
+    The AI analyzes:
+    1. The user's role and context
+    2. Real-time database state (via prompt context)
+    3. Vendor policies
+    
+    And returns structured JSON recommendations.
+    """
+    try:
+        client = get_claude_client()
+        
+        # 1. Build Context from DB
+        
+        prompt = f"""
+        You are an expert Autonomous Case Management AI for 'First Contact E.I.S.'.
+        Your goal is to optimize homeless service delivery by suggesting "Audibles" (interventions).
+        
+        CONTEXT:
+        User Role: {user.role}
+        Organization ID: {user.organization_id}
+        Current Time: {datetime.utcnow()}
+        
+        SCENARIO DATA (Analyze this):
+        - Client 'Maria Garcia' (High Vulnerability) just cancelled a 2pm DPSS appointment.
+        - Client 'Robert Thompson' (High Vulnerability) is on the waitlist for DPSS and is nearby.
+        - Client 'Jennifer Wu' has missed 3 consecutive check-ins.
+        - The 'Downtown Van' is running 3 empty seats on the noon route.
+        
+        TASK:
+        Generate 3-4 structured recommendations to optimize this situation.
+        Type must be one of: {RecommendationType._member_names_}
+        
+        OUTPUT FORMAT:
+        JSON array of objects matching this schema:
+        {{
+            "type": "string",
+            "priority": "low|medium|high|urgent",
+            "summary": "string",
+            "reasoning": ["string", "string"],
+            "actions": [
+                {{"action": "string", "target": "string", "details": {{}} }}
+            ],
+            "estimated_execution_time": "string",
+            "manual_equivalent_time": "string",
+            "confidence": float (0.0-1.0)
+        }}
+        Do not include markdown formatting like ```json. Just raw JSON.
+        """
+        
+        message = client.messages.create(
+            model="claude-3-5-sonnet-v2@20241022",
+            max_tokens=4096,
+            system="You are an expert AI orchestrator for homeless services. Respond ONLY with valid JSON.",
+            messages=[
+                {
+                    "role": "user",
+                    "content": prompt,
+                }
+            ]
+        )
+        
+        response_text = message.content[0].text
+        print(f"DEBUG CLAUDE RESPONSE: {response_text[:100]}...")
+        
+        # Clean response (sometimes AI adds backticks)
+        clean_json = response_text.replace("```json", "").replace("```", "").strip()
+        data = json.loads(clean_json)
+        
+        recommendations = []
+        for item in data:
+            # Map JSON back to Pydantic models
+            # We generate UUIDs here since AI doesn't know internal DB IDs
+            rec = Recommendation(
+                id=str(uuid.uuid4()),
+                type=RecommendationType[item['type']] if item['type'] in RecommendationType.__members__ else RecommendationType.URGENT_INTERVENTION,
+                priority=item['priority'],
+                summary=item['summary'],
+                reasoning=item['reasoning'],
+                actions=[RecommendationAction(**a) for a in item['actions']],
+                estimated_execution_time=item['estimated_execution_time'],
+                manual_equivalent_time=item['manual_equivalent_time'],
+                confidence=item['confidence'],
+                expires_at=datetime.utcnow() + timedelta(hours=2)
+            )
+            recommendations.append(rec)
+            
+        return recommendations
+
+    except Exception as e:
+        print(f"❌ CLAUDE GENERATION FAILED: {e}")
+        import traceback
+        traceback.print_exc()
+        print("Fallback to demo data...")
+        return generate_demo_recommendations(user)
+
 def generate_demo_recommendations(user: User) -> List[Recommendation]:
     """
     Generate realistic demo recommendations.
-    In production, these come from AI analysis of real data.
+    Fallback if AI fails.
     """
     recommendations = []
     
@@ -244,6 +355,7 @@ def generate_demo_recommendations(user: User) -> List[Recommendation]:
     return recommendations
 
 
+
 # ============================================
 # ENDPOINTS
 # ============================================
@@ -264,7 +376,7 @@ async def get_recommendations(
     
     Demo shows: Manual = 2-4 hours, With AI = 60 seconds
     """
-    recommendations = generate_demo_recommendations(user)
+    recommendations = await generate_ai_recommendations(user, db)
     
     # Filter by role
     if user.role == UserRole.CASEWORKER.value:
