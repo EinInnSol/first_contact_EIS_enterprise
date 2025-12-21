@@ -8,6 +8,10 @@ const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
 export const metadata: Metadata = {
   title: "First Contact E.I.S.",
   description: "AI Orchestration Platform for Homeless Services",
+  manifest: "/manifest.json",
+  icons: {
+    apple: "/icon-512.jpg",
+  },
 };
 
 export default function RootLayout({

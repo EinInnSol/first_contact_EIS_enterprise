@@ -1,0 +1,21 @@
+{
+    "name": "First Contact E.I.S.",
+    "short_name": "Nexus",
+    "description": "AI Orchestration Platform for Homeless Services",
+    "start_url": "/login",
+    "display": "standalone",
+    "background_color": "#0a0a0a",
+    "theme_color": "#00ff9d",
+    "icons": [
+        {
+            "src": "/icon-192.jpg",
+            "sizes": "192x192",
+            "type": "image/jpeg"
+        },
+        {
+            "src": "/icon-512.jpg",
+            "sizes": "512x512",
+            "type": "image/jpeg"
+        }
+    ]
+}
