@@ -9,6 +9,7 @@ from app.models.user import User, UserRole
 from app.models.qr_location import QRLocation
 from app.models.qr_scan_event import QRScanEvent
 from app.models.client import Client
+from app.models.orchestration_event import OrchestrationEvent
 
 __all__ = [
     "TenantMixin",
@@ -20,4 +21,5 @@ __all__ = [
     "QRLocation",
     "QRScanEvent",
     "Client",
+    "OrchestrationEvent",
 ]

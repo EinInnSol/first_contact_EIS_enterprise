@@ -1,0 +1,21 @@
+graph LR
+    subgraph Original["Original Architecture<br/>$791/month"]
+        O1[5 Cloud Run Services<br/>$110]
+        O2[4 Databases<br/>$270]
+        O3[Vertex AI<br/>$200]
+        O4[Security & Networking<br/>$131]
+        O5[Monitoring<br/>$80]
+    end
+    
+    subgraph Simplified["V3 Simplified<br/>$92/month"]
+        S1[2 Cloud Run Services<br/>$25]
+        S2[1 Database PostgreSQL<br/>$7]
+        S3[Vertex AI Smart Usage<br/>$50]
+        S4[Storage & Misc<br/>$10]
+    end
+    
+    Original -.88% Reduction.-> Simplified
+    
+    style Original fill:#F44336,stroke:#C62828,stroke-width:2px
+    style Simplified fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+

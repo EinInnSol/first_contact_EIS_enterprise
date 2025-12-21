@@ -1,0 +1,76 @@
+graph TB
+    subgraph L1["Layer 1: Client Touchpoints"]
+        QR[QR Codes at Parks]
+        Mobile[Mobile Intake Form]
+        Portal[Client Portal]
+        SMS[SMS Notifications]
+    end
+    
+    subgraph L2["Layer 2: THE BRAIN (AI Orchestration)"]
+        EventListener[Event Listener<br/>24/7 Monitoring]
+        Orchestrator[Orchestrator<br/>Decision Engine]
+        Executor[Executor<br/>Multi-System Actions]
+        
+        EventListener --> Orchestrator
+        Orchestrator --> Executor
+    end
+    
+    subgraph L3["Layer 3: Integration Layer"]
+        Doctors[Doctor Offices]
+        MediCal[Medi-Cal]
+        DPSS[DPSS / IHSS]
+        Transport[Transportation]
+        Housing[Housing Providers]
+        Employment[Employment Services]
+        Food[Food Banks]
+        MentalHealth[Mental Health]
+    end
+    
+    subgraph L4["Layer 4: Caseworker Interface"]
+        EventsFeed[Real-Time Events Feed]
+        OneClick[One-Click Approval]
+        Dashboard[Case Management]
+        Workload[Workload Optimizer]
+    end
+    
+    subgraph L5["Layer 5: City Dashboard"]
+        Spending[Real-Time Spending]
+        ROI[Program ROI Analysis]
+        HeatMap[Geographic Heat Maps]
+        Bottlenecks[Bottleneck Detection]
+    end
+    
+    subgraph L6["Layer 6: Admin Panel"]
+        UserMgmt[User Management]
+        OrgConfig[Organization Config]
+        Compliance[HIPAA Compliance]
+        SystemHealth[System Health]
+    end
+    
+    subgraph L7["Layer 7: Data & Infrastructure"]
+        PostgreSQL[(PostgreSQL<br/>Operational DB)]
+        BigQuery[(BigQuery<br/>Analytics)]
+        CloudStorage[(Cloud Storage<br/>Documents)]
+        VertexAI[Vertex AI<br/>Claude 4.5]
+    end
+    
+    subgraph L8["Layer 8: VENDOR ACCOUNTABILITY (Hidden)"]
+        VendorMetrics[Vendor Performance Metrics]
+        CostTracking[Cost per Client by Vendor]
+        RetentionTracking[Retention Rates by Vendor]
+        QualityScores[Service Quality Scores]
+    end
+    
+    L1 --> L2
+    L2 --> L3
+    L3 --> L4
+    L4 --> L5
+    L5 --> L6
+    L6 --> L7
+    L7 --> L8
+    
+    L8 -.Hidden from Vendors.-> L5
+    
+    style L2 fill:#4CAF50,stroke:#2E7D32,stroke-width:3px,color:#fff
+    style L8 fill:#F44336,stroke:#C62828,stroke-width:3px,color:#fff
+

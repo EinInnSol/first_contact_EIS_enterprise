@@ -1,0 +1,46 @@
+flowchart TD
+    Client([Homeless Individual]) --> QR[Scans QR Code]
+    QR --> Intake[Completes Intake Form]
+    Intake --> DB[(PostgreSQL)]
+    
+    DB --> EventListener[Event Listener]
+    EventListener --> Events{New Event?}
+    
+    Events -->|Yes| Orchestrator[Orchestrator<br/>AI Decision]
+    Events -->|No| Wait([Wait])
+    
+    Orchestrator --> VertexAI[Vertex AI Claude]
+    VertexAI --> Decision[Decision Made]
+    
+    Decision --> Recommendation[Create Recommendation]
+    Recommendation --> Firestore[(Firestore<br/>Real-Time)]
+    
+    Firestore --> CaseworkerUI[Caseworker Dashboard]
+    CaseworkerUI --> Approve{Approve?}
+    
+    Approve -->|No| Reject([Rejected])
+    Approve -->|Yes| Executor[Executor]
+    
+    Executor --> External1[Doctor Office API]
+    Executor --> External2[DPSS API]
+    Executor --> External3[Transport API]
+    Executor --> External4[SMS Gateway]
+    
+    External1 --> Complete([Actions Complete])
+    External2 --> Complete
+    External3 --> Complete
+    External4 --> Complete
+    
+    Complete --> UpdateDB[Update Database]
+    UpdateDB --> DB
+    
+    DB --> BigQuery[(BigQuery<br/>Analytics)]
+    BigQuery --> CityDashboard[City Dashboard]
+    
+    DB -.Hidden Layer 8.-> VendorMetrics[(Vendor Metrics)]
+    VendorMetrics --> CityDashboard
+    
+    style Orchestrator fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+    style VendorMetrics fill:#F44336,stroke:#C62828,stroke-width:2px
+    style CityDashboard fill:#2196F3,stroke:#1565C0,stroke-width:2px
+

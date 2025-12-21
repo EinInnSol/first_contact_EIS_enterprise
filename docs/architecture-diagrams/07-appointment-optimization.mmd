@@ -1,0 +1,40 @@
+sequenceDiagram
+    participant Client as Client
+    participant System as Event Listener
+    participant Orchestrator as Orchestrator
+    participant AI as Vertex AI
+    participant Caseworker as Caseworker
+    participant Executor as Executor
+    participant Doctor as Doctor Office
+    participant SMS as SMS Gateway
+    
+    Client->>System: Texts: "Can't make 2pm appointment"
+    System->>System: Detect cancellation event
+    System->>Orchestrator: Trigger orchestration
+    
+    Orchestrator->>Orchestrator: Query full context
+    Note over Orchestrator: Check all clients<br/>Documents ready?<br/>Transport compatible?<br/>Higher urgency?
+    
+    Orchestrator->>AI: Complex decision needed?
+    AI->>Orchestrator: Best match: Client B
+    
+    Orchestrator->>Caseworker: Present recommendation
+    Note over Caseworker: Review reasoning<br/>Impact: $120 saved<br/>6 actions planned
+    
+    Caseworker->>Orchestrator: APPROVE ✓
+    
+    Orchestrator->>Executor: Execute plan
+    
+    par Execute all actions
+        Executor->>Doctor: Cancel next week
+        Executor->>Doctor: Book today 2pm
+        Executor->>SMS: Notify Client B
+    end
+    
+    Doctor-->>Executor: Confirmed
+    SMS-->>Executor: Sent
+    
+    Executor->>Caseworker: ✓ Complete (8 seconds)
+    
+    Note over System,SMS: Total time: 60 seconds<br/>vs 2-4 hours manual
+

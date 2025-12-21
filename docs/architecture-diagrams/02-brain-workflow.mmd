@@ -1,0 +1,47 @@
+flowchart TD
+    Start([Event Occurs]) --> Detect[Event Listener Detects]
+    
+    Detect --> Check{Should<br/>Orchestrate?}
+    Check -->|No| End1([Ignore Event])
+    Check -->|Yes| Context[Query Full Context]
+    
+    Context --> DB[(PostgreSQL<br/>Client History)]
+    Context --> BQ[(BigQuery<br/>Patterns)]
+    
+    DB --> Decide{Make Decision}
+    BQ --> Decide
+    
+    Decide -->|Simple Case<br/>95%| Rules[Apply Business Rules]
+    Decide -->|Complex Case<br/>5%| AI[Vertex AI Claude]
+    
+    Rules --> Plan[Create Execution Plan]
+    AI --> Plan
+    
+    Plan --> Format[Format Recommendation]
+    Format --> Present[Present to Caseworker]
+    
+    Present --> Approval{Approved?}
+    Approval -->|No| End2([Reject])
+    Approval -->|Yes| Execute[Execute Actions]
+    
+    Execute --> Action1[Action 1: Cancel Appointment]
+    Execute --> Action2[Action 2: Book New Slot]
+    Execute --> Action3[Action 3: Update Transport]
+    Execute --> Action4[Action 4: Send SMS]
+    Execute --> Action5[Action 5: Notify Provider]
+    Execute --> Action6[Action 6: Update Case]
+    
+    Action1 --> Complete([Complete])
+    Action2 --> Complete
+    Action3 --> Complete
+    Action4 --> Complete
+    Action5 --> Complete
+    Action6 --> Complete
+    
+    Complete --> Learn[Store Pattern for Learning]
+    Learn --> End3([End])
+    
+    style Decide fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+    style AI fill:#2196F3,stroke:#1565C0,stroke-width:2px
+    style Execute fill:#FF9800,stroke:#E65100,stroke-width:2px
+

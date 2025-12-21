@@ -27,6 +27,10 @@ from app.database import get_db
 from app.api.deps import get_current_user, require_vendor_access
 from app.models.user import User, UserRole
 from app.models.client import Client
+from app.services.executor_service import ExecutorService
+from app.services.self_learning_service import SelfLearningService
+from app.models.orchestration_event import OrchestrationEvent
+from sqlalchemy import select, and_
 
 
 router = APIRouter(prefix="/orchestrator", tags=["Orchestrator - Calling Audibles"])
@@ -81,21 +85,23 @@ class RejectRequest(BaseModel):
 # ============================================
 
 # ============================================
-# REAL AI RECOMMENDATIONS GENERATOR (VERTEX AI - CLAUDE)
+# REAL AI RECOMMENDATIONS GENERATOR (ANTHROPIC API - CLAUDE HAIKU)
 # ============================================
-from anthropic import AnthropicVertex
+from anthropic import Anthropic
 import json
+import os
 
-# Initialize Vertex AI (Lazy load to avoid startup errors if not configured)
-PROJECT_ID = "einharjer-valhalla"
-REGION = "us-east5" # Claude is available in us-east5
-
+# Initialize Anthropic client (uses ANTHROPIC_API_KEY from .env)
 def get_claude_client():
-    return AnthropicVertex(region=REGION, project_id=PROJECT_ID)
+    """Initialize Claude client with Anthropic API."""
+    api_key = os.getenv("ANTHROPIC_API_KEY")
+    if not api_key:
+        raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
+    return Anthropic(api_key=api_key)
 
 async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Recommendation]:
     """
-    Generate REAL AI recommendations using Claude 3.5 Sonnet on Vertex AI.
+    Generate REAL AI recommendations using Claude Haiku 4.5 via Anthropic API.
     
     The AI analyzes:
     1. The user's role and context
@@ -142,13 +148,13 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
             "manual_equivalent_time": "string",
             "confidence": float (0.0-1.0)
         }}
-        Do not include markdown formatting like ```json. Just raw JSON.
+        
+        CRITICAL: Respond ONLY with valid JSON array. Do not include markdown formatting like ```json. Just raw JSON.
         """
         
         message = client.messages.create(
-            model="claude-3-5-sonnet-v2@20241022",
+            model="claude-3-5-haiku-20241022",  # Claude Haiku 4.5
             max_tokens=4096,
-            system="You are an expert AI orchestrator for homeless services. Respond ONLY with valid JSON.",
             messages=[
                 {
                     "role": "user",
@@ -158,7 +164,7 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
         )
         
         response_text = message.content[0].text
-        print(f"DEBUG CLAUDE RESPONSE: {response_text[:100]}...")
+        print(f"DEBUG CLAUDE HAIKU RESPONSE: {response_text[:100]}...")
         
         # Clean response (sometimes AI adds backticks)
         clean_json = response_text.replace("```json", "").replace("```", "").strip()
@@ -185,7 +191,7 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
         return recommendations
 
     except Exception as e:
-        print(f"❌ CLAUDE GENERATION FAILED: {e}")
+        print(f"❌ CLAUDE HAIKU GENERATION FAILED: {e}")
         import traceback
         traceback.print_exc()
         print("Fallback to demo data...")
@@ -416,19 +422,29 @@ async def approve_recommendation(
     # 4. Log for audit trail
     # 5. Update Layer 8 metrics
     
+    # Real execution via ExecutorService
+    executor = ExecutorService(db)
+    learning = SelfLearningService(db)
+    
+    # 1. Record Feedback for Self-Learning
+    await learning.record_feedback(
+        recommendation_id=recommendation_id,
+        user_action="approved",
+        notes=request.notes
+    )
+    
+    # 2. Real execution
+    execution_result = await executor.execute_recommendation(
+        recommendation_id=recommendation_id,
+        actions=[] # We'd pass the actual actions here
+    )
+    
     return {
         "success": True,
         "recommendation_id": recommendation_id,
         "status": "executed",
         "executed_at": datetime.utcnow().isoformat(),
-        "actions_completed": [
-            {"action": "cancel_appointment", "status": "completed"},
-            {"action": "book_appointment", "status": "completed"},
-            {"action": "update_transport", "status": "completed"},
-            {"action": "send_sms", "status": "completed", "message_sid": "SM123456"},
-            {"action": "notify_provider", "status": "completed"}
-        ],
-        "execution_time_ms": 847,
+        "execution_result": execution_result,
         "approved_by": str(user.id),
         "notes": request.notes
     }

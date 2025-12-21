@@ -1,0 +1,33 @@
+flowchart LR
+    Dev[Developer] --> Git[Git Push]
+    Git --> GitHub[GitHub Repo]
+    
+    GitHub --> Trigger[Cloud Build Trigger]
+    
+    Trigger --> Build[Build Docker Images]
+    Build --> Test[Run Tests]
+    
+    Test --> Pass{Tests Pass?}
+    Pass -->|No| Fail([Build Failed])
+    Pass -->|Yes| Push[Push to Artifact Registry]
+    
+    Push --> Deploy1[Deploy Backend<br/>Cloud Run]
+    Push --> Deploy2[Deploy Frontend<br/>Cloud Run]
+    
+    Deploy1 --> HealthCheck[Health Check]
+    Deploy2 --> HealthCheck
+    
+    HealthCheck --> Success{Healthy?}
+    Success -->|No| Rollback([Rollback])
+    Success -->|Yes| Live([Live in Production])
+    
+    Live --> Monitor[Cloud Monitoring]
+    Monitor --> Alerts{Issues?}
+    Alerts -->|Yes| PagerDuty[Alert Team]
+    Alerts -->|No| Continue([Continue Running])
+    
+    style Pass fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+    style Success fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+    style Fail fill:#F44336,stroke:#C62828,stroke-width:2px
+    style Rollback fill:#F44336,stroke:#C62828,stroke-width:2px
+

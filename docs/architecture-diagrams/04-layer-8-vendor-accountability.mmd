@@ -1,0 +1,46 @@
+flowchart TB
+    subgraph Visible["WHAT VENDORS SEE"]
+        VendorPortal[Vendor Portal]
+        VendorAPI[Vendor API Endpoints]
+        VendorDB[(Vendor Database Views)]
+        
+        VendorPortal --> VendorAPI
+        VendorAPI --> VendorDB
+    end
+    
+    subgraph Hidden["WHAT VENDORS DON'T SEE (Layer 8)"]
+        CityDashboard[City Dashboard]
+        CityAPI[City API Endpoints]
+        
+        subgraph Tracking["Hidden Tracking"]
+            CostMetric[Cost per Client]
+            RetentionMetric[Retention Rate]
+            SpeedMetric[Service Speed]
+            QualityMetric[Service Quality]
+        end
+        
+        MaterializedViews[(Materialized Views<br/>Vendor Performance)]
+        
+        CityDashboard --> CityAPI
+        CityAPI --> MaterializedViews
+        MaterializedViews --> Tracking
+    end
+    
+    subgraph Protection["PROTECTION MECHANISMS"]
+        RLS[Row-Level Security<br/>PostgreSQL]
+        APIGateway[API Gateway<br/>Endpoint Separation]
+        ServerComponents[Next.js Server Components<br/>Route Protection]
+    end
+    
+    VendorDB -.RLS Blocks Access.-> MaterializedViews
+    VendorAPI -.Cannot Access.-> CityAPI
+    VendorPortal -.Returns 404.-> CityDashboard
+    
+    Protection --> RLS
+    Protection --> APIGateway
+    Protection --> ServerComponents
+    
+    style Hidden fill:#F44336,stroke:#C62828,stroke-width:3px
+    style Protection fill:#FF9800,stroke:#E65100,stroke-width:2px
+    style Visible fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+

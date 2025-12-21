@@ -21,6 +21,7 @@ from app.models.qr_location import QRLocation
 from app.models.qr_scan_event import QRScanEvent
 from app.models.client import Client
 from app.models.vendor import Vendor
+from app.services.orchestration_engine import OrchestrationEngine
 
 
 router = APIRouter(prefix="/intake", tags=["QR Intake (Public)"])
@@ -140,6 +141,23 @@ async def qr_intake(
     )
     
     await db.commit()
+    
+    # 5. TRIGGER THE BRAIN (The Nervous System in action)
+    # This immediately starts the AI Orchestration process
+    engine = OrchestrationEngine(db)
+    await engine.trigger_event(
+        event_type="intake_completed",
+        organization_id=location.organization_id,
+        client_id=client.id,
+        vendor_id=location.vendor_id,
+        payload={
+            "first_name": intake.first_name,
+            "last_name": intake.last_name,
+            "qr_location_id": qr_location_id,
+            "assigned_vendor": vendor.name
+        },
+        priority=3  # Medium-high priority for new intakes
+    )
     
     return IntakeResponse(
         success=True,

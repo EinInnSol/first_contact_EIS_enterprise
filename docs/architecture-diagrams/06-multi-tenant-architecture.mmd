@@ -1,0 +1,49 @@
+flowchart TB
+    subgraph Platform["First Contact E.I.S. Platform"]
+        LB[Load Balancer]
+        
+        subgraph Backend["Backend (Cloud Run)"]
+            API[FastAPI Monolith]
+        end
+        
+        subgraph Frontend["Frontend (Cloud Run)"]
+            NextJS[Next.js Unified App]
+        end
+        
+        subgraph Database["PostgreSQL"]
+            Tables[(Tables with<br/>organization_id)]
+            RLS[Row-Level Security]
+        end
+    end
+    
+    subgraph LongBeach["Long Beach CoC"]
+        LB_Users[Users]
+        LB_Data[(Long Beach Data)]
+    end
+    
+    subgraph LACounty["LA County CoC"]
+        LA_Users[Users]
+        LA_Data[(LA County Data)]
+    end
+    
+    subgraph OrangeCounty["Orange County CoC"]
+        OC_Users[Users]
+        OC_Data[(Orange County Data)]
+    end
+    
+    LB_Users --> LB
+    LA_Users --> LB
+    OC_Users --> LB
+    
+    LB --> NextJS
+    NextJS --> API
+    API --> Tables
+    Tables --> RLS
+    
+    RLS -.Filters by org_id.-> LB_Data
+    RLS -.Filters by org_id.-> LA_Data
+    RLS -.Filters by org_id.-> OC_Data
+    
+    style Platform fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+    style Database fill:#FFF3E0,stroke:#E65100,stroke-width:2px
+

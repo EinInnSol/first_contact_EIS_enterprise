@@ -7,7 +7,7 @@ API Structure:
 - PUBLIC: /intake/* - QR intake (no auth)
 - AUTH: /auth/* - Login/register
 - LAYERS 1-7: /clients/*, /benefits/*, /orchestrator/* - Vendor access
-- LAYER 8: /analytics/* - City admin only (THE TROJAN HORSE)
+- LAYER 8: /analytics/*, /maps/* - City admin only (THE TROJAN HORSE)
 """
 
 from fastapi import FastAPI
@@ -24,7 +24,7 @@ from app.models import (
 )
 
 from app.middleware import OrganizationMiddleware
-from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator
+from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps
 
 
 @asynccontextmanager
@@ -57,7 +57,8 @@ async def lifespan(app: FastAPI):
     print("    GET/POST /api/v1/clients/{id}/benefits/*")
     print("    GET/POST /api/v1/orchestrator/*")
     print("  LAYER 8 (City Admin Only):")
-    print("    GET /api/v1/analytics/* - THE TROJAN HORSE")
+    print("    GET /api/v1/analytics/* - Vendor performance")
+    print("    GET /api/v1/maps/* - Geographic intelligence")
     print("=" * 60)
     print("🟢 First Contact E.I.S. API is READY")
     print("=" * 60)
@@ -82,6 +83,7 @@ app = FastAPI(
 - Benefit stack optimization (SSI, CalFresh, GR, IHSS)
 - "Calling Audibles" - AI recommendations with one-click approval
 - Vendor performance analytics (Layer 8 - cities only)
+- Geographic intelligence with map visualization
 
 ### The Innovation
 Vendors adopt voluntarily because it saves them 3+ hours daily.
@@ -157,6 +159,12 @@ app.include_router(
     tags=["Layer 8 - Analytics (City Admin Only)"]
 )
 
+app.include_router(
+    maps.router,
+    prefix="/api/v1",
+    tags=["Layer 8 - Map Data (City Admin Only)"]
+)
+
 
 
 # ============================================
@@ -192,7 +200,11 @@ async def root():
             "layer_8_city_only": [
                 "GET /api/v1/analytics/vendor-performance",
                 "GET /api/v1/analytics/geographic",
-                "GET /api/v1/analytics/bottlenecks"
+                "GET /api/v1/analytics/bottlenecks",
+                "GET /api/v1/maps/vendor-territories",
+                "GET /api/v1/maps/qr-locations",
+                "GET /api/v1/maps/client-density",
+                "GET /api/v1/maps/performance-overlay"
             ]
         }
     }

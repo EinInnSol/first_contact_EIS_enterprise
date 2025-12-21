@@ -1,0 +1,29 @@
+flowchart LR
+    Start([City Launches Strategy]) --> Track[Platform Tracks Everything]
+    
+    Track --> Data1[Cost per Person]
+    Track --> Data2[Retention Rate]
+    Track --> Data3[Time to Housing]
+    Track --> Data4[Vendor Performance]
+    
+    Data1 --> Dashboard[Real-Time Dashboard]
+    Data2 --> Dashboard
+    Data3 --> Dashboard
+    Data4 --> Dashboard
+    
+    Dashboard --> Analyze{Performance<br/>Good?}
+    
+    Analyze -->|Yes| Continue([Keep Current Strategy])
+    Analyze -->|No| Alert[Alert City Admin]
+    
+    Alert --> Review[City Reviews Data]
+    Review --> Decide[City Decides to Pivot]
+    
+    Decide --> Audible[🏈 CALL AUDIBLE]
+    Audible --> NewStrategy[Implement New Strategy]
+    
+    NewStrategy --> Track
+    
+    style Audible fill:#F44336,stroke:#C62828,stroke-width:3px,color:#fff
+    style Dashboard fill:#4CAF50,stroke:#2E7D32,stroke-width:2px
+

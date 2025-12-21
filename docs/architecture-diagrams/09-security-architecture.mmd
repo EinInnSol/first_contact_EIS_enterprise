@@ -1,0 +1,35 @@
+flowchart TB
+    Internet([Internet]) --> CloudArmor[Cloud Armor<br/>DDoS Protection]
+    CloudArmor --> LB[Load Balancer<br/>SSL/TLS]
+    
+    LB --> VPC[VPC Network]
+    
+    subgraph VPC["VPC (Private Network)"]
+        Frontend[Frontend<br/>Cloud Run]
+        Backend[Backend<br/>Cloud Run]
+        
+        Frontend --> IAM[Cloud IAM<br/>Authentication]
+        Backend --> IAM
+        
+        IAM --> DB[(Cloud SQL<br/>PostgreSQL)]
+        
+        DB --> RLS[Row-Level Security]
+        DB --> Encryption[Encryption at Rest]
+    end
+    
+    Backend --> SecretManager[Secret Manager<br/>API Keys]
+    Backend --> VertexAI[Vertex AI<br/>Claude]
+    
+    subgraph Compliance["HIPAA Compliance"]
+        AuditLogs[Cloud Audit Logs]
+        Monitoring[Cloud Monitoring]
+        DLP[Data Loss Prevention]
+    end
+    
+    VPC --> AuditLogs
+    VPC --> Monitoring
+    VPC --> DLP
+    
+    style VPC fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    style Compliance fill:#FFF3E0,stroke:#E65100,stroke-width:2px
+

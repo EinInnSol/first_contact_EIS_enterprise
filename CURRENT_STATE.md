@@ -42,10 +42,59 @@
 - [x] Deployed to Cloud Run (`us-east5`)
 - [x] ⛔ CHECKPOINT 2 (Pending Review)
 
-### Week 3 (Not Started)
-- [ ] QR system
-- [ ] AI integration
-- [ ] ⛔ CHECKPOINT 3
+## Current Status
+
+**Week**: 3 (COMPLETE ✅)  
+**Phase**: AI Integration + City Dashboard  
+**Last Updated**: December 20, 2025
+
+### Completed This Week:
+- ✅ AI Integration with Claude Haiku 4.5
+- ✅ City Dashboard with professional design
+- ✅ Vendor performance comparison (Layer 8 preview)
+- ✅ AI recommendations panel
+
+### In Progress:
+- City Dashboard design refinement (user to review)
+
+### Next Up (Week 4):
+- Layer 8 Analytics implementation
+- Google Maps integration
+- Vendor scoring algorithm
+
+---
+
+## Quick Start
+
+### Frontend (City Dashboard):
+```bash
+cd frontend
+npm run dev
+# Open: http://localhost:3000/dashboard/city
+```
+
+### Backend (API):
+```bash
+cd backend
+uvicorn app.main:app --reload
+# API: http://localhost:8000
+```
+
+---
+
+## 💾 HOW TO RESUME
+1.  **Open VS Code** in `c:/Users/james/Downloads/FirstContactEIS`.
+2.  **Activate Virtual Env**: `venv\Scripts\activate` (for Python/Backend).
+3.  **Run Backend**: 
+    - Locally: `uvicorn backend.app.main:app --reload`
+    - Or use Cloud Run URL: `https://first-contact-backend-...`
+4.  **Run Frontend**:
+    - `cd frontend`
+    - `npm run dev`
+    - Open `http://localhost:3000`
+
+**Latest Docker Image**: `us-east5-docker.pkg.dev/.../backend:v5` (Claude Integrated)
+**Git Branch**: `master` (All changes committed)
 
 ### Week 4 (Not Started)
 - [ ] Layer 8 analytics
