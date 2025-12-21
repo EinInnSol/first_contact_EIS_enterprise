@@ -19,4 +19,4 @@ EXPOSE 8080
 ENV PORT 8080
 ENV NODE_ENV production
 
-CMD ["npm", "start"]
+CMD ["sh", "-c", "npm start -- -p ${PORT:-8080}"]

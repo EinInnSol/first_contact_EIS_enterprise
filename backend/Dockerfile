@@ -31,6 +31,5 @@ ENV PORT=8080
 # Expose port
 EXPOSE 8080
 
-# Run the application
-# Cloud Run sets PORT env var, uvicorn listens on it
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8080"]
+# Cloud Run sets PORT env var, we explicitly listen on 8080 or the PORT env var
+CMD ["sh", "-c", "uvicorn app.main:app --host 0.0.0.0 --port ${PORT:-8080}"]
