@@ -16,7 +16,4 @@ COPY --from=builder /app/node_modules ./node_modules
 COPY --from=builder /app/package.json ./package.json
 
 EXPOSE 8080
-ENV PORT 8080
-ENV NODE_ENV production
-
-CMD ["sh", "-c", "npm start -- -p ${PORT:-8080}"]
+CMD ["npx", "next", "start", "-p", "8080", "-H", "0.0.0.0"]
