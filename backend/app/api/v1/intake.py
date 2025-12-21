@@ -98,8 +98,15 @@ async def qr_intake(
     )
     vendor = vendor_result.scalar_one()
     
+    # Find organization
+    from app.models.organization import Organization
+    org_result = await db.execute(
+        select(Organization).where(Organization.id == location.organization_id)
+    )
+    organization = org_result.scalar_one()
+    
     # Generate case number
-    case_number = generate_case_number("LB")  # TODO: Get from org
+    case_number = generate_case_number(organization.slug)
     
     # Create client - AUTO-ASSIGNED TO VENDOR FROM QR LOCATION
     client = Client(

@@ -20,8 +20,8 @@ class Settings(BaseSettings):
     PILOT_MODE: bool = os.getenv("PILOT_MODE", "True").lower() == "true"
     
     # GCP Infrastructure
-    GCP_PROJECT_ID: str = "einharjer-valhalla"
-    GCP_REGION: str = "us-east5"
+    GCP_PROJECT_ID: str = os.getenv("GCP_PROJECT_ID", "einharjer-valhalla")
+    GCP_REGION: str = os.getenv("GCP_REGION", "us-east5")
     
     # Secret Manager Keys (Mapping names to GCP Secret IDs)
     SECRET_MAP: dict = {
@@ -40,6 +40,14 @@ class Settings(BaseSettings):
     
     # Database
     DATABASE_URL: str = "postgresql+asyncpg://postgres@localhost:5432/firstcontact"
+    
+    @property
+    def get_database_url(self) -> str:
+        return self.DATABASE_URL
+        
+    @property
+    def get_sqlite_url(self) -> str:
+        return "sqlite+aiosqlite:///./test.db"
     
     @property
     def is_production(self) -> bool:

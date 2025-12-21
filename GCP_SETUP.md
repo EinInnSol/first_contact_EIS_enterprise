@@ -1,7 +1,7 @@
 # GCP SETUP GUIDE
 
 **Project:** einharjer-valhalla  
-**Region:** us-east5
+**Region:** us-east5 (API), us-central1 (Database)
 
 ---
 
@@ -48,20 +48,20 @@ gcloud services enable \
 ## STEP 4: Create Cloud SQL Database
 
 ```bash
-# Create instance
-gcloud sql instances create first-contact-db \
+# Create instance (IMPORTANT: Database is in us-central1)
+gcloud sql instances create firstcontact-eis-db \
   --database-version=POSTGRES_15 \
   --tier=db-f1-micro \
-  --region=us-east5
+  --region=us-central1
 
 # Create database
 gcloud sql databases create firstcontact \
-  --instance=first-contact-db
+  --instance=firstcontact-eis-db
 
 # Set password
 gcloud sql users set-password postgres \
-  --instance=first-contact-db \
-  --password=YOUR_SECURE_PASSWORD
+  --instance=firstcontact-eis-db \
+  --password=FCeis2025!Secure
 ```
 
 ---
@@ -70,7 +70,7 @@ gcloud sql users set-password postgres \
 
 ```bash
 # Connect via Cloud SQL Proxy
-cloud-sql-proxy einharjer-valhalla:us-east5:first-contact-db &
+cloud-sql-proxy einharjer-valhalla:us-central1:firstcontact-eis-db &
 
 # Run schema
 psql "host=127.0.0.1 dbname=firstcontact user=postgres" < docs/DATABASE_SCHEMA.sql
@@ -78,17 +78,19 @@ psql "host=127.0.0.1 dbname=firstcontact user=postgres" < docs/DATABASE_SCHEMA.s
 
 ---
 
-## STEP 6: Environment Variables
+### Secret Manager (Production Mode)
+The app loads secrets automatically from GCP Secret Manager:
+- `nexus-anthropic-key` (Claude)
+- `nexus-maps-key` (Google Maps)
+- `nexus-jwt-secret` (JWT)
+- `nexus-db-url` (PostgreSQL)
 
-### Backend (.env)
+### Backend (.env - LOCAL ONLY)
 ```
-DB_HOST=/cloudsql/einharjer-valhalla:us-east5:first-contact-db
-DB_NAME=firstcontact
-DB_USER=postgres
-DB_PASSWORD=your_password
-JWT_SECRET=your_jwt_secret
+ENVIRONMENT=development
+PILOT_MODE=True
 GCP_PROJECT_ID=einharjer-valhalla
-VERTEX_AI_LOCATION=us-east5
+DATABASE_URL=postgresql+asyncpg://postgres:FCeis2025!Secure@localhost:5432/firstcontact
 ```
 
 ### Frontend (.env.local)

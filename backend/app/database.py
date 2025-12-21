@@ -24,10 +24,10 @@ def get_database_url() -> str:
     Falls back to SQLite for testing if PostgreSQL unavailable.
     """
     # Try to get configured database URL
-    db_url = settings.get_database_url
+    db_url = str(settings.get_database_url)
     
     # In production with Cloud SQL, use asyncpg
-    if "cloudsql" in str(db_url).lower():
+    if "cloudsql" in db_url.lower():
         return db_url
     
     # Check if we should use SQLite fallback

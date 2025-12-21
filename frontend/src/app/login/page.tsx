@@ -57,7 +57,7 @@ export default function LoginPage() {
                             <div className="relative">
                                 <input
                                     type="text"
-                                    placeholder="e.g. city-of-long-beach"
+                                    placeholder="e.g. einharjer-valhalla"
                                     className="w-full pl-4 pr-12 py-3.5 bg-[var(--background)] border border-[var(--border-crisp)] rounded-xl outline-none focus:border-[var(--primary)] transition-all font-medium"
                                 />
                                 <div className="absolute right-4 top-1/2 -translate-y-1/2 text-[var(--text-muted)] text-[10px] font-bold">.nexus</div>

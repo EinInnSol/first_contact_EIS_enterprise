@@ -1,0 +1,1018 @@
+[
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "cloudfunctions.googleapis.com/function-id": "deid-simulator",
+        "run.googleapis.com/build-base-image": "us-east5-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/python311",
+        "run.googleapis.com/build-enable-automatic-updates": "true",
+        "run.googleapis.com/build-function-target": "process_intake",
+        "run.googleapis.com/build-image-uri": "us-east5-docker.pkg.dev/einharjer-valhalla/gcf-artifacts/einharjer--valhalla__us--east5__deid--simulator:version_1",
+        "run.googleapis.com/build-name": "projects/403538493221/locations/us-east5/builds/ba83b2ee-f01b-480e-b56c-1adb6f66a9bc",
+        "run.googleapis.com/build-service-account": "projects/einharjer-valhalla/serviceAccounts/403538493221-compute@developer.gserviceaccount.com",
+        "run.googleapis.com/build-source-location": "gs://gcf-v2-sources-403538493221-us-east5/deid-simulator/function-source.zip#1763156662181367",
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/custom-audiences": "[\"https://us-east5-einharjer-valhalla.cloudfunctions.net/deid-simulator\"]",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/maxScale": "100",
+        "run.googleapis.com/operation-id": "3942bd54-16d2-4c39-8758-ccec9df237c5",
+        "run.googleapis.com/urls": "[\"https://deid-simulator-403538493221.us-east5.run.app\",\"https://us-east5-einharjer-valhalla.cloudfunctions.net/deid-simulator\",\"https://deid-simulator-4fmsifz77q-ul.a.run.app\"]",
+        "serving.knative.dev/creator": "service-403538493221@gcf-admin-robot.iam.gserviceaccount.com",
+        "serving.knative.dev/lastModifier": "service-403538493221@gcf-admin-robot.iam.gserviceaccount.com"
+      },
+      "creationTimestamp": "2025-11-14T21:42:12.827760Z",
+      "generation": 2,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east5",
+        "goog-cloudfunctions-runtime": "python311",
+        "goog-drz-cloudfunctions-id": "deid-simulator",
+        "goog-drz-cloudfunctions-location": "us-east5",
+        "goog-managed-by": "cloudfunctions",
+        "run.googleapis.com/satisfiesPzs": "true"
+      },
+      "name": "deid-simulator",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZDlOjN2GQ",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/deid-simulator",
+      "uid": "49dbcead-5e53-4d96-8ddb-4bc6ab9fcfff"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "cloudfunctions.googleapis.com/trigger-type": "google.cloud.pubsub.topic.v1.messagePublished",
+            "run.googleapis.com/base-images": "{\"worker\":\"us-east5-docker.pkg.dev/serverless-runtimes/google-22-full/runtimes/python311\"}",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "goog-drz-cloudfunctions-id": "deid-simulator",
+            "goog-drz-cloudfunctions-location": "us-east5",
+            "run.googleapis.com/startupProbeType": "Default"
+          },
+          "name": "deid-simulator-00002-bej"
+        },
+        "spec": {
+          "containerConcurrency": 1,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "GCP_PROJECT",
+                  "value": "einharjer-valhalla"
+                },
+                {
+                  "name": "LOG_EXECUTION_ID",
+                  "value": "true"
+                }
+              ],
+              "image": "us-east5-docker.pkg.dev/einharjer-valhalla/gcf-artifacts/einharjer--valhalla__us--east5__deid--simulator:version_1",
+              "name": "worker",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "0.1666",
+                  "memory": "256M"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "runtimeClassName": "run.googleapis.com/linux-base-image-update",
+          "serviceAccountName": "first-contact-sa@einharjer-valhalla.iam.gserviceaccount.com",
+          "timeoutSeconds": 60
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://deid-simulator-4fmsifz77q-ul.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-11-14T21:45:00.289124Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T21:44:52.873398Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T21:45:00.240736Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "deid-simulator-00002-bej",
+      "latestReadyRevisionName": "deid-simulator-00002-bej",
+      "observedGeneration": 2,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "deid-simulator-00002-bej"
+        }
+      ],
+      "url": "https://deid-simulator-4fmsifz77q-ul.a.run.app"
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/build-enable-automatic-updates": "false",
+        "run.googleapis.com/build-id": "65e09566-1d44-475d-adca-b17ce6874408",
+        "run.googleapis.com/build-image-uri": "us-east5-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/first-contact-api",
+        "run.googleapis.com/build-name": "projects/403538493221/locations/us-east5/builds/65e09566-1d44-475d-adca-b17ce6874408",
+        "run.googleapis.com/build-source-location": "gs://run-sources-einharjer-valhalla-us-east5/services/first-contact-api/1763166844.28117-c09e9ab83043429da4452457ef22512c.zip#1763166844286800",
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "544.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/maxScale": "20",
+        "run.googleapis.com/operation-id": "21bb2018-588b-4d70-a1f7-b273902bad4d",
+        "run.googleapis.com/urls": "[\"https://first-contact-api-403538493221.us-east5.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-11-15T00:37:37.015301Z",
+      "generation": 1,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east5",
+        "run.googleapis.com/satisfiesPzs": "true"
+      },
+      "name": "first-contact-api",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZDl2GL6NA",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/first-contact-api",
+      "uid": "0f65a4e9-3b83-4a7d-b923-7622f3f5a6d0"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "abyljyuvzg",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "image": "us-east5-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/first-contact-api@sha256:fe3f6bdf978617915203cb32a5f709677ba0eb701d88bf8cdc406be933cf7ac2",
+              "ports": [
+                {
+                  "containerPort": 8000,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1000m",
+                  "memory": "2Gi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8000
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-11-15T00:41:55.707045Z",
+          "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=einharjer-valhalla&resource=cloud_run_revision/service_name/first-contact-api/revision_name/first-contact-api-00001-5km&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22first-contact-api%22%0Aresource.labels.revision_name%3D%22first-contact-api-00001-5km%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+          "reason": "HealthCheckContainerError",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-11-15T00:41:55.639645Z",
+          "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=einharjer-valhalla&resource=cloud_run_revision/service_name/first-contact-api/revision_name/first-contact-api-00001-5km&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22first-contact-api%22%0Aresource.labels.revision_name%3D%22first-contact-api-00001-5km%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+          "reason": "HealthCheckContainerError",
+          "status": "False",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-11-15T00:41:55.707045Z",
+          "message": "The user-provided container failed to start and listen on the port defined provided by the PORT=8000 environment variable within the allocated timeout. This can happen when the container port is misconfigured or if the timeout is too short. The health check timeout can be extended. Logs for this revision might contain more information.\n\nLogs URL: https://console.cloud.google.com/logs/viewer?project=einharjer-valhalla&resource=cloud_run_revision/service_name/first-contact-api/revision_name/first-contact-api-00001-5km&advancedFilter=resource.type%3D%22cloud_run_revision%22%0Aresource.labels.service_name%3D%22first-contact-api%22%0Aresource.labels.revision_name%3D%22first-contact-api-00001-5km%22 \nFor more troubleshooting guidance, see https://cloud.google.com/run/docs/troubleshooting#container-failed-to-start",
+          "reason": "HealthCheckContainerError",
+          "status": "False",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "first-contact-api-00001-5km",
+      "observedGeneration": 1
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "544.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/operation-id": "0531e31a-b471-4e8d-a53d-8bddc028f63b",
+        "run.googleapis.com/urls": "[\"https://first-contact-backend-403538493221.us-east5.run.app\",\"https://first-contact-backend-4fmsifz77q-ul.a.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-11-04T06:56:09.436776Z",
+      "generation": 9,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east5",
+        "run.googleapis.com/satisfiesPzs": "true"
+      },
+      "name": "first-contact-backend",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZGW3mukd0",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/first-contact-backend",
+      "uid": "eff043a1-e30f-4070-8830-30707508bfb9"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "run.googleapis.com/cloudsql-instances": "einharjer-valhalla:us-east5:first-contact-db",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "cayojryqkr",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "DB_USER",
+                  "value": "postgres"
+                },
+                {
+                  "name": "DB_PASSWORD",
+                  "value": "postgres"
+                },
+                {
+                  "name": "DB_NAME",
+                  "value": "firstcontact"
+                },
+                {
+                  "name": "DB_HOST",
+                  "value": "/cloudsql/einharjer-valhalla:us-east5:first-contact-db"
+                },
+                {
+                  "name": "GCP_PROJECT_ID",
+                  "value": "einharjer-valhalla"
+                },
+                {
+                  "name": "ENVIRONMENT",
+                  "value": "production"
+                },
+                {
+                  "name": "JWT_SECRET",
+                  "value": "demo-secret"
+                }
+              ],
+              "image": "us-east5-docker.pkg.dev/einharjer-valhalla/first-contact-repo/backend:v3",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://first-contact-backend-4fmsifz77q-ul.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-12-20T05:29:17.715933Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-12-20T05:29:10.670115Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-12-20T05:29:17.679405Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "first-contact-backend-00009-lbd",
+      "latestReadyRevisionName": "first-contact-backend-00009-lbd",
+      "observedGeneration": 9,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "first-contact-backend-00009-lbd"
+        }
+      ],
+      "url": "https://first-contact-backend-4fmsifz77q-ul.a.run.app"
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "546.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/maxScale": "20",
+        "run.googleapis.com/operation-id": "1b8b5edc-96c4-41da-9406-ba6fbaad4edd",
+        "run.googleapis.com/urls": "[\"https://first-contact-demo-403538493221.us-east1.run.app\",\"https://first-contact-demo-4fmsifz77q-ue.a.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-11-14T20:44:04.614584Z",
+      "generation": 2,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east1"
+      },
+      "name": "first-contact-demo",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZDlB9HmcE",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/first-contact-demo",
+      "uid": "7ebf6ab4-11e1-4647-ad1f-4b3558b60bb3"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "546.0.0",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "wkktotkwqm",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "image": "us-east1-docker.pkg.dev/einharjer-valhalla/first-contact-repo/first-contact-demo:latest",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1000m",
+                  "memory": "512Mi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://first-contact-demo-4fmsifz77q-ue.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-11-14T20:48:39.270849Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T20:48:38.007069Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T20:48:39.238004Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "first-contact-demo-00002-8tx",
+      "latestReadyRevisionName": "first-contact-demo-00002-8tx",
+      "observedGeneration": 2,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "first-contact-demo-00002-8tx"
+        }
+      ],
+      "url": "https://first-contact-demo-4fmsifz77q-ue.a.run.app"
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/maxScale": "10",
+        "run.googleapis.com/operation-id": "c2691034-e3cb-42db-ae9c-83dc43cb2bd3",
+        "run.googleapis.com/urls": "[\"https://firstcontact-eis-backend-403538493221.us-central1.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-11-16T04:22:18.781216Z",
+      "generation": 1,
+      "labels": {
+        "cloud.googleapis.com/location": "us-central1"
+      },
+      "name": "firstcontact-eis-backend",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZDrpOWNls",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/firstcontact-eis-backend",
+      "uid": "d351a018-e6bd-4d9f-946e-93dda9440b8f"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "autoscaling.knative.dev/minScale": "0",
+            "run.googleapis.com/cpu-throttling": "true",
+            "run.googleapis.com/sessionAffinity": "false",
+            "run.googleapis.com/vpc-access-connector": "projects/einharjer-valhalla/locations/us-central1/connectors/firstcontact-eis-vpc-con",
+            "run.googleapis.com/vpc-access-egress": "private-ranges-only"
+          },
+          "labels": {
+            "run.googleapis.com/startupProbeType": "Custom"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 160,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "DATABASE_URL",
+                  "value": "postgresql://firstcontact:P+0uxb]%O+rGmQZh+gkrT?qFU%7P63R{@10.112.0.5:5432/firstcontact_eis"
+                },
+                {
+                  "name": "REDIS_URL",
+                  "value": "redis://10.112.1.3:6379"
+                },
+                {
+                  "name": "SECRET_KEY",
+                  "valueFrom": {
+                    "secretKeyRef": {
+                      "key": "latest",
+                      "name": "jwt-secret"
+                    }
+                  }
+                },
+                {
+                  "name": "ENVIRONMENT",
+                  "value": "development"
+                },
+                {
+                  "name": "GCP_PROJECT",
+                  "value": "einharjer-valhalla"
+                }
+              ],
+              "image": "us-central1-docker.pkg.dev/einharjer-valhalla/firstcontact-eis-images/backend:latest",
+              "livenessProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8080
+                },
+                "periodSeconds": 10,
+                "timeoutSeconds": 1
+              },
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 3,
+                "httpGet": {
+                  "path": "/health",
+                  "port": 8080
+                },
+                "initialDelaySeconds": 10,
+                "periodSeconds": 3,
+                "timeoutSeconds": 1
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-11-16T04:22:19.077961Z",
+          "message": "Image 'us-central1-docker.pkg.dev/einharjer-valhalla/firstcontact-eis-images/backend:latest' not found.",
+          "reason": "RevisionFailed",
+          "status": "False",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-11-16T04:22:19.054923Z",
+          "message": "Image 'us-central1-docker.pkg.dev/einharjer-valhalla/firstcontact-eis-images/backend:latest' not found.",
+          "status": "False",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-11-16T04:22:19.077961Z",
+          "message": "Image 'us-central1-docker.pkg.dev/einharjer-valhalla/firstcontact-eis-images/backend:latest' not found.",
+          "reason": "RevisionFailed",
+          "status": "False",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "firstcontact-eis-backend-00001-x5s",
+      "observedGeneration": 1
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "546.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/maxScale": "20",
+        "run.googleapis.com/operation-id": "4449a026-72f8-40f6-8d27-cbc229c0f5cb",
+        "run.googleapis.com/urls": "[\"https://qr-intake-service-403538493221.us-east5.run.app\",\"https://qr-intake-service-4fmsifz77q-ul.a.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-11-14T21:28:06.668461Z",
+      "generation": 3,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east5",
+        "run.googleapis.com/satisfiesPzs": "true"
+      },
+      "name": "qr-intake-service",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZDlM3I4sw",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/qr-intake-service",
+      "uid": "6b9415e4-f5be-47bf-a4dd-fdcecf17476a"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "546.0.0",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "aoiwyfxgdl",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 80,
+          "containers": [
+            {
+              "image": "us-east1-docker.pkg.dev/einharjer-valhalla/first-contact-repo/qr-intake-service:latest",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "1000m",
+                  "memory": "512Mi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "first-contact-sa@einharjer-valhalla.iam.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://qr-intake-service-4fmsifz77q-ul.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-11-14T21:37:26.979276Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T21:37:24.556678Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-11-14T21:37:26.943188Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "qr-intake-service-00003-pv8",
+      "latestReadyRevisionName": "qr-intake-service-00003-pv8",
+      "observedGeneration": 3,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "qr-intake-service-00003-pv8"
+        }
+      ],
+      "url": "https://qr-intake-service-4fmsifz77q-ul.a.run.app"
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/build-enable-automatic-updates": "false",
+        "run.googleapis.com/build-id": "1b150dbe-8724-4a0c-a727-d0fb2d6d0ff2",
+        "run.googleapis.com/build-image-uri": "us-central1-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/valhalla-orchestrator",
+        "run.googleapis.com/build-name": "projects/403538493221/locations/us-central1/builds/1b150dbe-8724-4a0c-a727-d0fb2d6d0ff2",
+        "run.googleapis.com/build-source-location": "gs://run-sources-einharjer-valhalla-us-central1/services/valhalla-orchestrator/1761531795.610737-3b7b3e0a9fa5418db7d660bae5827403.zip#1761531785788873",
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "544.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/operation-id": "d7dc08df-2c48-4578-8f2b-40f246a02a18",
+        "run.googleapis.com/urls": "[\"https://valhalla-orchestrator-403538493221.us-central1.run.app\",\"https://valhalla-orchestrator-4fmsifz77q-uc.a.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-10-27T01:38:22.631817Z",
+      "generation": 8,
+      "labels": {
+        "cloud.googleapis.com/location": "us-central1"
+      },
+      "name": "valhalla-orchestrator",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZCGsBKZ8I",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/valhalla-orchestrator",
+      "uid": "f0f49f63-d56f-4c35-9e0b-31d629c73a5b"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "vljwrgaies",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 160,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "GCP_PROJECT_ID",
+                  "value": "einharjer-valhalla"
+                },
+                {
+                  "name": "GCP_REGION",
+                  "value": "us-central1"
+                },
+                {
+                  "name": "ANTHROPIC_API_KEY",
+                  "value": "AQ.Ab8RN6LsJ3jR_jUcTjV2f2YIcAjwIjBwMZVM9A6yaFwoIaBxag"
+                }
+              ],
+              "image": "us-central1-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/valhalla-orchestrator@sha256:3e253e68dacede628ed9fda4469548a38eedce00e758c515f8b36bbd63b0e077",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://valhalla-orchestrator-4fmsifz77q-uc.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-10-27T02:35:22.948546Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-10-27T02:34:21.931393Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-10-27T02:35:22.913334Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "valhalla-orchestrator-00008-7d6",
+      "latestReadyRevisionName": "valhalla-orchestrator-00008-7d6",
+      "observedGeneration": 8,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "valhalla-orchestrator-00008-7d6"
+        }
+      ],
+      "url": "https://valhalla-orchestrator-4fmsifz77q-uc.a.run.app"
+    }
+  },
+  {
+    "apiVersion": "serving.knative.dev/v1",
+    "kind": "Service",
+    "metadata": {
+      "annotations": {
+        "run.googleapis.com/build-enable-automatic-updates": "false",
+        "run.googleapis.com/build-id": "557d35c7-0c72-486e-8f55-7dd49684ef8c",
+        "run.googleapis.com/build-image-uri": "us-east5-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/valhalla-orchestrator",
+        "run.googleapis.com/build-name": "projects/403538493221/locations/us-east5/builds/557d35c7-0c72-486e-8f55-7dd49684ef8c",
+        "run.googleapis.com/build-source-location": "gs://run-sources-einharjer-valhalla-us-east5/services/valhalla-orchestrator/1761890716.624701-689c738eed8b4740b0a73361dfef5c27.zip#1761890706010982",
+        "run.googleapis.com/client-name": "gcloud",
+        "run.googleapis.com/client-version": "544.0.0",
+        "run.googleapis.com/ingress": "all",
+        "run.googleapis.com/ingress-status": "all",
+        "run.googleapis.com/operation-id": "0bfa5dc5-8f41-487b-a7be-2b0167e638b6",
+        "run.googleapis.com/urls": "[\"https://valhalla-orchestrator-403538493221.us-east5.run.app\",\"https://valhalla-orchestrator-4fmsifz77q-ul.a.run.app\"]",
+        "serving.knative.dev/creator": "faernstromjames@gmail.com",
+        "serving.knative.dev/lastModifier": "faernstromjames@gmail.com"
+      },
+      "creationTimestamp": "2025-10-31T06:07:38.236899Z",
+      "generation": 4,
+      "labels": {
+        "cloud.googleapis.com/location": "us-east5",
+        "run.googleapis.com/satisfiesPzs": "true"
+      },
+      "name": "valhalla-orchestrator",
+      "namespace": "403538493221",
+      "resourceVersion": "AAZCblCUGiA",
+      "selfLink": "/apis/serving.knative.dev/v1/namespaces/403538493221/services/valhalla-orchestrator",
+      "uid": "0bb90fa3-9a39-49e1-be99-7a704ca0e9d8"
+    },
+    "spec": {
+      "template": {
+        "metadata": {
+          "annotations": {
+            "autoscaling.knative.dev/maxScale": "10",
+            "run.googleapis.com/client-name": "gcloud",
+            "run.googleapis.com/client-version": "544.0.0",
+            "run.googleapis.com/startup-cpu-boost": "true"
+          },
+          "labels": {
+            "client.knative.dev/nonce": "cjoaxctcna",
+            "run.googleapis.com/startupProbeType": "Default"
+          }
+        },
+        "spec": {
+          "containerConcurrency": 160,
+          "containers": [
+            {
+              "env": [
+                {
+                  "name": "GCP_PROJECT_ID",
+                  "value": "einharjer-valhalla"
+                },
+                {
+                  "name": "GCP_REGION",
+                  "value": "us-east5"
+                }
+              ],
+              "image": "us-east5-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/valhalla-orchestrator@sha256:89146dee84be8411ab0ae75f3db4f4256720e74d38cc9236cf8315498f4051c0",
+              "ports": [
+                {
+                  "containerPort": 8080,
+                  "name": "http1"
+                }
+              ],
+              "resources": {
+                "limits": {
+                  "cpu": "2",
+                  "memory": "2Gi"
+                }
+              },
+              "startupProbe": {
+                "failureThreshold": 1,
+                "periodSeconds": 240,
+                "tcpSocket": {
+                  "port": 8080
+                },
+                "timeoutSeconds": 240
+              }
+            }
+          ],
+          "serviceAccountName": "403538493221-compute@developer.gserviceaccount.com",
+          "timeoutSeconds": 300
+        }
+      },
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100
+        }
+      ]
+    },
+    "status": {
+      "address": {
+        "url": "https://valhalla-orchestrator-4fmsifz77q-ul.a.run.app"
+      },
+      "conditions": [
+        {
+          "lastTransitionTime": "2025-10-31T06:17:05.983008Z",
+          "status": "True",
+          "type": "Ready"
+        },
+        {
+          "lastTransitionTime": "2025-10-31T06:17:00.438184Z",
+          "status": "True",
+          "type": "ConfigurationsReady"
+        },
+        {
+          "lastTransitionTime": "2025-10-31T06:17:05.948538Z",
+          "status": "True",
+          "type": "RoutesReady"
+        }
+      ],
+      "latestCreatedRevisionName": "valhalla-orchestrator-00004-fll",
+      "latestReadyRevisionName": "valhalla-orchestrator-00004-fll",
+      "observedGeneration": 4,
+      "traffic": [
+        {
+          "latestRevision": true,
+          "percent": 100,
+          "revisionName": "valhalla-orchestrator-00004-fll"
+        }
+      ],
+      "url": "https://valhalla-orchestrator-4fmsifz77q-ul.a.run.app"
+    }
+  }
+]

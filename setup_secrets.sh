@@ -31,9 +31,11 @@ create_secret "nexus-maps-key" "$MAPS_KEY"
 
 read -p "Enter JWT Production Secret (or press enter for random): " JWT_SEC
 if [ -z "$JWT_SEC" ]; then
-    JWT_SEC=$(openssl rand -base64 32)
+    # Fallback if openssl is missing
+    JWT_SEC=$(python3 -c "import secrets, string; print(''.join(secrets.choice(string.ascii_letters + string.digits) for _ in range(32)))" 2>/dev/null || echo "nexus_pwa_default_secure_key_123")
 fi
 create_secret "nexus-jwt-secret" "$JWT_SEC"
+
 
 echo ""
 echo "✅ All secrets secured in GCP Secret Manager."

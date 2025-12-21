@@ -3,25 +3,31 @@
 # First Contact E.I.S. - Pilot Deployment Automator
 # Fulfills Phase 8: Deployment & Pilot Readiness
 
-PROJECT_ID=$(gcloud config get-value project)
+PROJECT_ID="einharjer-valhalla"
+PROJECT_NUMBER="403538493221"
 REGION="us-east5"
-PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format='value(projectNumber)')
+DB_CONNECTION="einharjer-valhalla:us-central1:firstcontact-eis-db"
 
-echo "🚀 Starting Deployment for Project: $PROJECT_ID"
+echo "🚀 Starting Live Deployment for: $PROJECT_ID ($PROJECT_NUMBER)"
 
-# 0. Grant Permissions to Cloud Run (Service Account needs to read secrets)
 # Default Cloud Run service account
-SA_EMAIL="$PROJECT_NUMBER-compute@developer.gserviceaccount.com"
-echo "🔐 Granting Secret Access to $SA_EMAIL..."
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="serviceAccount:$SA_EMAIL" \
-    --role="roles/secretmanager.secretAccessor"
+SERVICE_ACCOUNT="$PROJECT_NUMBER-compute@developer.gserviceaccount.com"
 
-# 1. Build & Push Backend Container
+# 1. Grant permissions to service account
+echo "🔑 Configuring IAM permissions..."
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="serviceAccount:$SERVICE_ACCOUNT" \
+    --role="roles/secretmanager.secretAccessor" || true
+
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="serviceAccount:$SERVICE_ACCOUNT" \
+    --role="roles/secretmanager.viewer" || true
+
+# 2. Build & Push Backend Container
 echo "📦 Building Backend..."
 gcloud builds submit --tag gcr.io/$PROJECT_ID/nexus-api ./backend
 
-# 2. Build & Push Frontend Container
+# 3. Build & Push Frontend Container
 echo "📦 Building Frontend..."
 gcloud builds submit --tag gcr.io/$PROJECT_ID/nexus-frontend ./frontend
 
@@ -32,7 +38,8 @@ gcloud run deploy nexus-api \
   --region $REGION \
   --platform managed \
   --allow-unauthenticated \
-  --set-env-vars "ENVIRONMENT=production,PILOT_MODE=True,GCP_PROJECT_ID=$PROJECT_ID"
+  --add-cloudsql-instances $DB_CONNECTION \
+  --set-env-vars "ENVIRONMENT=production,PILOT_MODE=True,GCP_PROJECT_ID=$PROJECT_ID,GCP_REGION=$REGION"
 
 # 4. Deploy Frontend to Cloud Run
 echo "📡 Deploying Frontend to Cloud Run..."

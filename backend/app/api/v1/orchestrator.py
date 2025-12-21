@@ -28,8 +28,8 @@ from app.api.deps import get_current_user, require_vendor_access
 from app.models.user import User, UserRole
 from app.models.client import Client
 from app.services.executor_service import ExecutorService
-from app.services.self_learning_service import SelfLearningService
 from app.models.orchestration_event import OrchestrationEvent
+from app.services.pilot_seeder import PilotSeederService
 from sqlalchemy import select, and_
 
 
@@ -492,6 +492,31 @@ async def modify_recommendation(
         "message": "Review modified recommendation and approve when ready"
     }
 
+
+@router.post("/seed-pilot")
+async def seed_pilot_data(
+    user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    TRIGGER THE PULSE: Seed the environment with high-impact pilot data.
+    Only available in PILOT_MODE.
+    """
+    from app.config import settings
+    if not settings.PILOT_MODE:
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Seeding only available in Pilot Mode"
+        )
+    
+    seeder = PilotSeederService(db)
+    await seeder.seed_pilot_data(organization_slug="city-of-long-beach")
+    
+    return {
+        "success": True,
+        "message": "Pilot environment has been seeded with high-impact demo data.",
+        "status": "ready"
+    }
 
 @router.get("/stats")
 async def get_orchestrator_stats(
