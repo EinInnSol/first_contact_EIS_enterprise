@@ -8,87 +8,79 @@ from pydantic_settings import BaseSettings
 from functools import lru_cache
 from typing import List, Optional
 import os
+import logging
 
+logger = logging.getLogger(__name__)
 
 class Settings(BaseSettings):
-    """Application settings loaded from environment variables."""
+    """Application settings loaded from environment variables or Secret Manager."""
     
     # Environment
-    ENVIRONMENT: str = "development"
+    ENVIRONMENT: str = os.getenv("ENVIRONMENT", "development")
+    PILOT_MODE: bool = os.getenv("PILOT_MODE", "True").lower() == "true"
     
-    # Database - Individual components for Cloud SQL
-    DB_HOST: Optional[str] = None  # Unix socket path for Cloud SQL: /cloudsql/PROJECT:REGION:INSTANCE
-    DB_NAME: str = "firstcontact"
-    DB_USER: str = "postgres"
-    DB_PASSWORD: Optional[str] = None
-    DB_PORT: str = "5432"
-    
-    # Direct URL override (for local development)
-    DATABASE_URL: Optional[str] = None
-    
-    @property
-    def get_database_url(self) -> str:
-        """Build database URL from components or use direct URL."""
-        if self.DATABASE_URL:
-            return self.DATABASE_URL
-        
-        # Check if this is a Cloud SQL Unix socket connection
-        if self.DB_HOST and self.DB_HOST.startswith("/cloudsql/"):
-            # Unix socket connection for Cloud SQL
-            # Format: postgresql+asyncpg://user:pass@/dbname?host=/cloudsql/project:region:instance
-            if self.DB_PASSWORD:
-                return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@/{self.DB_NAME}?host={self.DB_HOST}"
-            else:
-                return f"postgresql+asyncpg://{self.DB_USER}@/{self.DB_NAME}?host={self.DB_HOST}"
-        else:
-            # Standard TCP connection (local development)
-            host = self.DB_HOST or "localhost"
-            if self.DB_PASSWORD:
-                return f"postgresql+asyncpg://{self.DB_USER}:{self.DB_PASSWORD}@{host}:{self.DB_PORT}/{self.DB_NAME}"
-            else:
-                return f"postgresql+asyncpg://{self.DB_USER}@{host}:{self.DB_PORT}/{self.DB_NAME}"
-    
-    # For SQLite fallback in testing
-    @property  
-    def get_sqlite_url(self) -> str:
-        return "sqlite+aiosqlite:///./test.db"
-    
-    # JWT Authentication
-    JWT_SECRET: str = "your-super-secret-jwt-key-change-in-production"
-    JWT_ALGORITHM: str = "HS256"
-    JWT_EXPIRATION_HOURS: int = 24
-    
-    @property
-    def jwt_secret_key(self) -> str:
-        return self.JWT_SECRET
-    
-    @property
-    def jwt_algorithm(self) -> str:
-        return self.JWT_ALGORITHM
-    
-    # GCP
+    # GCP Infrastructure
     GCP_PROJECT_ID: str = "einharjer-valhalla"
     GCP_REGION: str = "us-east5"
     
-    # API
+    # Secret Manager Keys (Mapping names to GCP Secret IDs)
+    SECRET_MAP: dict = {
+        "ANTHROPIC_API_KEY": "nexus-anthropic-key",
+        "JWT_SECRET": "nexus-jwt-secret",
+        "DATABASE_URL": "nexus-db-url",
+        "GOOGLE_MAPS_API_KEY": "nexus-maps-key",
+        "FIREBASE_CONFIG_JSON": "nexus-firebase-config"
+    }
+
+    # API Keys & Secrets (with defaults for local dev)
+    JWT_SECRET: str = "nexus-dev-default-secret-key"
+    ANTHROPIC_API_KEY: Optional[str] = None
+    GOOGLE_MAPS_API_KEY: Optional[str] = None
+    FIREBASE_CONFIG: Optional[str] = None
+    
+    # Database
+    DATABASE_URL: str = "postgresql+asyncpg://postgres@localhost:5432/firstcontact"
+    
+    @property
+    def is_production(self) -> bool:
+        return self.ENVIRONMENT.lower() == "production"
+
+    def __init__(self, **kwargs):
+        super().__init__(**kwargs)
+        if self.is_production:
+            self._load_production_secrets()
+
+    def _load_production_secrets(self):
+        """
+        Attempts to load secrets from GCP Secret Manager.
+        """
+        try:
+            from google.cloud import secretmanager
+            client = secretmanager.SecretManagerServiceClient()
+            
+            for attr, secret_id in self.SECRET_MAP.items():
+                name = f"projects/{self.GCP_PROJECT_ID}/secrets/{secret_id}/versions/latest"
+                try:
+                    response = client.access_secret_version(request={"name": name})
+                    setattr(self, attr, response.payload.data.decode("UTF-8"))
+                    logger.info(f"Loaded secret: {secret_id}")
+                except Exception as e:
+                    logger.warning(f"Could not load secret {secret_id}: {str(e)}")
+        except ImportError:
+            logger.warning("google-cloud-secret-manager not installed. Skipping GCP secret load.")
+
+    # API Configuration
     API_V1_PREFIX: str = "/api/v1"
-    DEBUG: bool = True
-    
-    # CORS - Allow all origins in production for now
+    DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"
     CORS_ORIGINS: List[str] = ["*"]
-    
-    # Encryption
-    ENCRYPTION_KEY: str = "your-fernet-key-here"
-    
+
     class Config:
         env_file = ".env"
         case_sensitive = False
 
-
 @lru_cache()
 def get_settings() -> Settings:
-    """Get cached settings instance."""
     return Settings()
 
-
 settings = get_settings()
+
