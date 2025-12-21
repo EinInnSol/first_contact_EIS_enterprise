@@ -1,0 +1,65 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  /* Nexus Premium - Light Theme (Default) */
+  --background: #F8FAFC;
+  --surface: #FFFFFF;
+  --surface-hover: #F1F5F9;
+
+  --primary: #1877F2;
+  /* Trust Blue */
+  --primary-glow: rgba(24, 119, 242, 0.1);
+
+  --foreground: #0F172A;
+  --text-muted: #64748B;
+
+  --border-crisp: #E2E8F0;
+  --signature-outline: #1877F2;
+
+  --success: #22C55E;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+}
+
+[data-theme='dark'] {
+  /* Nexus Premium - Dark Theme */
+  --background: #0F172A;
+  --surface: #1E293B;
+  --surface-hover: #334155;
+
+  --primary: #39FF14;
+  /* Nervous Green */
+  --primary-glow: rgba(57, 255, 20, 0.05);
+
+  --foreground: #F8FAFC;
+  --text-muted: #94A3B8;
+
+  --border-crisp: #334155;
+  --signature-outline: #39FF14;
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Nexus Premium Cards */
+.nexus-card {
+  @apply bg-[var(--surface)] border border-[var(--border-crisp)] rounded-xl p-6 shadow-sm transition-all;
+}
+
+.nexus-card-outlined {
+  @apply bg-[var(--surface)] border border-[var(--signature-outline)] rounded-xl p-6 shadow-sm transition-all;
+  box-shadow: 0 0 10px var(--primary-glow);
+}
+
+/* Glassmorphism Evolution */
+.glass-panel {
+  @apply backdrop-blur-md bg-opacity-10 border border-white/10 shadow-lg;
+  background-color: var(--surface);
+}

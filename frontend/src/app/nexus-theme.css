@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+:root {
+    /* Nexus Premium - Light Theme (Default) */
+    --background: #F8FAFC;
+    --surface: #FFFFFF;
+    --surface-hover: #F1F5F9;
+
+    --primary: #1877F2;
+    /* Trust Blue */
+    --primary-glow: rgba(24, 119, 242, 0.15);
+
+    --text-main: #0F172A;
+    --text-muted: #64748B;
+
+    --border-crisp: #E2E8F0;
+    --signature-outline: #1877F2;
+    /* Trust Blue for Light */
+
+    --success: #22C55E;
+    --warning: #F59E0B;
+    --danger: #EF4444;
+
+    --font-family: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+[data-theme='dark'] {
+    /* Nexus Premium - Dark Theme */
+    --background: #0F172A;
+    --surface: #1E293B;
+    --surface-hover: #334155;
+
+    --primary: #39FF14;
+    /* Nervous Green */
+    --primary-glow: rgba(57, 255, 20, 0.1);
+
+    --text-main: #F8FAFC;
+    --text-muted: #94A3B8;
+
+    --border-crisp: #334155;
+    --signature-outline: #39FF14;
+    /* Nervous Green for Dark */
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: var(--font-family);
+    background-color: var(--background);
+    color: var(--text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Nexus Premium Crisp Cards */
+.nexus-card {
+    background: var(--surface);
+    border: 1px solid var(--border-crisp);
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: all 0.2s ease;
+}
+
+.nexus-card.outlined {
+    border: 1px solid var(--signature-outline);
+    box-shadow: 0 0 10px var(--primary-glow);
+}
+
+.nexus-card:hover {
+    background: var(--surface-hover);
+}
+
+/* Typography */
+h1,
+h2,
+h3 {
+    font-weight: 600;
+    letter-spacing: -0.025em;
+}
+
+/* Buttons */
+.nexus-button {
+    padding: 0.75rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s ease;
+}
+
+.nexus-button-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.nexus-button-primary:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+/* Layout Utilities */
+.nexus-grid {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
