@@ -89,7 +89,7 @@ async def db():
         vendor1 = Vendor(
             id=101,
             organization_id=1,
-            name="PATH",
+            name="PATH (People Assisting The Homeless)",
             slug="path"
         )
         vendor2 = Vendor(
@@ -99,12 +99,24 @@ async def db():
             slug="lbrm"
         )
         vendor3 = Vendor(
+            id=103,
+            organization_id=1,
+            name="CityNet",
+            slug="citynet"
+        )
+        vendor4 = Vendor(
+            id=104,
+            organization_id=1,
+            name="Mental Health America of LA (MHALA)",
+            slug="mhala"
+        )
+        vendor5 = Vendor(
             id=201,
             organization_id=2,
             name="Pasadena Vendor",
             slug="pas-vendor"
         )
-        session.add_all([vendor1, vendor2, vendor3])
+        session.add_all([vendor1, vendor2, vendor3, vendor4, vendor5])
         
         # Create QR locations
         qr1 = QRLocation(
@@ -127,8 +139,10 @@ async def db():
         from passlib.context import CryptContext
         pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
         
+        import uuid
+        
         city_admin = User(
-            id="11111111-1111-1111-1111-111111111111",
+            id=uuid.UUID("11111111-1111-1111-1111-111111111111"),
             organization_id=1,
             email="admin@longbeach.gov",
             password_hash=pwd_context.hash("testpass"),
@@ -137,7 +151,7 @@ async def db():
             role=UserRole.CITY_ADMIN
         )
         caseworker = User(
-            id="22222222-2222-2222-2222-222222222222",
+            id=uuid.UUID("22222222-2222-2222-2222-222222222222"),
             organization_id=1,
             vendor_id=101,
             email="sarah@path.org",
@@ -147,7 +161,7 @@ async def db():
             role=UserRole.CASEWORKER
         )
         vendor_admin = User(
-            id="33333333-3333-3333-3333-333333333333",
+            id=uuid.UUID("33333333-3333-3333-3333-333333333333"),
             organization_id=1,
             vendor_id=101,
             email="mike@path.org",
@@ -158,7 +172,7 @@ async def db():
         )
         # User in different org for isolation tests
         other_admin = User(
-            id="44444444-4444-4444-4444-444444444444",
+            id=uuid.UUID("44444444-4444-4444-4444-444444444444"),
             organization_id=2,
             email="admin@pasadena.gov",
             password_hash=pwd_context.hash("testpass"),

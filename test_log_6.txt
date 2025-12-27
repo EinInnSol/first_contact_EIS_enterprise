@@ -1,0 +1,162 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Users\james\Downloads\FirstContactEIS
+plugins: anyio-4.12.0, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 21 items
+
+backend\tests\test_layer8_access.py ........                             [ 38%]
+backend\tests\test_multi_tenant.py ....F..F                              [ 76%]
+backend\tests\test_qr_intake.py .....                                    [100%]
+
+================================== FAILURES ===================================
+____________________ test_clients_isolated_by_organization ____________________
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x0000020D3BA4F230>
+
+    @pytest.mark.asyncio
+    async def test_clients_isolated_by_organization(db: AsyncSession):
+        """
+        Clients from one org should not be visible when querying another org.
+        """
+        # First create a client in Long Beach (org 1)
+        await set_tenant_context(db, 1)
+    
+        client_name = f"IsolationTest-{unique_suffix()}"
+        client = Client(
+            organization_id=1,
+            assigned_vendor_id=101,  # PATH
+            first_name="Isolation",
+            last_name=client_name
+        )
+        db.add(client)
+        await db.commit()
+    
+        # Verify it exists in org 1
+        result = await db.execute(
+            select(Client).where(Client.last_name == client_name)
+        )
+        found = result.scalar_one_or_none()
+        assert found is not None, "Client should exist in org 1"
+    
+        # Now create a new org and check isolation
+        # First, create org using raw SQL (orgs table has no RLS)
+        new_slug = f"iso-org-{unique_suffix()}"
+        await db.execute(text(
+            "INSERT INTO organizations (name, slug, city, state, created_at, updated_at) "
+            "VALUES (:name, :slug, :city, :state, :now, :now)"
+        ), {
+            "name": "Isolation Org",
+            "slug": new_slug,
+            "city": "Test",
+            "state": "CA",
+            "now": datetime.utcnow()
+        })
+        await db.commit()
+    
+        # Get the new org ID
+        result = await db.execute(text("SELECT id FROM organizations WHERE slug = :slug"), {"slug": new_slug})
+        new_org_id = result.scalar()
+    
+        # Switch context to new org
+        await set_tenant_context(db, new_org_id)
+    
+        # Query clients - should NOT see the Long Beach client due to RLS
+        result = await db.execute(select(Client))
+        visible_clients = result.scalars().all()
+    
+        client_names = [c.last_name for c in visible_clients]
+>       assert client_name not in client_names, "Org 2 should NOT see org 1's clients due to RLS"
+E       AssertionError: Org 2 should NOT see org 1's clients due to RLS
+E       assert 'IsolationTest-f73acd39' not in ['IsolationTest-f73acd39']
+
+backend\tests\test_multi_tenant.py:165: AssertionError
+_______________________ test_rls_blocks_cross_org_read ________________________
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x0000020D3E42F950>
+
+    @pytest.mark.asyncio
+    async def test_rls_blocks_cross_org_read(db: AsyncSession):
+        """
+        When context is set to org 1, queries should NOT return org 2 data.
+        This is the core RLS test.
+        """
+        # Create org 2 using raw SQL (orgs have no RLS)
+        slug = f"rls-test-{unique_suffix()}"
+        await db.execute(text(
+            "INSERT INTO organizations (name, slug, city, state, created_at, updated_at) "
+            "VALUES (:name, :slug, :city, :state, :now, :now)"
+        ), {
+            "name": "RLS Test City",
+            "slug": slug,
+            "city": "Test",
+            "state": "CA",
+            "now": datetime.utcnow()
+        })
+        await db.commit()
+    
+        result = await db.execute(text("SELECT id FROM organizations WHERE slug = :slug"), {"slug": slug})
+        org2_id = result.scalar()
+    
+        # Set context to org 2 so we can insert a vendor there
+        await set_tenant_context(db, org2_id)
+    
+        # Create vendor in org 2 (context is now org 2, so RLS allows this)
+        secret_vendor_name = f"Secret-Vendor-{unique_suffix()}"
+        vendor = Vendor(
+            organization_id=org2_id,
+            name=secret_vendor_name,
+            slug=f"secret-{unique_suffix()}"
+        )
+        db.add(vendor)
+        await db.commit()
+    
+        # Now switch context to org 1 (Long Beach)
+        await set_tenant_context(db, 1)
+    
+        # Try to query all vendors - should NOT see org 2's vendor due to RLS
+        result = await db.execute(select(Vendor))
+        visible_vendors = result.scalars().all()
+    
+        vendor_names = [v.name for v in visible_vendors]
+>       assert secret_vendor_name not in vendor_names, \
+            f"RLS should block cross-org reads. Found: {vendor_names}"
+E       AssertionError: RLS should block cross-org reads. Found: ['PATH (People Assisting The Homeless)', 'Long Beach Rescue Mission', 'CityNet', 'Mental Health America of LA (MHALA)', 'Pasadena Vendor', 'Secret-Vendor-ac0dbb7b']
+E       assert 'Secret-Vendor-ac0dbb7b' not in ['PATH (People Assisting The Homeless)', 'Long Beach Rescue Mission', 'CityNet', 'Mental Health America of LA (MHALA)', 'Pasadena Vendor', 'Secret-Vendor-ac0dbb7b']
+
+backend\tests\test_multi_tenant.py:275: AssertionError
+============================== warnings summary ===============================
+backend\app\config.py:15
+  C:\Users\james\Downloads\FirstContactEIS\backend\app\config.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Settings(BaseSettings):
+
+backend/tests/test_layer8_access.py: 208 warnings
+backend/tests/test_multi_tenant.py: 218 warnings
+backend/tests/test_qr_intake.py: 147 warnings
+  C:\Users\james\Downloads\FirstContactEIS\.venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+backend/tests/test_layer8_access.py::test_layer8_blocked_for_caseworker
+  C:\Users\james\Downloads\FirstContactEIS\backend\app\api\v1\clients.py:63: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class ClientResponse(ClientBase):
+
+backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+  C:\Users\james\Downloads\FirstContactEIS\backend\tests\test_multi_tenant.py:149: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "now": datetime.utcnow()
+
+backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read
+backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read
+  C:\Users\james\Downloads\FirstContactEIS\.venv\Lib\site-packages\aiosqlite\core.py:65: DeprecationWarning: The default datetime adapter is deprecated as of Python 3.12; see the sqlite3 documentation for suggested replacement recipes
+    result = function()
+
+backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read
+  C:\Users\james\Downloads\FirstContactEIS\backend\tests\test_multi_tenant.py:247: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    "now": datetime.utcnow()
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+FAILED backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read - A...
+============ 2 failed, 19 passed, 581 warnings in 68.79s (0:01:08) ============

@@ -35,7 +35,6 @@ async def lifespan(app: FastAPI):
     print("=" * 60)
     print("🚀 FIRST CONTACT E.I.S. - Starting...")
     print(f"📍 Environment: {settings.ENVIRONMENT}")
-    print(f"🔗 Database: {settings.DB_HOST or 'default'}")
     print("=" * 60)
     
     # Initialize database connection

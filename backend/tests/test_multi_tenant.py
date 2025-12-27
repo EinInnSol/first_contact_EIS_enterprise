@@ -12,6 +12,7 @@ set tenant context appropriately before operations.
 
 import pytest
 import uuid
+from datetime import datetime
 from sqlalchemy import select, inspect, text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -138,8 +139,15 @@ async def test_clients_isolated_by_organization(db: AsyncSession):
     # First, create org using raw SQL (orgs table has no RLS)
     new_slug = f"iso-org-{unique_suffix()}"
     await db.execute(text(
-        "INSERT INTO organizations (name, slug, city, state) VALUES (:name, :slug, :city, :state)"
-    ), {"name": "Isolation Org", "slug": new_slug, "city": "Test", "state": "CA"})
+        "INSERT INTO organizations (name, slug, city, state, created_at, updated_at) "
+        "VALUES (:name, :slug, :city, :state, :now, :now)"
+    ), {
+        "name": "Isolation Org", 
+        "slug": new_slug, 
+        "city": "Test", 
+        "state": "CA",
+        "now": datetime.utcnow()
+    })
     await db.commit()
     
     # Get the new org ID
@@ -229,8 +237,15 @@ async def test_rls_blocks_cross_org_read(db: AsyncSession):
     # Create org 2 using raw SQL (orgs have no RLS)
     slug = f"rls-test-{unique_suffix()}"
     await db.execute(text(
-        "INSERT INTO organizations (name, slug, city, state) VALUES (:name, :slug, :city, :state)"
-    ), {"name": "RLS Test City", "slug": slug, "city": "Test", "state": "CA"})
+        "INSERT INTO organizations (name, slug, city, state, created_at, updated_at) "
+        "VALUES (:name, :slug, :city, :state, :now, :now)"
+    ), {
+        "name": "RLS Test City", 
+        "slug": slug, 
+        "city": "Test", 
+        "state": "CA",
+        "now": datetime.utcnow()
+    })
     await db.commit()
     
     result = await db.execute(text("SELECT id FROM organizations WHERE slug = :slug"), {"slug": slug})

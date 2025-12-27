@@ -94,7 +94,7 @@ async def test_qr_intake_creates_client_record(
     
     # Query using the returned client_id
     result = await db.execute(
-        select(Client).where(Client.id == client_id)
+        select(Client).where(Client.id == uuid.UUID(client_id))
     )
     created_client = result.scalar_one_or_none()
     

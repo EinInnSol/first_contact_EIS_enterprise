@@ -16,10 +16,11 @@ RUN apt-get update && apt-get install -y \
 COPY requirements.txt .
 
 # Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Add asyncpg for Cloud SQL PostgreSQL
-RUN pip install --no-cache-dir asyncpg psycopg2-binary
+# Force reinstall critical GCP libraries to ensure namespace packages are correct
+RUN pip install --no-cache-dir --force-reinstall google-cloud-firestore google-cloud-secret-manager google-cloud-aiplatform
 
 # Copy application code
 COPY app/ ./app/

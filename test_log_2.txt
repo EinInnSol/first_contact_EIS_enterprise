@@ -1,0 +1,1299 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Users\james\Downloads\FirstContactEIS
+plugins: anyio-4.12.0, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 21 items
+
+backend\tests\test_layer8_access.py EEEEEEEE                             [ 38%]
+backend\tests\test_multi_tenant.py ...FF.FF                              [ 76%]
+backend\tests\test_qr_intake.py EEEEE                                    [100%]
+
+=================================== ERRORS ====================================
+____________ ERROR at setup of test_layer8_blocked_for_caseworker _____________
+
+self = <Coroutine test_layer8_blocked_for_caseworker>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+___________ ERROR at setup of test_layer8_blocked_for_vendor_admin ____________
+
+self = <Coroutine test_layer8_blocked_for_vendor_admin>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+______________ ERROR at setup of test_layer8_blocked_for_client _______________
+
+self = <Coroutine test_layer8_blocked_for_client>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+_______ ERROR at setup of test_geographic_analytics_blocked_for_vendors _______
+
+self = <Coroutine test_geographic_analytics_blocked_for_vendors>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+_______ ERROR at setup of test_bottleneck_analysis_blocked_for_vendors ________
+
+self = <Coroutine test_bottleneck_analysis_blocked_for_vendors>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+_____________ ERROR at setup of test_no_auth_blocked_from_layer8 ______________
+
+self = <Coroutine test_no_auth_blocked_from_layer8>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+____________ ERROR at setup of test_layer8_allowed_for_city_admin _____________
+
+self = <Coroutine test_layer8_allowed_for_city_admin>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+___________ ERROR at setup of test_layer8_allowed_for_city_council ____________
+
+self = <Coroutine test_layer8_allowed_for_city_council>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+___________ ERROR at setup of test_qr_intake_assigns_correct_vendor ___________
+
+self = <Coroutine test_qr_intake_assigns_correct_vendor>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+______ ERROR at setup of test_qr_intake_returns_404_for_invalid_location ______
+
+self = <Coroutine test_qr_intake_returns_404_for_invalid_location>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+___________ ERROR at setup of test_qr_intake_creates_client_record ____________
+
+self = <Coroutine test_qr_intake_creates_client_record>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+_________ ERROR at setup of test_qr_scan_increments_location_counter __________
+
+self = <Coroutine test_qr_scan_increments_location_counter>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+_________ ERROR at setup of test_qr_intake_inactive_location_rejected _________
+
+self = <Coroutine test_qr_intake_inactive_location_rejected>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:183: in client
+    from app.main import app
+backend\app\main.py:28: in <module>
+    from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+backend\app\api\v1\__init__.py:13: in <module>
+    from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
+backend\app\api\v1\intake.py:24: in <module>
+    from app.services.orchestration_engine import OrchestrationEngine
+backend\app\services\orchestration_engine.py:14: in <module>
+    from app.services.firestore_sync import FirestoreSyncService
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+    """
+    Firestore Sync Service - The real-time nervous system link.
+    """
+    
+    import logging
+>   from google.cloud import firestore
+E   ImportError: cannot import name 'firestore' from 'google.cloud' (unknown location)
+
+backend\app\services\firestore_sync.py:6: ImportError
+================================== FAILURES ===================================
+_____________________ test_query_filters_by_organization ______________________
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000002401AFE72F0>
+
+    @pytest.mark.asyncio
+    async def test_query_filters_by_organization(db: AsyncSession):
+        """
+        Queries with organization_id filter work correctly.
+        """
+        # Set context to Long Beach
+        await set_tenant_context(db, 1)
+    
+        # Query vendors for org 1 specifically
+        result = await db.execute(
+            select(Vendor).where(Vendor.organization_id == 1)
+        )
+        vendors = result.scalars().all()
+    
+        # Should have seeded vendors
+>       assert len(vendors) >= 4, f"Expected at least 4 vendors, got {len(vendors)}"
+E       AssertionError: Expected at least 4 vendors, got 2
+E       assert 2 >= 4
+E        +  where 2 = len([<app.models.vendor.Vendor object at 0x000002401C50E7B0>, <app.models.vendor.Vendor object at 0x000002401C5985F0>])
+
+backend\tests\test_multi_tenant.py:105: AssertionError
+____________________ test_clients_isolated_by_organization ____________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x000002401B0762D0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x0000024018D15BE0>
+context = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite object at 0x000002401B0756D0>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x000002401AFB5650>
+parameters = [('Isolation Org', 'iso-org-9c3f83b0', 'Test', 'CA')]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+.venv\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\core.py:133: in _execute
+    return await future
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tx = <_queue.SimpleQueue object at 0x000002401A0BF2E0>
+
+    def _connection_worker_thread(
+        tx: SimpleQueue[tuple[asyncio.Future, Callable[[], Any]]],
+    ):
+        """
+        Execute function calls on a separate thread.
+    
+        :meta private:
+        """
+        while True:
+            # Continues running until all queue items are processed,
+            # even after connection is closed (so we can finalize all
+            # futures)
+    
+            tx_item = tx.get()
+            future, function = tx_item
+    
+            try:
+                LOG.debug("executing %s", function)
+>               result = function()
+                         ^^^^^^^^^^
+E               sqlite3.IntegrityError: NOT NULL constraint failed: organizations.created_at
+
+.venv\Lib\site-packages\aiosqlite\core.py:65: IntegrityError
+
+The above exception was the direct cause of the following exception:
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000002401AB08050>
+
+    @pytest.mark.asyncio
+    async def test_clients_isolated_by_organization(db: AsyncSession):
+        """
+        Clients from one org should not be visible when querying another org.
+        """
+        # First create a client in Long Beach (org 1)
+        await set_tenant_context(db, 1)
+    
+        client_name = f"IsolationTest-{unique_suffix()}"
+        client = Client(
+            organization_id=1,
+            assigned_vendor_id=101,  # PATH
+            first_name="Isolation",
+            last_name=client_name
+        )
+        db.add(client)
+        await db.commit()
+    
+        # Verify it exists in org 1
+        result = await db.execute(
+            select(Client).where(Client.last_name == client_name)
+        )
+        found = result.scalar_one_or_none()
+        assert found is not None, "Client should exist in org 1"
+    
+        # Now create a new org and check isolation
+        # First, create org using raw SQL (orgs table has no RLS)
+        new_slug = f"iso-org-{unique_suffix()}"
+>       await db.execute(text(
+            "INSERT INTO organizations (name, slug, city, state) VALUES (:name, :slug, :city, :state)"
+        ), {"name": "Isolation Org", "slug": new_slug, "city": "Test", "state": "CA"})
+
+backend\tests\test_multi_tenant.py:140: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:201: in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2258: in _execute_internal
+    result = conn.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+.venv\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\core.py:133: in _execute
+    return await future
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tx = <_queue.SimpleQueue object at 0x000002401A0BF2E0>
+
+    def _connection_worker_thread(
+        tx: SimpleQueue[tuple[asyncio.Future, Callable[[], Any]]],
+    ):
+        """
+        Execute function calls on a separate thread.
+    
+        :meta private:
+        """
+        while True:
+            # Continues running until all queue items are processed,
+            # even after connection is closed (so we can finalize all
+            # futures)
+    
+            tx_item = tx.get()
+            future, function = tx_item
+    
+            try:
+                LOG.debug("executing %s", function)
+>               result = function()
+                         ^^^^^^^^^^
+E               sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: organizations.created_at
+E               [SQL: INSERT INTO organizations (name, slug, city, state) VALUES (?, ?, ?, ?)]
+E               [parameters: ('Isolation Org', 'iso-org-9c3f83b0', 'Test', 'CA')]
+E               (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv\Lib\site-packages\aiosqlite\core.py:65: IntegrityError
+______________________ test_city_admin_sees_all_vendors _______________________
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000002401C569980>
+
+    @pytest.mark.asyncio
+    async def test_city_admin_sees_all_vendors(db: AsyncSession):
+        """
+        City admin should see all vendors in their organization.
+        This is essential for Layer 8 functionality.
+        """
+        await set_tenant_context(db, 1)  # Long Beach
+    
+        # Query all vendors in Long Beach
+        result = await db.execute(
+            select(Vendor).where(Vendor.organization_id == 1)
+        )
+        all_vendors = result.scalars().all()
+    
+        # Should see all 4 seeded vendors
+>       assert len(all_vendors) >= 4, f"Expected at least 4 vendors, got {len(all_vendors)}"
+E       AssertionError: Expected at least 4 vendors, got 2
+E       assert 2 >= 4
+E        +  where 2 = len([<app.models.vendor.Vendor object at 0x000002401C59A960>, <app.models.vendor.Vendor object at 0x000002401C59A8D0>])
+
+backend\tests\test_multi_tenant.py:216: AssertionError
+_______________________ test_rls_blocks_cross_org_read ________________________
+
+self = <sqlalchemy.engine.base.Connection object at 0x000002401CD55E50>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x0000024018D15BE0>
+context = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite object at 0x000002401CD55910>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x000002401AFB5650>
+parameters = [('RLS Test City', 'rls-test-887b1e78', 'Test', 'CA')]
+
+    def _exec_single_context(
+        self,
+        dialect: Dialect,
+        context: ExecutionContext,
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+    ) -> CursorResult[Any]:
+        """continue the _execute_context() method for a single DBAPI
+        cursor.execute() or cursor.executemany() call.
+    
+        """
+        if dialect.bind_typing is BindTyping.SETINPUTSIZES:
+            generic_setinputsizes = context._prepare_set_input_sizes()
+    
+            if generic_setinputsizes:
+                try:
+                    dialect.do_set_input_sizes(
+                        context.cursor, generic_setinputsizes, context
+                    )
+                except BaseException as e:
+                    self._handle_dbapi_exception(
+                        e, str(statement), parameters, None, context
+                    )
+    
+        cursor, str_statement, parameters = (
+            context.cursor,
+            context.statement,
+            context.parameters,
+        )
+    
+        effective_parameters: Optional[_AnyExecuteParams]
+    
+        if not context.executemany:
+            effective_parameters = parameters[0]
+        else:
+            effective_parameters = parameters
+    
+        if self._has_events or self.engine._has_events:
+            for fn in self.dispatch.before_cursor_execute:
+                str_statement, effective_parameters = fn(
+                    self,
+                    cursor,
+                    str_statement,
+                    effective_parameters,
+                    context,
+                    context.executemany,
+                )
+    
+        if self._echo:
+            self._log_info(str_statement)
+    
+            stats = context._get_cache_stats()
+    
+            if not self.engine.hide_parameters:
+                self._log_info(
+                    "[%s] %r",
+                    stats,
+                    sql_util._repr_params(
+                        effective_parameters,
+                        batches=10,
+                        ismulti=context.executemany,
+                    ),
+                )
+            else:
+                self._log_info(
+                    "[%s] [SQL parameters hidden due to hide_parameters=True]",
+                    stats,
+                )
+    
+        evt_handled: bool = False
+        try:
+            if context.execute_style is ExecuteStyle.EXECUTEMANY:
+                effective_parameters = cast(
+                    "_CoreMultiExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_executemany:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_executemany(
+                        cursor,
+                        str_statement,
+                        effective_parameters,
+                        context,
+                    )
+            elif not effective_parameters and context.no_parameters:
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute_no_params:
+                        if fn(cursor, str_statement, context):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+                    self.dialect.do_execute_no_params(
+                        cursor, str_statement, context
+                    )
+            else:
+                effective_parameters = cast(
+                    "_CoreSingleExecuteParams", effective_parameters
+                )
+                if self.dialect._has_events:
+                    for fn in self.dialect.dispatch.do_execute:
+                        if fn(
+                            cursor,
+                            str_statement,
+                            effective_parameters,
+                            context,
+                        ):
+                            evt_handled = True
+                            break
+                if not evt_handled:
+>                   self.dialect.do_execute(
+                        cursor, str_statement, effective_parameters, context
+                    )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+.venv\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\core.py:133: in _execute
+    return await future
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tx = <_queue.SimpleQueue object at 0x000002401A0BF2E0>
+
+    def _connection_worker_thread(
+        tx: SimpleQueue[tuple[asyncio.Future, Callable[[], Any]]],
+    ):
+        """
+        Execute function calls on a separate thread.
+    
+        :meta private:
+        """
+        while True:
+            # Continues running until all queue items are processed,
+            # even after connection is closed (so we can finalize all
+            # futures)
+    
+            tx_item = tx.get()
+            future, function = tx_item
+    
+            try:
+                LOG.debug("executing %s", function)
+>               result = function()
+                         ^^^^^^^^^^
+E               sqlite3.IntegrityError: NOT NULL constraint failed: organizations.created_at
+
+.venv\Lib\site-packages\aiosqlite\core.py:65: IntegrityError
+
+The above exception was the direct cause of the following exception:
+
+db = <sqlalchemy.ext.asyncio.session.AsyncSession object at 0x000002401B075610>
+
+    @pytest.mark.asyncio
+    async def test_rls_blocks_cross_org_read(db: AsyncSession):
+        """
+        When context is set to org 1, queries should NOT return org 2 data.
+        This is the core RLS test.
+        """
+        # Create org 2 using raw SQL (orgs have no RLS)
+        slug = f"rls-test-{unique_suffix()}"
+>       await db.execute(text(
+            "INSERT INTO organizations (name, slug, city, state) VALUES (:name, :slug, :city, :state)"
+        ), {"name": "RLS Test City", "slug": slug, "city": "Test", "state": "CA"})
+
+backend\tests\test_multi_tenant.py:231: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:449: in execute
+    result = await greenlet_spawn(
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:201: in greenlet_spawn
+    result = context.throw(*sys.exc_info())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2351: in execute
+    return self._execute_internal(
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2258: in _execute_internal
+    result = conn.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1846: in _execute_context
+    return self._exec_single_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1986: in _exec_single_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1967: in _exec_single_context
+    self.dialect.do_execute(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:952: in do_execute
+    cursor.execute(statement, parameters)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:180: in execute
+    self._adapt_connection._handle_exception(error)
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:340: in _handle_exception
+    raise error
+.venv\Lib\site-packages\sqlalchemy\dialects\sqlite\aiosqlite.py:162: in execute
+    self.await_(_cursor.execute(operation, parameters))
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:132: in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:196: in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\cursor.py:40: in execute
+    await self._execute(self._cursor.execute, sql, parameters)
+.venv\Lib\site-packages\aiosqlite\cursor.py:32: in _execute
+    return await self._conn._execute(fn, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\aiosqlite\core.py:133: in _execute
+    return await future
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+tx = <_queue.SimpleQueue object at 0x000002401A0BF2E0>
+
+    def _connection_worker_thread(
+        tx: SimpleQueue[tuple[asyncio.Future, Callable[[], Any]]],
+    ):
+        """
+        Execute function calls on a separate thread.
+    
+        :meta private:
+        """
+        while True:
+            # Continues running until all queue items are processed,
+            # even after connection is closed (so we can finalize all
+            # futures)
+    
+            tx_item = tx.get()
+            future, function = tx_item
+    
+            try:
+                LOG.debug("executing %s", function)
+>               result = function()
+                         ^^^^^^^^^^
+E               sqlalchemy.exc.IntegrityError: (sqlite3.IntegrityError) NOT NULL constraint failed: organizations.created_at
+E               [SQL: INSERT INTO organizations (name, slug, city, state) VALUES (?, ?, ?, ?)]
+E               [parameters: ('RLS Test City', 'rls-test-887b1e78', 'Test', 'CA')]
+E               (Background on this error at: https://sqlalche.me/e/20/gkpj)
+
+.venv\Lib\site-packages\aiosqlite\core.py:65: IntegrityError
+============================== warnings summary ===============================
+backend\app\config.py:15
+  C:\Users\james\Downloads\FirstContactEIS\backend\app\config.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Settings(BaseSettings):
+
+backend/tests/test_layer8_access.py: 176 warnings
+backend/tests/test_multi_tenant.py: 184 warnings
+backend/tests/test_qr_intake.py: 110 warnings
+  C:\Users\james\Downloads\FirstContactEIS\.venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+FAILED backend/tests/test_multi_tenant.py::test_query_filters_by_organization
+FAILED backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+FAILED backend/tests/test_multi_tenant.py::test_city_admin_sees_all_vendors
+FAILED backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read - s...
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_caseworker
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_vendor_admin
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_client - I...
+ERROR backend/tests/test_layer8_access.py::test_geographic_analytics_blocked_for_vendors
+ERROR backend/tests/test_layer8_access.py::test_bottleneck_analysis_blocked_for_vendors
+ERROR backend/tests/test_layer8_access.py::test_no_auth_blocked_from_layer8
+ERROR backend/tests/test_layer8_access.py::test_layer8_allowed_for_city_admin
+ERROR backend/tests/test_layer8_access.py::test_layer8_allowed_for_city_council
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_assigns_correct_vendor
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_returns_404_for_invalid_location
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_creates_client_record
+ERROR backend/tests/test_qr_intake.py::test_qr_scan_increments_location_counter
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_inactive_location_rejected
+============ 4 failed, 4 passed, 471 warnings, 13 errors in 33.81s ============

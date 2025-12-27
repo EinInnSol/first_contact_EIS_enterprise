@@ -3,11 +3,19 @@ Firestore Sync Service - The real-time nervous system link.
 """
 
 import logging
-from google.cloud import firestore
 from typing import Dict, Any, Optional
 import os
 
 logger = logging.getLogger(__name__)
+
+# Try to import Firestore, but make it optional for deployment
+try:
+    from google.cloud import firestore_v1 as firestore
+    FIRESTORE_AVAILABLE = True
+except ImportError:
+    logger.warning("Firestore not available - real-time sync disabled")
+    FIRESTORE_AVAILABLE = False
+    firestore = None
 
 class FirestoreSyncService:
     """
@@ -18,12 +26,19 @@ class FirestoreSyncService:
     """
     
     def __init__(self, project_id: Optional[str] = None):
+        if not FIRESTORE_AVAILABLE:
+            logger.warning("FirestoreSyncService initialized but Firestore is not available")
+            self.db = None
+            return
         self.db = firestore.Client(project=project_id or os.getenv("GOOGLE_CLOUD_PROJECT"))
 
     async def publish_recommendation(self, organization_id: str, recommendation: Dict[str, Any]):
         """
         Pushes a new AI recommendation to the organization's real-time feed.
         """
+        if not self.db:
+            logger.debug("Firestore unavailable - skipping recommendation publish")
+            return None
         try:
             doc_ref = self.db.collection("organizations").document(organization_id).collection("recommendations").document()
             
@@ -42,6 +57,9 @@ class FirestoreSyncService:
         """
         Updates vendor performance metrics in real-time on the map.
         """
+        if not self.db:
+            logger.debug("Firestore unavailable - skipping vendor status update")
+            return
         try:
             doc_ref = self.db.collection("organizations").document(organization_id).collection("vendors").document(vendor_id)
             doc_ref.set(status_update, merge=True)
@@ -53,6 +71,9 @@ class FirestoreSyncService:
         """
         Pushes a system-wide 'Pulse' notification.
         """
+        if not self.db:
+            logger.debug("Firestore unavailable - skipping system event")
+            return
         try:
             doc_ref = self.db.collection("organizations").document(organization_id).collection("events").document()
             doc_ref.set({

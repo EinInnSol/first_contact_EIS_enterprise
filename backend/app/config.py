@@ -26,14 +26,15 @@ class Settings(BaseSettings):
     # Secret Manager Keys (Mapping names to GCP Secret IDs)
     SECRET_MAP: dict = {
         "ANTHROPIC_API_KEY": "nexus-anthropic-key",
-        "JWT_SECRET": "nexus-jwt-secret",
-        "DATABASE_URL": "nexus-db-url",
+        "jwt_secret_key": "firstcontact-jwt-secret",
+        "DATABASE_URL": "firstcontact-db-url",
         "GOOGLE_MAPS_API_KEY": "nexus-maps-key",
-        "FIREBASE_CONFIG_JSON": "nexus-firebase-config"
+        "FIREBASE_CONFIG": "firstcontact-firebase-config"
     }
 
     # API Keys & Secrets (with defaults for local dev)
-    JWT_SECRET: str = "nexus-dev-default-secret-key"
+    jwt_secret_key: str = os.getenv("JWT_SECRET", "nexus-dev-default-secret-key")
+    jwt_algorithm: str = os.getenv("JWT_ALGORITHM", "HS256")
     ANTHROPIC_API_KEY: Optional[str] = None
     GOOGLE_MAPS_API_KEY: Optional[str] = None
     FIREBASE_CONFIG: Optional[str] = None
