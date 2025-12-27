@@ -1,0 +1,3134 @@
+============================= test session starts =============================
+platform win32 -- Python 3.13.7, pytest-9.0.2, pluggy-1.6.0
+rootdir: C:\Users\james\Downloads\FirstContactEIS
+plugins: anyio-4.12.0, asyncio-1.3.0
+asyncio: mode=Mode.STRICT, debug=False, asyncio_default_fixture_loop_scope=None, asyncio_default_test_loop_scope=function
+collected 21 items
+
+backend\tests\test_layer8_access.py EEEEEEEE                             [ 38%]
+backend\tests\test_multi_tenant.py EEEEEEEE                              [ 76%]
+backend\tests\test_qr_intake.py EEEEE                                    [100%]
+
+=================================== ERRORS ====================================
+____________ ERROR at setup of test_layer8_blocked_for_caseworker _____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023355D34690>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_MISS: 1>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023355CF79B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_layer8_blocked_for_caseworker>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$4PPueWSh4nAgIkW1ZIFydeCNWXOh5JuU4W9GjFd0OqqbCK7RNapWy', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$9n.Gc8CCOUBybbuWKgSmqOdcCypjacr9AiJ9BPAiijkju6imv4yBC', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$XHtdQr2WN.gkH5Pp2iWQ.extztyeY3QVtZtZp1jNrOoWlv4mfECve', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$pD8hyw//UkP0y2tQ7HHQduJ1sotZ.u0sWSXeVR6edsl0ZYQivZb.e', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_layer8_blocked_for_vendor_admin ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023355CFF5C0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023355DCC4D0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_layer8_blocked_for_vendor_admin>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$8fge5.1as2c0cQ6mWED6du.E2MILhPKb3L1FXAynSOE5IJplMZiMq', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$bbY3LW6iY6j6wbDYn6QkWeZTIUxMbwnZpS0gm8hbf/Of2izlULvcG', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$SE8CmIWP0QBeZqLAc8O2J.zveYbdZIXosFW58zz9E3kAfoAAnOs/G', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$4wQeYirY.n9a5dmX8KJWQ.wp6tbd4Pz8hhenkUuD6CMVL1pwgdQTG', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+______________ ERROR at setup of test_layer8_blocked_for_client _______________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023355CF2F10>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023355DCF1D0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_layer8_blocked_for_client>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$bdsQHG4wsLDQC/n7.eZbWO7gS.Aq0vRF0oIF2Qlnj/pJc/8MK6Olu', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$BB46r5PlM0i3nYRQ0g4DfOokJzCmxTQN/B49UJCY0DOAs.m7eRhJC', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$2BQoPxu0epxH/f8epqXIcuzjMl904bs1FxCas3cqyIfBDu2dW5rBW', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$U.2ifVO3HSJl.3gvSTCRn.0frNG/tCipIbor/guF21n5wozBnvy3i', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_______ ERROR at setup of test_geographic_analytics_blocked_for_vendors _______
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023355D15E50>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023355DCC2F0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_geographic_analytics_blocked_for_vendors>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$ZKGNIq0URDy5Vyxf4D0ZHO2fTlPeZ1UT2ruOMgLV1gm50n96NAZZO', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$ooO/t.tkj5jajLEhEKrRcekNy7R8cSvJuK.azirRezGqe7qoixvOm', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$YK7JWqfwdwSUDBGNiY9W.utu3XQAM8hESOSIr0m1ff1dVzMSEejLO', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$RFQtdKiUnR0cupl73xHxM.WFZp3K45Qm38mghB.sylPopYetblzsG', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_______ ERROR at setup of test_bottleneck_analysis_blocked_for_vendors ________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023355D5C8C0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023355D596D0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_bottleneck_analysis_blocked_for_vendors>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$By0x8Cvm6H6pRQ.g2cyFR.L7L2xdpXDzlLXCIL0D47ASsU1cn48.e', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$s7KK9LW4r/1fDdY8w9eXsOBdZq1S38QTTpsPAlQnyw4uxkbJLXxtm', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$x6No80Rw.UH4UxxGqgW1Ru5GabhlZHBdhPjpLkEGOXdX7I6L9qXRS', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$sOMS2shQZUeBuOxClCIgx.G4ia9aCaRReiMh5rDttGEoOHrE981Da', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_____________ ERROR at setup of test_no_auth_blocked_from_layer8 ______________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000233563EE5F0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x00000233563C64B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_no_auth_blocked_from_layer8>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$UIrhShEiJha8II9QLKc4IedKOZYlMnXHDl0ycqK40BmN7TIpXyoi2', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$pvxm3pfFmZy0nKGwldJhzuwDH5FCoLv6hHOEaYhHvlOUuOis.aJqa', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$r7ueM5wZd1MqlVe0ZWvIW.m6BAgxmhWPhBT6Im9IAMkRta1dG1dPO', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$Gt7TetclyLDeIlm6urox2.qnzCrD3PHtFKUWbQRn9GzJOHzqUopTe', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+____________ ERROR at setup of test_layer8_allowed_for_city_admin _____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000233563418D0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x00000233563F80B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_layer8_allowed_for_city_admin>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$nSqXlatp4DE8l73/UFjbd.9JTdksUDugFKorI59H3NOqVH6s/m3JW', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$jnr1pN01IGdbS5UXUkBoJeKYtBDPgNnSKlcrKQH0YOKpARVpT43WG', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$i6ve8Oe23n5.mP/w1LhZm.2U.MfKOHudLXBFTN8hdZq5XVT9Ka6Ka', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$9jbkAjwiEBH3m62wlaRMT.SCm.gs3ioww6FBC00F8ujj0oMBo8l3e', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_layer8_allowed_for_city_council ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x000002335634B070>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x000002335633DFD0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_layer8_allowed_for_city_council>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$IgaAhg0aFCZZgq5D7Hl.Eu.kHb8tTSMNlwBQuTDhBKwk6/BoXW6pO', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$W4EILavMjx3sJ0ncPQYMz.hlz48JiLbhJ3C6v4XTQCV/Befuc4ZiS', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$2D6wb3pgn0kyhmhZAQJDOOB1uflP79QAIenBSNdsTyO5y5SuCgk0u', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$PMQeH7qXWb8cWbQG.x0tUu52N4rku10jKZbSuTPj4vcX657L.3mHq', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_all_models_have_organization_id ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x00000233563104B0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x000002335633FDD0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_all_models_have_organization_id>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$cZA1N0qA49JB8.vkYBP.WOEyUgVFlWUu4oJLoyxoXhILqbiuE.OaO', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$EqlKZOPNM0Sj6CO0Pil7HO6mv35trdajAglr2cDi03WrC0lL0xu0a', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$xGep4RtuzRrRoqE4BeKXNuEdzkUi49LgcoNvj5eElVOAj/9bvayR6', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$ZJwp0j32/ubXANzP5mpj5eA6UcYZD95UqibbeJcZcEaX8Z4mH9FPm', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+____________ ERROR at setup of test_vendor_belongs_to_organization ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DA98D0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356326F30>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_vendor_belongs_to_organization>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$bNn/oMwsIPszCeVu03uhqunYfVIOX2KwnNARs1jLsBiO4cZ1b4srS', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$dIf/7d3Hn1Y9DPzk0DP0feju0nS3EI6sEkI.uWMtL42pXeo86VLs6', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$ZHcPISIkutVceylD.//r4uTSl877sYuVSlMpaRD1pplWvNiIhUSrG', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$I50b8cgD8o4iTkzlYKK1.OwyZOx7MTfKvakvPxCopuL8w7ifUF2Fq', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+______ ERROR at setup of test_client_belongs_to_organization_and_vendor _______
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DA2CF0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356DAE090>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_client_belongs_to_organization_and_vendor>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$fw98kN9Kk9JgOZpxItu1b./DRL/7SSAROuc5SyxUf/S2jK6SeenKi', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$yutHKR1zPbE3rc2eUQ7j7uhr8G98QxnNPpiGVCBVPa7La/OFrAGOC', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$GfalJpYbXxkuxsT2Yc/oAu4SrF5YXGEzM0Uv1T2GSjGOMqjIcTvue', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$lP5ietEEID2pPU.W5Xhi..XWsO/z8TK.0P49sMvHOVeUw2AVVd3JS', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+____________ ERROR at setup of test_query_filters_by_organization _____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356D1C210>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356DC8170>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_query_filters_by_organization>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$4pQr1ygC3N8WbXNS9lT8sObakcZbpparGwQZNjKufWTO2bE0O/P8K', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$e4s9XYjgQfNUws8zXxyNKej5ceusN2HcYVa5jRgt5J0wiseDmxgAW', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$K9HZpsoTYSofnCNYEpr.2.xnStDIqo3fjuujJ3JVdyLcZzT44L1Cq', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$yeaZ/ytTm.fJ5Cwm43zGGOxanpXecKNYHOWbmfOWKj405bbimRlYq', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_clients_isolated_by_organization ___________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DD59B0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356D288F0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_clients_isolated_by_organization>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$C8wSixxs.noQA79huGdk1ujuSHKP87eOOSOFxcUIlNt4TSb6KsMzq', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$rWcpgv/KQ.6VmKPmsrwAW.eSCar/7lhC7S82YSbxyYFAVCRDq1ewy', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$E5V6aeqqTdY3nGvu8/i8sODLI4iLxIBgKhKpYY80jRiQHaKVQ99WG', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$5EbKxwbCCN0eipae/SUeJ.ITrM4A1rlBSuc03ao6AP1TsEJP.u1E.', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_____________ ERROR at setup of test_vendor_only_sees_own_clients _____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DFB150>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356DE80B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_vendor_only_sees_own_clients>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$22Z6EP.YgaFPExywKH7OS.j7CJbtYVu.cPgLLzL9TFwOnKVMirp6.', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$7WSiiL/JsQMwQ5XFLxFke.4qmCVA/AY4GU2pNxlJnKM2Rsl4M3wRC', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$0ZJpgBboQj6fjol3X4d7BeI1Q09enksn6t8bLqXnobEoUERIjsMca', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$KmAL4nUb9cE/GHEv0wv85OpCivYn8Gqw7mvbJelrMhasgmAKS6KZm', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_____________ ERROR at setup of test_city_admin_sees_all_vendors ______________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356BD4670>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356D96750>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_city_admin_sees_all_vendors>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$c0nTsoi/mxVngzuJGJSnv.rTdq4tdrWgYGUvF3Pkg96Jlz68dhqhK', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$5fTIUDkeQwETV8AH0EdHb.5DFecMhoVijfET01ONJ5D/3vpBT/Jo6', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$SkVCao3FXZ9jDG6bn58L7OxYDMl/L44lnP.FLb/OPunFcT8RMhMi6', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$KiJQwRTzATKemOmsXcdl/O1GpZ/0vTbrJdWVUlyRiE4fl12W/KzeS', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+______________ ERROR at setup of test_rls_blocks_cross_org_read _______________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356C099B0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356B464B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_rls_blocks_cross_org_read>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$OvMPYetWFJ3VhrSvGepthO.rm6du7ATVj0mxWsbw8SfrAfq.fpN6C', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$nyL1S1hJnFtUfNCZh4sUB.nXxa2Vcv3L32EwRkvz0osZNhofnS.BO', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$mOfiVBCpMCl82UZvcPIwHuHILizoEWg4bT5cmGReP3Lo/N6SPt1t6', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$KgQTptvZsl6N88CVp2G93eLwU.owbBzQIzZl/6ePlKFMcDF94HQeq', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_qr_intake_assigns_correct_vendor ___________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DF9470>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356DAE090>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_qr_intake_assigns_correct_vendor>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$6nh0.ZZfUi7XhhrAB.ETB.TQucLhoEXXqHGeQuw33d84kdH35nKqe', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$pv.e43FjiyM.dfW41wo7L.ZD52OaEsrg1DgwLtHb/jxRxFzhoAjX6', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$xK06fdI4228kVQVbhapEFup9UrBJrnMKdIPC2PnzmgRC6z1SLd.R.', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$ogOy3kqojHCJXHNuF9GcjegHq3jURN215wS9elRb.gj8I7rdq8wPy', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+______ ERROR at setup of test_qr_intake_returns_404_for_invalid_location ______
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356D1ECF0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356DC9490>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_qr_intake_returns_404_for_invalid_location>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$YvMAYhy/QhvBqn9noWzE/eZI5333VUY.VNj1TJ5nTjwVmcv4Hji3m', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$mb0Us6cloZd5LU5EEJYAEerKgA49uCgM0UuFOCgDYqddivsE140yu', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$EFnGfv4wBFd7DZJCXdE6R.aY1KNxnEgN7kUKNx0Sqkie5m3E82APm', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$i3vyq2uyI2DGJV5QY17/I.dnty3kbaNEHS88QhDHZQvAUVnqZikNq', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+___________ ERROR at setup of test_qr_intake_creates_client_record ____________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356DA18D0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356BD9730>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_qr_intake_creates_client_record>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$mS6wyS4wcujhYD4PxrNVi.zxIa1BSSc05j9WDuehK5xFknd1cZBs2', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$RygyJEzt5cCH8xjVulVAX.Mwlh9oipzP4NxdwZwyv4s1q4pAW2SpW', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$8ZOma0ohAtGWg7k2GbFPY.DUih73z7PlCwKVj8yckKPwix/3Eg5ny', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$HfRCSiK.Tf3vOjuaTxqd/eiInD1iB4zrycWKhWC2GBqAjM5XuCyTS', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_________ ERROR at setup of test_qr_scan_increments_location_counter __________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356311EF0>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356BD9250>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_qr_scan_increments_location_counter>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$mFgcnpIRoQGXnvWuOxOfkec1XYrNu.7Yfxm25kwkOK4cDESnmN/Vy', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$2JO42TNaxe/Bd9OauITnauNGQ6tYSqYUQs2XbWz0xEZ5MwkQlWlNi', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$WK1egfPezA7v4MnbEmM/Hu6JnrQbCWGgEDtUgljgzoV7TS0fCLtCa', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$AyUwxobLU66KEDt7Er7Mn.8RfieBvBexj8psjBTov9oYaEig6vicC', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+_________ ERROR at setup of test_qr_intake_inactive_location_rejected _________
+
+self = <sqlalchemy.engine.base.Connection object at 0x0000023356316B30>
+dialect = <sqlalchemy.dialects.sqlite.aiosqlite.SQLiteDialect_aiosqlite object at 0x000002335538DA90>
+constructor = <bound method DefaultExecutionContext._init_compiled of <class 'sqlalchemy.dialects.sqlite.aiosqlite.SQLiteExecutionContext_aiosqlite'>>
+statement = <sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>
+parameters = [{'email': 'admin@longbeach.gov', 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'last_login': N...': 'admin@pasadena.gov', 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'last_login': None, ...}]
+execution_options = immutabledict({'compiled_cache': <sqlalchemy.util._collections.LRUCache object at 0x0000023355BFA7F0>})
+args = (<sqlalchemy.dialects.sqlite.base.SQLiteCompiler object at 0x0000023355B76C50>, [{'email': 'admin@longbeach.gov', 'fir...-4444-4444-4444-444444444444', 'last_login': None, ...}], <sqlalchemy.sql.dml.Insert object at 0x0000023355CFDF30>, [])
+kw = {'cache_hit': <CacheStats.CACHE_HIT: 0>}, yp = None
+conn = <sqlalchemy.pool.base._ConnectionFairy object at 0x0000023356B480B0>
+
+    def _execute_context(
+        self,
+        dialect: Dialect,
+        constructor: Callable[..., ExecutionContext],
+        statement: Union[str, Compiled],
+        parameters: Optional[_AnyMultiExecuteParams],
+        execution_options: _ExecuteOptions,
+        *args: Any,
+        **kw: Any,
+    ) -> CursorResult[Any]:
+        """Create an :class:`.ExecutionContext` and execute, returning
+        a :class:`_engine.CursorResult`."""
+    
+        if execution_options:
+            yp = execution_options.get("yield_per", None)
+            if yp:
+                execution_options = execution_options.union(
+                    {"stream_results": True, "max_row_buffer": yp}
+                )
+        try:
+            conn = self._dbapi_connection
+            if conn is None:
+                conn = self._revalidate_connection()
+    
+>           context = constructor(
+                dialect, self, conn, execution_options, *args, **kw
+            )
+
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           AttributeError: 'str' object has no attribute 'hex'
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: AttributeError
+
+The above exception was the direct cause of the following exception:
+
+self = <Coroutine test_qr_intake_inactive_location_rejected>
+
+    def setup(self) -> None:
+        runner_fixture_id = f"_{self._loop_scope}_scoped_runner"
+        if runner_fixture_id not in self.fixturenames:
+            self.fixturenames.append(runner_fixture_id)
+>       return super().setup()
+               ^^^^^^^^^^^^^^^
+
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:458: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:743: in pytest_fixture_setup
+    hook_result = yield
+                  ^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:313: in _asyncgen_fixture_wrapper
+    result = runner.run(setup(), context=context)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+C:\Python313\Lib\asyncio\base_events.py:725: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\pytest_asyncio\plugin.py:309: in setup
+    res = await gen_obj.__anext__()
+          ^^^^^^^^^^^^^^^^^^^^^^^^^
+backend\tests\conftest.py:171: in db
+    await session.commit()
+.venv\Lib\site-packages\sqlalchemy\ext\asyncio\session.py:1000: in commit
+    await greenlet_spawn(self.sync_session.commit)
+.venv\Lib\site-packages\sqlalchemy\util\_concurrency_py3k.py:203: in greenlet_spawn
+    result = context.switch(value)
+             ^^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:2030: in commit
+    trans.commit(_to_root=True)
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1311: in commit
+    self._prepare_impl()
+.venv\Lib\site-packages\sqlalchemy\orm\state_changes.py:137: in _go
+    ret_value = fn(self, *arg, **kw)
+                ^^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:1286: in _prepare_impl
+    self.session.flush()
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4331: in flush
+    self._flush(objects)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4466: in _flush
+    with util.safe_reraise():
+         ^^^^^^^^^^^^^^^^^^^
+.venv\Lib\site-packages\sqlalchemy\util\langhelpers.py:224: in __exit__
+    raise exc_value.with_traceback(exc_tb)
+.venv\Lib\site-packages\sqlalchemy\orm\session.py:4427: in _flush
+    flush_context.execute()
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:466: in execute
+    rec.execute(self)
+.venv\Lib\site-packages\sqlalchemy\orm\unitofwork.py:642: in execute
+    util.preloaded.orm_persistence.save_obj(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:93: in save_obj
+    _emit_insert_statements(
+.venv\Lib\site-packages\sqlalchemy\orm\persistence.py:1048: in _emit_insert_statements
+    result = connection.execute(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1419: in execute
+    return meth(
+.venv\Lib\site-packages\sqlalchemy\sql\elements.py:527: in _execute_on_connection
+    return connection._execute_clauseelement(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1641: in _execute_clauseelement
+    ret = self._execute_context(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1821: in _execute_context
+    self._handle_dbapi_exception(
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:2363: in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+.venv\Lib\site-packages\sqlalchemy\engine\base.py:1815: in _execute_context
+    context = constructor(
+.venv\Lib\site-packages\sqlalchemy\engine\default.py:1496: in _init_compiled
+    flattened_processors[key](compiled_params[key])
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+value = '11111111-1111-1111-1111-111111111111'
+
+    def process(value):
+        if value is not None:
+>           value = value.hex
+                    ^^^^^^^^^
+E           sqlalchemy.exc.StatementError: (builtins.AttributeError) 'str' object has no attribute 'hex'
+E           [SQL: INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)]
+E           [parameters: [{'last_name': 'CityAdmin', 'password_hash': '$2b$12$dXteHy3imXlWqv41qwsXb.x4xb1A2utDal8CEux8Iz77C6W0sfObG', 'email': 'admin@longbeach.gov', 'role': <U ... (14 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Diana', 'id': '11111111-1111-1111-1111-111111111111', 'organization_id': 1, 'vendor_id': None, 'last_login': None}, {'last_name': 'Caseworker', 'vendor_id': 101, 'password_hash': '$2b$12$AJztJ3EZUkI.5ORdHwMf9.95Db1GzLWyrWPzwY44S/gXudltuz8Fu', 'email': 'sarah@path.or ... (9 characters truncated) ... ': <UserRole.CASEWORKER: 'caseworker'>, 'first_name': 'Sarah', 'id': '22222222-2222-2222-2222-222222222222', 'organization_id': 1, 'last_login': None}, {'last_name': 'VendorAdmin', 'vendor_id': 101, 'password_hash': '$2b$12$myh1l6tSar8A8g65gbtfzeWrYTWHFKD.7ZVMw4Q0mhuhyX4I7Ffw2', 'email': 'mike@path.or ... (12 characters truncated) ... <UserRole.VENDOR_ADMIN: 'vendor_admin'>, 'first_name': 'Mike', 'id': '33333333-3333-3333-3333-333333333333', 'organization_id': 1, 'last_login': None}, {'last_name': 'Admin', 'password_hash': '$2b$12$r6eE/HLgudLsc8aOXDXe1uI1fffPRCRcpHKO1O92Vg7/N0ydHEDFG', 'email': 'admin@pasadena.gov', 'role': <UserRo ... (9 characters truncated) ... DMIN: 'city_admin'>, 'first_name': 'Other', 'id': '44444444-4444-4444-4444-444444444444', 'organization_id': 2, 'vendor_id': None, 'last_login': None}]]
+
+.venv\Lib\site-packages\sqlalchemy\sql\sqltypes.py:3734: StatementError
+============================== warnings summary ===============================
+backend\app\config.py:15
+  C:\Users\james\Downloads\FirstContactEIS\backend\app\config.py:15: PydanticDeprecatedSince20: Support for class-based `config` is deprecated, use ConfigDict instead. Deprecated in Pydantic V2.0 to be removed in V3.0. See Pydantic V2 Migration Guide at https://errors.pydantic.dev/2.12/migration/
+    class Settings(BaseSettings):
+
+backend/tests/test_layer8_access.py: 176 warnings
+backend/tests/test_multi_tenant.py: 176 warnings
+backend/tests/test_qr_intake.py: 110 warnings
+  C:\Users\james\Downloads\FirstContactEIS\.venv\Lib\site-packages\sqlalchemy\sql\schema.py:3624: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+    return util.wrap_callable(lambda ctx: fn(), fn)  # type: ignore
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ===========================
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_caseworker
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_vendor_admin
+ERROR backend/tests/test_layer8_access.py::test_layer8_blocked_for_client - s...
+ERROR backend/tests/test_layer8_access.py::test_geographic_analytics_blocked_for_vendors
+ERROR backend/tests/test_layer8_access.py::test_bottleneck_analysis_blocked_for_vendors
+ERROR backend/tests/test_layer8_access.py::test_no_auth_blocked_from_layer8
+ERROR backend/tests/test_layer8_access.py::test_layer8_allowed_for_city_admin
+ERROR backend/tests/test_layer8_access.py::test_layer8_allowed_for_city_council
+ERROR backend/tests/test_multi_tenant.py::test_all_models_have_organization_id
+ERROR backend/tests/test_multi_tenant.py::test_vendor_belongs_to_organization
+ERROR backend/tests/test_multi_tenant.py::test_client_belongs_to_organization_and_vendor
+ERROR backend/tests/test_multi_tenant.py::test_query_filters_by_organization
+ERROR backend/tests/test_multi_tenant.py::test_clients_isolated_by_organization
+ERROR backend/tests/test_multi_tenant.py::test_vendor_only_sees_own_clients
+ERROR backend/tests/test_multi_tenant.py::test_city_admin_sees_all_vendors - ...
+ERROR backend/tests/test_multi_tenant.py::test_rls_blocks_cross_org_read - sq...
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_assigns_correct_vendor
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_returns_404_for_invalid_location
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_creates_client_record
+ERROR backend/tests/test_qr_intake.py::test_qr_scan_increments_location_counter
+ERROR backend/tests/test_qr_intake.py::test_qr_intake_inactive_location_rejected
+====================== 463 warnings, 21 errors in 40.29s ======================

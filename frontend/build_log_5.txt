@@ -1,0 +1,45 @@
+
+> frontend@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.1.0
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ Γ£ô Compiled successfully
+   Skipping validation of types
+   Skipping linting
+
+   We detected TypeScript in your project and reconfigured your tsconfig.json file for you.
+   The following mandatory changes were made to your tsconfig.json:
+
+   	- jsx was set to preserve (next.js implements its own optimized jsx transform)
+
+   Collecting page data ...
+   Generating static pages (0/10) ...
+   Generating static pages (2/10) 
+   Generating static pages (4/10) 
+   Generating static pages (7/10) 
+ Γ£ô Generating static pages (10/10)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                              Size     First Load JS
+Γöî Γùï /                                    2.61 kB         157 kB
+Γö£ Γùï /_not-found                          979 B           106 kB
+Γö£ Γùï /dashboard/caseworker                5.37 kB         160 kB
+Γö£ ╞Æ /dashboard/caseworker/client/[id]    7.45 kB         113 kB
+Γö£ Γùï /dashboard/city                      14.5 kB         169 kB
+Γö£ Γùï /dashboard/city/enhanced             6.41 kB         120 kB
+Γö£ Γùï /intake                              5.44 kB         156 kB
+Γö£ ╞Æ /intake/[id]                         23.9 kB         174 kB
+Γöö Γùï /login                               3.2 kB          109 kB
++ First Load JS shared by all            105 kB
+  Γö£ chunks/4bd1b696-bcc3df23d09d4e3b.js  52.9 kB
+  Γö£ chunks/517-7c19ffb3862928b4.js       50.5 kB
+  Γöö other shared chunks (total)          1.97 kB
+
+
+Γùï  (Static)   prerendered as static content
+╞Æ  (Dynamic)  server-rendered on demand
+

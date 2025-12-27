@@ -1,0 +1,69 @@
+
+> frontend@0.1.0 build
+> next build
+
+   Γû▓ Next.js 15.1.0
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+(node:21268) [MODULE_TYPELESS_PACKAGE_JSON] Warning: Module type of file:///C:/Users/james/Downloads/FirstContactEIS/frontend/tailwind.config.ts?id=1766809284268 is not specified and it doesn't parse as CommonJS.
+Reparsing as ES module because module syntax was detected. This incurs a performance overhead.
+To eliminate this warning, add "type": "module" to C:\Users\james\Downloads\FirstContactEIS\frontend\package.json.
+(Use `node --trace-warnings ...` to show where the warning was created)
+[Error: Cannot apply unknown utility class `shadow-[0_0_15px_rgba(0,`]
+<w> [webpack.cache.PackFileCacheStrategy] Skipped not serializable cache item 'Compilation/modules|C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[2]!C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[3]!C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css': No serializer registered for PostCSSSyntaxError
+<w> while serializing webpack/lib/cache/PackFileCacheStrategy.PackContentItems -> webpack/lib/NormalModule -> webpack/lib/ModuleBuildError -> PostCSSSyntaxError
+Failed to compile.
+
+./src/app/globals.css:1:1
+Syntax error: tailwindcss: C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css Cannot apply unknown utility class `shadow-[0_0_15px_rgba(0,`
+
+> 1 | @import "tailwindcss";
+    | ^
+  2 | @config "../../tailwind.config.ts";
+  3 | 
+
+./src/app/globals.css
+Syntax error: tailwindcss: C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css Cannot apply unknown utility class `border-glass-border`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive (1:1)
+
+> 1 | @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    | ^
+  2 | 
+  3 | @tailwind base;
+
+    at tryRunOrWebpackError (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:314962)
+    at __webpack_require_module__ (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:131434)
+    at __nested_webpack_require_161179__ (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:130872)
+    at C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:131723
+    at symbolIterator (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\neo-async\async.js:1:14444)
+    at done (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\neo-async\async.js:1:14824)
+    at Hook.eval [as callAsync] (eval at create (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:13:9218), <anonymous>:15:1)
+    at Hook.CALL_ASYNC_DELEGATE [as _callAsync] (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:13:6372)
+    at C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:130593
+    at symbolIterator (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\neo-async\async.js:1:14402)
+-- inner error --
+Syntax error: tailwindcss: C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css Cannot apply unknown utility class `border-glass-border`. Are you using CSS modules or similar and missing `@reference`? https://tailwindcss.com/docs/functions-and-directives#reference-directive (1:1)
+
+> 1 | @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap');
+    | ^
+  2 | 
+  3 | @tailwind base;
+
+    at Object.<anonymous> (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[2]!C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[3]!C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css:1:7)
+    at C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:955548
+    at Hook.eval [as call] (eval at create (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:13:8996), <anonymous>:7:1)
+    at Hook.CALL_DELEGATE [as _call] (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:13:6266)
+    at C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:131467
+    at tryRunOrWebpackError (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:314916)
+    at __webpack_require_module__ (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:131434)
+    at __nested_webpack_require_161179__ (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:130872)
+    at C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\webpack\bundle5.js:28:131723
+    at symbolIterator (C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\compiled\neo-async\async.js:1:14444)
+
+Generated code for C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\css-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[2]!C:\Users\james\Downloads\FirstContactEIS\frontend\node_modules\next\dist\build\webpack\loaders\postcss-loader\src\index.js??ruleSet[1].rules[13].oneOf[10].use[3]!C:\Users\james\Downloads\FirstContactEIS\frontend\src\app\globals.css
+
+Import trace for requested module:
+./src/app/globals.css
+
+
+> Build failed because of webpack errors
