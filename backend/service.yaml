@@ -1,0 +1,32 @@
+apiVersion: serving.knative.dev/v1
+kind: Service
+metadata:
+  name: first-contact-eis
+  annotations:
+    run.googleapis.com/ingress: all
+    run.googleapis.com/ingress-status: all
+spec:
+  template:
+    metadata:
+      annotations:
+        autoscaling.knative.dev/minScale: "1"  # Reliability: Always allow 1 instance (no cold starts)
+        autoscaling.knative.dev/maxScale: "10" # Safety: Prevent runaway costs
+        run.googleapis.com/cpu-throttling: "false" # Performance: Consistent CPU
+        run.googleapis.com/startup-cpu-boost: "true" # Performance: Fast startup
+    spec:
+      containers:
+      - image: us-east5-docker.pkg.dev/einharjer-valhalla/cloud-run-source-deploy/first-contact-eis:latest
+        ports:
+        - containerPort: 8000
+        resources:
+          limits:
+            cpu: "1000m"
+            memory: "2Gi" # AI services need memory
+        env:
+        - name: GCP_PROJECT_ID
+          value: "einharjer-valhalla"
+        - name: GCP_REGION
+          value: "us-east5"
+        - name: ENVIRONMENT
+          value: "production"
+        # Secrets would be mounted here in production

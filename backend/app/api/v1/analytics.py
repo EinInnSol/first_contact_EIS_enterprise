@@ -24,8 +24,53 @@ from app.models.vendor import Vendor
 from app.models.client import Client
 from app.models.qr_scan_event import QRScanEvent
 from app.models.qr_location import QRLocation
+from app.services.forecasting_service import PredictiveAnalyticsService
 
 router = APIRouter(prefix="/analytics", tags=["Layer 8 Analytics"])
+
+# ============================================
+# PREDICTIVE ANALYTICS (Layer 8)
+# ============================================
+
+@router.get("/demand-forecast")
+async def get_housing_demand_forecast(
+    months: int = 6,
+    user: User = Depends(require_city_admin)
+):
+    """
+    Predictive Analytics: Housing Demand Forecast.
+    Shows projected intakes vs placements for the next X months.
+    """
+    service = PredictiveAnalyticsService()
+    return await service.get_housing_demand_forecast(user.organization_id, months)
+
+
+@router.get("/capacity-prediction/{vendor_id}")
+async def get_vendor_capacity_prediction(
+    vendor_id: int,
+    current_load: int,
+    max_capacity: int,
+    user: User = Depends(require_city_admin)
+):
+    """
+    Predictive Analytics: When will this vendor reach capacity?
+    """
+    service = PredictiveAnalyticsService()
+    return await service.predict_vendor_capacity(
+        user.organization_id, vendor_id, current_load, max_capacity
+    )
+
+
+@router.get("/budget-impact")
+async def get_budget_impact_analysis(
+    user: User = Depends(require_city_admin)
+):
+    """
+    Predictive Analytics: Fiscal ROI and suggested budget reallocations.
+    ADVISORY ONLY.
+    """
+    service = PredictiveAnalyticsService()
+    return await service.budget_impact_analysis(user.organization_id)
 
 
 @router.get("/vendor-performance")

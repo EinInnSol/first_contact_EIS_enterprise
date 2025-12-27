@@ -1,186 +1,195 @@
 "use client";
 
 import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import {
-    CheckCircle2,
+    ShieldCheck,
     MapPin,
+    QrCode,
+    User,
     ChevronRight,
-    Upload,
-    Heart,
-    Calendar,
-    Phone,
-    ArrowRight,
-    ShieldCheck
+    Zap,
+    CheckCircle2,
+    Calendar
 } from 'lucide-react';
+import { NeonButton } from '@/components/ui/NeonButton';
+import { GlassPanel } from '@/components/ui/GlassPanel';
 
-export default function MobileIntake() {
-    const [step, setStep] = useState(1);
-    const totalSteps = 4;
-
-    const nextStep = () => setStep(prev => Math.min(prev + 1, totalSteps));
+export default function ClientIntakePage() {
+    const [step, setStep] = useState<'id' | 'form' | 'success'>('id');
 
     return (
-        <div className="min-h-screen bg-[var(--background)] flex flex-col max-w-[500px] mx-auto border-x border-[var(--border-crisp)] shadow-2xl">
+        <div className="min-h-screen bg-start flex flex-col items-center justify-center p-6 sm:p-12 relative overflow-hidden">
 
-            {/* Header */}
-            <header className="p-6 bg-[var(--surface)] border-b border-[var(--border-crisp)] flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 bg-[var(--primary)] rounded-lg flex items-center justify-center">
-                        <Heart className="text-white" size={18} />
+            {/* Background Glows */}
+            <div className="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-cyan/10 rounded-full blur-[120px] pointer-events-none" />
+            <div className="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-orange/5 rounded-full blur-[120px] pointer-events-none" />
+
+            <header className="mb-12 text-center relative z-10">
+                <div className="inline-flex items-center gap-2 mb-4">
+                    <div className="p-2 bg-cyan/20 border border-cyan/40 rounded-sm">
+                        <Zap className="w-5 h-5 text-cyan" />
                     </div>
-                    <span className="font-bold text-lg tracking-tight">First Contact</span>
+                    <span className="text-xs font-mono font-bold text-cyan uppercase tracking-[0.3em]">First Contact EIS</span>
                 </div>
-                <div className="text-xs font-bold text-[var(--text-muted)] tracking-widest uppercase">
-                    Step {step} of {totalSteps}
-                </div>
+                <h1 className="text-3xl font-display font-bold text-white mb-2 uppercase">Your Support Gateway</h1>
+                <p className="text-sm text-slate-400 font-medium">Access housing, health, and identity support instantly.</p>
             </header>
 
-            {/* Progress Bar */}
-            <div className="h-1.5 w-full bg-[var(--surface-hover)]">
-                <div
-                    className="h-full bg-[var(--primary)] transition-all duration-500 ease-out"
-                    style={{ width: `${(step / totalSteps) * 100}%` }}
-                ></div>
-            </div>
-
-            {/* Form Content */}
-            <main className="flex-1 p-8 space-y-8 overflow-y-auto">
-
-                {step === 1 && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                        <div>
-                            <h2 className="text-3xl font-black tracking-tight mb-2">Welcome.</h2>
-                            <p className="text-[var(--text-muted)] text-sm leading-relaxed">
-                                Let's get you connected to the right support services today. This takes about 3 minutes.
-                            </p>
-                        </div>
-
-                        <div className="nexus-card-outlined p-4 bg-[var(--primary-glow)] border-dashed">
-                            <div className="flex gap-4 items-start">
-                                <MapPin className="text-[var(--primary)] shrink-0" size={24} />
-                                <div className="text-xs text-[var(--text-muted)] font-medium">
-                                    Location identified: <br />
-                                    <span className="text-[var(--text-main)] font-black">LONG BEACH - LINCOLN PARK</span>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="space-y-4 pt-4">
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-widest">Full Name</label>
-                                <input type="text" placeholder="Enter your name" className="w-full p-4 bg-[var(--surface)] border border-[var(--border-crisp)] rounded-xl outline-none focus:border-[var(--primary)]" />
-                            </div>
-                            <div className="space-y-1.5">
-                                <label className="text-[10px] uppercase font-bold text-[var(--text-muted)] tracking-widest">Phone Number (Optional)</label>
-                                <input type="tel" placeholder="(562) 000-0000" className="w-full p-4 bg-[var(--surface)] border border-[var(--border-crisp)] rounded-xl outline-none focus:border-[var(--primary)]" />
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {step === 2 && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                        <div>
-                            <h2 className="text-2xl font-black tracking-tight mb-2">Current Needs.</h2>
-                            <p className="text-[var(--text-muted)] text-sm leading-relaxed">Select what you need help with right now.</p>
-                        </div>
-
-                        <div className="grid grid-cols-1 gap-3">
-                            {[
-                                { label: 'Emergency Shelter', icon: '🏠' },
-                                { label: 'Food & Groceries', icon: '🍱' },
-                                { label: 'Medical Support', icon: '🏥' },
-                                { label: 'Transport / Bus Pass', icon: '🚌' },
-                                { label: 'Identity Documents', icon: '🆔' },
-                            ].map((item) => (
-                                <button key={item.label} className="flex items-center justify-between p-4 bg-[var(--surface)] border border-[var(--border-crisp)] rounded-xl hover:border-[var(--primary)] hover:bg-[var(--primary-glow)] transition-all">
-                                    <div className="flex items-center gap-4">
-                                        <span className="text-2xl">{item.icon}</span>
-                                        <span className="font-bold text-sm">{item.label}</span>
+            <main className="w-full max-w-sm relative z-10">
+                <AnimatePresence mode="wait">
+                    {step === 'id' && (
+                        <motion.div
+                            key="id"
+                            initial={{ opacity: 0, scale: 0.95 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            className="space-y-6"
+                        >
+                            <GlassPanel className="p-0 border-cyan/40 shadow-[0_0_40px_rgba(0,240,255,0.15)] overflow-hidden">
+                                <div className="bg-cyan/10 p-6 text-center border-b border-cyan/30">
+                                    <div className="bg-black/40 p-4 rounded-md inline-block mb-4 border border-cyan/20">
+                                        <QrCode className="w-48 h-48 text-white" />
                                     </div>
-                                    <ChevronRight size={18} className="text-[var(--text-muted)]" />
-                                </button>
-                            ))}
-                        </div>
-                    </div>
-                )}
-
-                {step === 3 && (
-                    <div className="space-y-6 animate-in fade-in slide-in-from-bottom-4">
-                        <div>
-                            <h2 className="text-2xl font-black tracking-tight mb-2">Verification.</h2>
-                            <p className="text-[var(--text-muted)] text-sm leading-relaxed">Upload a photo of any ID or document you have. (Skip if none)</p>
-                        </div>
-
-                        <div className="nexus-card border-dashed border-2 flex flex-col items-center justify-center py-12 gap-4 cursor-pointer hover:bg-[var(--surface-hover)]">
-                            <div className="w-16 h-16 bg-[var(--surface-hover)] rounded-full flex items-center justify-center text-[var(--text-muted)]">
-                                <Upload size={32} />
-                            </div>
-                            <div className="text-center">
-                                <div className="font-bold text-sm">Tap to Take Photo</div>
-                                <div className="text-[10px] text-[var(--text-muted)] uppercase mt-1 font-bold">Max size 10MB</div>
-                            </div>
-                        </div>
-
-                        <div className="p-4 bg-[var(--surface-hover)]/50 rounded-xl flex items-center gap-3">
-                            <ShieldCheck className="text-[var(--success)]" size={20} />
-                            <div className="text-[10px] text-[var(--text-muted)] font-medium">
-                                Your data is stored securely and only visible to authorized case coordination staff.
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {step === 4 && (
-                    <div className="space-y-8 flex flex-col items-center justify-center py-8 animate-in zoom-in fade-in duration-700">
-                        <div className="w-24 h-24 bg-[var(--success)] rounded-full flex items-center justify-center text-white shadow-2xl shadow-green-500/20">
-                            <CheckCircle2 size={48} />
-                        </div>
-
-                        <div className="text-center space-y-2">
-                            <h2 className="text-3xl font-black tracking-tight">Got it.</h2>
-                            <p className="text-[var(--text-muted)] px-8 text-sm">
-                                The Brain is matching you with a caseworker right now.
-                            </p>
-                        </div>
-
-                        <div className="nexus-card-outlined w-full p-6 text-center space-y-4">
-                            <div className="text-xs font-bold text-[var(--primary)] tracking-widest uppercase mb-2">Automated Next Step</div>
-                            <div className="bg-[var(--surface)] p-4 rounded-xl border border-[var(--border-crisp)]">
-                                <div className="font-black text-lg mb-1">Appointment Reserved</div>
-                                <div className="text-[var(--text-muted)] text-xs flex items-center justify-center gap-2">
-                                    <Calendar size={14} /> Today at 2:30 PM
+                                    <div className="text-xs font-mono font-bold text-cyan tracking-[0.2em] uppercase">Checking in to: SITE LB-4</div>
                                 </div>
-                                <div className="text-[var(--text-muted)] text-xs flex items-center justify-center gap-2 mt-1">
-                                    <Phone size={14} /> SMS Confirmation Sent
-                                </div>
-                            </div>
-                            <p className="text-[10px] text-[var(--text-muted)] italic leading-relaxed">
-                                "We've identified an immediate opening at the Downtown Center. A transport van has been alerted of your location."
-                            </p>
-                        </div>
-                    </div>
-                )}
 
+                                <div className="p-6 space-y-4">
+                                    <div className="flex items-center gap-4 p-3 bg-white/5 border border-white/5 rounded-sm">
+                                        <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                                            <MapPin className="w-4 h-4 text-slate-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-[10px] text-slate-500 font-bold uppercase">Location</div>
+                                            <div className="text-xs font-bold text-white uppercase">Atlantic & 6th, Long Beach</div>
+                                        </div>
+                                    </div>
+
+                                    <div className="flex items-center gap-4 p-3 bg-white/5 border border-white/5 rounded-sm">
+                                        <div className="w-8 h-8 rounded-full bg-slate-800 flex items-center justify-center">
+                                            <User className="w-4 h-4 text-slate-400" />
+                                        </div>
+                                        <div>
+                                            <div className="text-[10px] text-slate-500 font-bold uppercase">Assigned Vendor</div>
+                                            <div className="text-xs font-bold text-white uppercase">Pathways Long Beach</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </GlassPanel>
+
+                            <NeonButton
+                                variant="cyan"
+                                size="lg"
+                                fullWidth
+                                glow
+                                onClick={() => setStep('form')}
+                            >
+                                CHECK IN NOW
+                                <ChevronRight className="w-5 h-5 ml-2" />
+                            </NeonButton>
+
+                            <p className="text-center text-[10px] text-slate-500 uppercase font-bold tracking-widest">
+                                No identity documents required for first contact.
+                            </p>
+                        </motion.div>
+                    )}
+
+                    {step === 'form' && (
+                        <motion.div
+                            key="form"
+                            initial={{ opacity: 0, x: 20 }}
+                            animate={{ opacity: 1, x: 0 }}
+                            exit={{ opacity: 0, x: -20 }}
+                            className="space-y-6"
+                        >
+                            <GlassPanel className="p-6">
+                                <h2 className="text-lg font-bold text-white mb-6 uppercase tracking-wider">Quick Information</h2>
+                                <div className="space-y-4">
+                                    <div>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Full legal name (or nickname)</label>
+                                        <input className="input-neon" placeholder="ENTER NAME" />
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">Phone Number (if any)</label>
+                                        <input className="input-neon" placeholder="XXX-XXX-XXXX" />
+                                    </div>
+                                    <div>
+                                        <label className="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-1 block">What do you need today?</label>
+                                        <select className="input-neon bg-start-900 appearance-none">
+                                            <option>HOUSING ASSISTANCE</option>
+                                            <option>HEALTH CARE</option>
+                                            <option>IDENTITY DOCUMENTS</option>
+                                            <option>FOOD / SUPPLIES</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div className="mt-8">
+                                    <NeonButton
+                                        variant="cyan"
+                                        fullWidth
+                                        glow
+                                        onClick={() => setStep('success')}
+                                    >
+                                        SUBMIT INTAKE
+                                    </NeonButton>
+                                </div>
+                            </GlassPanel>
+
+                            <button
+                                onClick={() => setStep('id')}
+                                className="w-full text-center text-[10px] font-bold text-slate-500 hover:text-white transition-colors uppercase tracking-[0.2em]"
+                            >
+                                Back to QR Identity
+                            </button>
+                        </motion.div>
+                    )}
+
+                    {step === 'success' && (
+                        <motion.div
+                            key="success"
+                            initial={{ opacity: 0, scale: 1.1 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="text-center space-y-8"
+                        >
+                            <div className="w-24 h-24 bg-cyan/10 border border-cyan rounded-full flex items-center justify-center mx-auto shadow-[0_0_30px_rgba(0,240,255,0.2)]">
+                                <CheckCircle2 className="w-12 h-12 text-cyan" />
+                            </div>
+
+                            <div className="space-y-2">
+                                <h2 className="text-2xl font-display font-bold text-white uppercase italic">Intake Confirmed</h2>
+                                <p className="text-slate-400 text-sm">A caseworker from <span className="text-cyan">Pathways LB</span> has been notified.</p>
+                            </div>
+
+                            <GlassPanel className="p-4 bg-cyan/5">
+                                <div className="flex items-center gap-3 mb-2">
+                                    <Calendar className="w-4 h-4 text-cyan" />
+                                    <span className="text-xs font-bold text-white uppercase tracking-wider">Estimated Contact</span>
+                                </div>
+                                <div className="text-2xl font-mono font-bold text-cyan">08:42 MIN</div>
+                                <p className="text-[10px] text-slate-500 font-medium mt-1">Please remain at Atlantic & 6th site.</p>
+                            </GlassPanel>
+
+                            <div className="space-y-4">
+                                <div className="flex items-center gap-2 p-3 bg-white/5 border border-white/5 rounded-sm text-left">
+                                    <ShieldCheck className="w-4 h-4 text-cyan" />
+                                    <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Identity Secured via First Contact EIS</span>
+                                </div>
+                                <NeonButton
+                                    variant="outline"
+                                    fullWidth
+                                    onClick={() => setStep('id')}
+                                >
+                                    RETURN TO HOME
+                                </NeonButton>
+                            </div>
+                        </motion.div>
+                    )}
+                </AnimatePresence>
             </main>
 
-            {/* Footer Navigation */}
-            <footer className="p-8 border-t border-[var(--border-crisp)] bg-[var(--surface)]">
-                {step < totalSteps ? (
-                    <button
-                        onClick={nextStep}
-                        className="w-full nexus-button nexus-button-primary flex items-center justify-center gap-2 py-5 text-lg shadow-xl shadow-[var(--primary)]/20"
-                    >
-                        Continue
-                        <ArrowRight size={20} />
-                    </button>
-                ) : (
-                    <button className="w-full nexus-button border border-[var(--border-crisp)] py-5 text-[var(--text-muted)] font-bold">
-                        Close Intake
-                    </button>
-                )}
+            <footer className="mt-12 opacity-40 text-center">
+                <p className="text-[8px] font-mono font-bold text-slate-500 uppercase tracking-[0.5em]">System Status: Connected / AES-256 Encrypted</p>
             </footer>
-
         </div>
     );
 }

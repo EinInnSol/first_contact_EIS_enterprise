@@ -25,7 +25,7 @@ from app.models import (
 )
 
 from app.middleware import OrganizationMiddleware
-from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor
+from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
 
 
 @asynccontextmanager
@@ -57,6 +57,7 @@ async def lifespan(app: FastAPI):
     print("    GET/PATCH /api/v1/clients/*")
     print("    GET/POST /api/v1/clients/{id}/benefits/*")
     print("    GET/POST /api/v1/orchestrator/*")
+    print("    GET /api/v1/compliance/hud-apr - Automated federal reporting")
     print("  LAYER 8 (City Admin Only):")
     print("    GET /api/v1/analytics/* - Vendor performance")
     print("    GET /api/v1/maps/* - Geographic intelligence")
@@ -148,6 +149,12 @@ app.include_router(
     orchestrator.router,
     prefix="/api/v1",
     tags=["Layers 1-7 - Orchestrator (Calling Audibles)"]
+)
+
+app.include_router(
+    compliance.router,
+    prefix="/api/v1",
+    tags=["Layers 1-7 - Compliance & Reporting"]
 )
 
 

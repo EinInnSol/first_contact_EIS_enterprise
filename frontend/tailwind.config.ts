@@ -9,14 +9,37 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Primary - Indigo (Authority, Intelligence)
-        indigo: {
-          50: '#eef2ff',
-          600: '#4f46e5',
-          700: '#4338ca',
-          900: '#312e81',
+        // Einharjer Prime Palette
+        start: {
+          DEFAULT: '#050A14', // Deep Midnight Blue
+          900: '#020409',
+          800: '#050A14',
+          700: '#0A1428',
         },
-        // Neutrals - Slate (Refined, Technical)
+        cyan: {
+          DEFAULT: '#00F0FF', // Electric Cyan
+          dim: '#00B8CC',
+          glow: '#00F0FF',
+        },
+        orange: {
+          DEFAULT: '#FF9900', // Warning Orange
+          dim: '#CC7A00',
+        },
+        glass: {
+          DEFAULT: 'rgba(5, 10, 20, 0.7)',
+          border: 'rgba(0, 240, 255, 0.2)',
+          highlight: 'rgba(255, 255, 255, 0.05)',
+        },
+        // Semantic Overrides
+        primary: '#00F0FF',
+        background: '#050A14',
+        surface: '#0A1428',
+
+        // Standard Utilities
+        white: '#FFFFFF',
+        black: '#000000',
+        transparent: 'transparent',
+
         slate: {
           50: '#f8fafc',
           100: '#f1f5f9',
@@ -29,33 +52,6 @@ const config: Config = {
           800: '#1e293b',
           900: '#0f172a',
           950: '#020617',
-        },
-        // Layer 8 - Cyan (Data, Intelligence)
-        layer8: {
-          50: '#ecfeff',
-          500: '#06b6d4',
-          700: '#0e7490',
-        },
-        // Semantic Colors
-        success: {
-          50: '#ecfdf5',
-          600: '#059669',
-          700: '#047857',
-        },
-        warning: {
-          50: '#fffbeb',
-          600: '#d97706',
-          700: '#b45309',
-        },
-        danger: {
-          50: '#fff1f2',
-          600: '#e11d48',
-          700: '#be123c',
-        },
-        info: {
-          50: '#f0f9ff',
-          600: '#0284c7',
-          700: '#0369a1',
         },
       },
       fontFamily: {

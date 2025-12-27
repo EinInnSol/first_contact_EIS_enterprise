@@ -1,187 +1,242 @@
 "use client";
 
-import React, { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import React from 'react';
+import { Sidebar } from '@/components/ui/Sidebar';
+import { GlassPanel } from '@/components/ui/GlassPanel';
+import { NeonButton } from '@/components/ui/NeonButton';
 import {
     Users,
     Calendar,
-    CheckCircle,
+    Search,
+    Plus,
+    MoreHorizontal,
     Clock,
-    UserPlus,
+    Sparkles,
     ArrowRight,
-    TrendingUp,
-    Filter,
-    MoreHorizontal
+    ClipboardCheck,
+    Zap
 } from 'lucide-react';
 
 export default function CaseworkerDashboard() {
-    const [activeTab, setActiveTab] = useState('list');
-    const router = useRouter();
+    const clients = [
+        { id: '1', name: 'John Doe', status: 'In Review', priority: 'High', lastAction: '2h ago', assigned: 'Housing Plan' },
+        { id: '2', name: 'James Smith', status: 'Housed', priority: 'Low', lastAction: '1d ago', assigned: 'Stabilization' },
+        { id: '3', name: 'Mary Johnson', status: 'Intake', priority: 'Medium', lastAction: '5m ago', assigned: 'ID Collection' },
+        { id: '4', name: 'Robert Wilson', status: 'Pending', priority: 'High', lastAction: '1h ago', assigned: 'Mental Health Eval' },
+        { id: '5', name: 'Patricia Brown', status: 'Active', priority: 'Medium', lastAction: '3h ago', assigned: 'Grant Application' },
+    ];
 
     return (
-        <div className="p-8 space-y-8 max-w-[1600px] mx-auto">
+        <div className="flex min-h-screen bg-start">
+            <Sidebar role="caseworker" />
 
-            {/* Welcome & Priority Section */}
-            <div className="flex justify-between items-start">
-                <div>
-                    <h1 className="text-3xl font-bold mb-2">Welcome back, Maria</h1>
-                    <p className="text-[var(--text-muted)]">You have 4 high-priority clients requiring intervention today.</p>
-                </div>
-                <button className="nexus-button nexus-button-primary flex items-center gap-2">
-                    <UserPlus size={18} />
-                    New Intake
-                </button>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-                {/* Left: AI Priority List */}
-                <div className="lg:col-span-3 space-y-6">
-
-                    {/* Tabs */}
-                    <div className="flex border-b border-[var(--border-crisp)] gap-8">
-                        {['Client List', 'Active Pathways', 'Pending Approvals'].map(tab => (
-                            <button
-                                key={tab}
-                                onClick={() => setActiveTab(tab.toLowerCase())}
-                                className={`pb-4 text-sm font-semibold transition-all relative ${activeTab === tab.toLowerCase() ? 'text-[var(--primary)]' : 'text-[var(--text-muted)]'
-                                    }`}
-                            >
-                                {tab}
-                                {activeTab === tab.toLowerCase() && (
-                                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-[var(--primary)] rounded-t-full"></div>
-                                )}
-                            </button>
-                        ))}
+            <main className="flex-1 flex flex-col h-screen overflow-hidden">
+                {/* Header */}
+                <header className="h-16 border-b border-glass-border flex items-center justify-between px-8 bg-start-900/50 backdrop-blur-sm">
+                    <div className="flex flex-col">
+                        <h1 className="text-lg font-display font-bold uppercase tracking-widest text-white">OPERATIONAL COCKPIT</h1>
+                        <span className="text-[10px] text-slate-500 font-mono">CASEWORKER ID: LB-ORCHESTRATOR-402</span>
                     </div>
 
-                    {/* Client Table / Grid */}
-                    <div className="nexus-card p-0 overflow-hidden">
-                        <div className="p-4 border-b border-[var(--border-crisp)] flex items-center justify-between bg-[var(--surface-hover)]/30">
-                            <div className="flex items-center gap-4">
-                                <div className="relative">
-                                    <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--text-muted)]" size={14} />
-                                    <input type="text" placeholder="Filter clients..." className="pl-9 pr-4 py-1.5 bg-[var(--background)] border border-[var(--border-crisp)] rounded-lg text-xs outline-none focus:border-[var(--primary)]" />
+                    <div className="flex items-center gap-4">
+                        <div className="relative group">
+                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-slate-500 group-focus-within:text-cyan transition-colors" />
+                            <input
+                                type="text"
+                                placeholder="PROBE CLIENT DATABASE..."
+                                className="bg-black/40 border border-glass-border rounded-sm pl-10 pr-4 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan w-64 transition-all"
+                            />
+                        </div>
+                        <NeonButton variant="cyan" size="sm" glow>
+                            <Plus className="w-4 h-4 mr-2" />
+                            NEW INTAKE
+                        </NeonButton>
+                    </div>
+                </header>
+
+                {/* Dashboard Grid */}
+                <div className="flex-1 overflow-y-auto p-8 custom-scrollbar">
+                    <div className="grid grid-cols-12 gap-8">
+
+                        {/* Left: Caseload Table */}
+                        <div className="col-span-12 xl:col-span-8 space-y-8">
+                            <div className="flex items-center justify-between">
+                                <div className="flex gap-4">
+                                    <div className="px-4 py-1 bg-cyan text-black font-mono font-bold text-[10px] uppercase skew-x-[-15deg]">
+                                        <span className="inline-block skew-x-[15deg]">ACTIVE CASELOAD (24)</span>
+                                    </div>
+                                    <div className="px-4 py-1 bg-white/5 border border-white/10 text-white font-mono font-bold text-[10px] uppercase skew-x-[-15deg] hover:bg-white/10 transition-all cursor-pointer">
+                                        <span className="inline-block skew-x-[15deg]">FLAGGED (3)</span>
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-2">
+                                    <Clock className="w-4 h-4 text-slate-500" />
+                                    <span className="text-[10px] text-slate-500 font-mono">LAST SCAN: JUST NOW</span>
                                 </div>
                             </div>
-                            <div className="flex gap-2">
-                                <button className="p-2 hover:bg-[var(--surface-hover)] rounded-lg border border-[var(--border-crisp)]"><TrendingUp size={16} /></button>
-                                <button className="p-2 hover:bg-[var(--surface-hover)] rounded-lg border border-[var(--border-crisp)]"><MoreHorizontal size={16} /></button>
+
+                            <GlassPanel className="p-0 border-white/5">
+                                <table className="table-neon">
+                                    <thead>
+                                        <tr>
+                                            <th>Client Name</th>
+                                            <th>Status</th>
+                                            <th>Core Focus</th>
+                                            <th>Last Sync</th>
+                                            <th className="text-right">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {clients.map((client) => (
+                                            <tr key={client.id}>
+                                                <td className="font-bold text-white">{client.name}</td>
+                                                <td>
+                                                    <span className={`badge ${client.status === 'Housed' ? 'badge-cyan' :
+                                                            client.status === 'Intake' ? 'badge-orange' : 'badge-outline'
+                                                        }`}>
+                                                        {client.status}
+                                                    </span>
+                                                </td>
+                                                <td className="text-slate-400 font-mono text-xs">{client.assigned}</td>
+                                                <td className="text-slate-500 text-xs">{client.lastAction}</td>
+                                                <td className="text-right">
+                                                    <button className="p-2 hover:bg-cyan/10 rounded-sm transition-colors text-slate-400 hover:text-cyan">
+                                                        <MoreHorizontal className="w-4 h-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </GlassPanel>
+
+                            {/* HUD / Compliance Section */}
+                            <div className="grid grid-cols-2 gap-6">
+                                <GlassPanel className="p-6 border-cyan/20">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <ClipboardCheck className="w-5 h-5 text-cyan" />
+                                        <h3 className="text-sm font-bold uppercase tracking-widest">Compliance Engine</h3>
+                                    </div>
+                                    <div className="space-y-4">
+                                        <div className="flex justify-between items-center text-xs font-mono">
+                                            <span className="text-slate-400">HUD APR Progress (Q4)</span>
+                                            <span className="text-cyan">88%</span>
+                                        </div>
+                                        <div className="w-full h-1.5 bg-white/5 rounded-full">
+                                            <div className="h-full bg-cyan shadow-[0_0_10px_#00F0FF]" style={{ width: '88%' }} />
+                                        </div>
+                                        <div className="flex gap-2 pt-2">
+                                            <NeonButton variant="outline" size="sm" fullWidth className="text-[10px]">
+                                                Audit Data Quality
+                                            </NeonButton>
+                                            <NeonButton variant="cyan" size="sm" fullWidth className="text-[10px]">
+                                                Generate HUD Report
+                                            </NeonButton>
+                                        </div>
+                                    </div>
+                                </GlassPanel>
+
+                                <GlassPanel className="p-6 border-slate-700">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <Calendar className="w-5 h-5 text-slate-400" />
+                                        <h3 className="text-sm font-bold uppercase tracking-widest text-slate-400">Upcoming Sessions</h3>
+                                    </div>
+                                    <div className="space-y-3">
+                                        {[
+                                            { time: '14:30', name: 'Identity Workshop', type: 'Bureau' },
+                                            { time: '16:00', name: 'Housing Search', type: 'Site A' },
+                                        ].map((session, i) => (
+                                            <div key={i} className="flex items-center justify-between p-2 bg-white/5 border border-white/5 rounded-sm">
+                                                <div className="flex items-center gap-3">
+                                                    <span className="text-xs font-mono text-cyan">{session.time}</span>
+                                                    <span className="text-xs text-white">{session.name}</span>
+                                                </div>
+                                                <span className="text-[10px] text-slate-500 font-mono uppercase">{session.type}</span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </GlassPanel>
                             </div>
                         </div>
 
-                        <div className="divide-y divide-[var(--border-crisp)]">
-                            {[
-                                { id: 'demo-1', name: 'Robert Thompson', status: 'In Review', urgency: 14, task: 'Finalize Care Plan', color: 'red' },
-                                { id: 'demo-2', name: 'Maria Garcia', status: 'Housed', urgency: 2, task: '30-Day Follow-up', color: 'green' },
-                                { id: 'demo-3', name: 'Jennifer Wu', status: 'Intake', urgency: 9, task: 'Verify Identity Docs', color: 'blue' },
-                                { id: 'demo-4', name: 'Marcus Miller', status: 'Pending Benefits', urgency: 12, task: 'Approve GR Application', color: 'orange' },
-                                { id: 'demo-5', name: 'James Wilson', status: 'Active Support', urgency: 5, task: 'Schedule Transport', color: 'blue' },
-                            ].sort((a, b) => b.urgency - a.urgency).map((client, i) => (
-                                <div
-                                    key={i}
-                                    className="flex items-center justify-between p-5 hover:bg-[var(--surface-hover)]/50 transition-all cursor-pointer group"
-                                    onClick={() => router.push(`/dashboard/caseworker/client/${client.id}`)}
-                                >
-                                    <div className="flex items-center gap-4">
-                                        <div className={`w-10 h-10 rounded-full bg-${client.color}-500/10 flex items-center justify-center text-${client.color}-500 font-bold border border-${client.color}-500/20`}>
-                                            {client.name.charAt(0)}
-                                        </div>
-                                        <div>
-                                            <div className="font-bold text-sm tracking-tight">{client.name}</div>
-                                            <div className="text-[10px] text-[var(--text-muted)] font-medium uppercase tracking-widest">{client.status}</div>
-                                        </div>
-                                    </div>
-
-                                    <div className="hidden md:flex flex-col items-center">
-                                        <div className="text-[10px] text-[var(--text-muted)] uppercase font-bold mb-1">Urgency Score</div>
-                                        <div className={`text-lg font-black ${client.urgency > 10 ? 'text-red-500' : 'text-[var(--text-muted)]'}`}>
-                                            {client.urgency}/15
-                                        </div>
-                                    </div>
-
-                                    <div className="hidden lg:block">
-                                        <div className="text-[10px] text-[var(--text-muted)] uppercase font-bold mb-1">Next Action</div>
-                                        <div className="flex items-center gap-2 text-xs font-semibold">
-                                            <div className="w-1.5 h-1.5 rounded-full bg-[var(--primary)]"></div>
-                                            {client.task}
-                                        </div>
-                                    </div>
-
-                                    <button className="flex items-center gap-2 text-[var(--primary)] font-bold text-xs px-4 py-2 hover:bg-[var(--primary-glow)] rounded-lg transition-all">
-                                        View Case
-                                        <ArrowRight size={14} />
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="p-4 bg-[var(--surface-hover)]/30 text-center">
-                            <button className="text-xs font-bold text-[var(--primary)] hover:underline">View All 42 Clients</button>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right Sidebar: AI Best Next Steps */}
-                <div className="space-y-8 text-sm">
-
-                    <div className="nexus-card-outlined p-0 overflow-hidden border-2">
-                        <div className="p-6 border-b border-[var(--signature-outline)] bg-[var(--signature-outline)]/5">
-                            <h3 className="font-black text-[var(--signature-outline)] uppercase tracking-tighter flex items-center gap-2 transition-all">
-                                <CheckCircle size={18} />
-                                Best Next Steps
-                            </h3>
-                            <p className="text-[10px] text-[var(--text-muted)] mt-1 font-bold uppercase tracking-widest">AI COORDINATED (90% DONE)</p>
-                        </div>
-
-                        <div className="p-6 space-y-6">
-                            {[
-                                { label: 'Confirm Appointment Swap', desc: 'Robert T. for Maria G. (2pm Today)', type: 'URGENT' },
-                                { label: 'Authorize GR Housing Plan', desc: 'Marcus M. (Approved by Rules Engine)', type: 'REQUIRES AUTH' },
-                                { label: 'Send Transport SMS', desc: 'Jennifer W. (Van arriving in 45m)', type: 'AUTO' },
-                            ].map((step, i) => (
-                                <div key={i} className="relative pl-6 border-l-2 border-[var(--border-crisp)] hover:border-[var(--primary)] transition-all py-1">
-                                    <div className="absolute -left-[5px] top-2 w-2 h-2 rounded-full bg-[var(--surface)] border-2 border-[var(--border-crisp)]"></div>
-                                    <div className="text-[10px] font-black text-[var(--primary)] tracking-widest mb-1">{step.type}</div>
-                                    <div className="font-bold leading-none mb-1 text-[var(--text-main)]">{step.label}</div>
-                                    <div className="text-xs text-[var(--text-muted)]">{step.desc}</div>
-                                    <button className="mt-3 text-[10px] font-bold text-[var(--primary)] py-1.5 px-3 bg-[var(--primary-glow)] rounded w-full hover:bg-[var(--primary)] hover:text-white transition-all">
-                                        Execute Now
-                                    </button>
-                                </div>
-                            ))}
-                        </div>
-
-                        <div className="p-4 border-t border-[var(--border-crisp)] bg-[var(--surface-hover)]/30 text-center">
-                            <span className="text-[10px] text-[var(--text-muted)] font-bold">4 MORE SUGGESTIONS</span>
-                        </div>
-                    </div>
-
-                    {/* Quick Stats */}
-                    <div className="nexus-card">
-                        <h4 className="font-bold mb-4 flex items-center gap-2">
-                            <Clock size={16} className="text-[var(--primary)]" />
-                            Efficiency Target
-                        </h4>
-                        <div className="space-y-4">
-                            <div>
-                                <div className="flex justify-between text-xs font-bold mb-1">
-                                    <span>Weekly Goal</span>
-                                    <span>78%</span>
-                                </div>
-                                <div className="h-2 bg-[var(--background)] rounded-full overflow-hidden border border-[var(--border-crisp)]">
-                                    <div className="h-full bg-[var(--primary)] w-[78%] transition-all shadow-[0_0_8px_var(--primary-glow)]"></div>
-                                </div>
+                        {/* Right: AI "Audible" Panel */}
+                        <div className="col-span-12 xl:col-span-4 space-y-6">
+                            <div className="flex items-center gap-2">
+                                <Zap className="w-4 h-4 text-cyan fill-cyan" />
+                                <h3 className="text-xs font-bold uppercase tracking-widest text-cyan">AI Orchestrator (Live Feed)</h3>
                             </div>
-                            <p className="text-[10px] text-[var(--text-muted)] leading-relaxed italic">
-                                AI has handled **12.5 hrs** of coord work for you this week. Keep focused on the 10% high-value interventions.
-                            </p>
+
+                            <div className="space-y-4">
+                                <GlassPanel className="border-cyan/40 shadow-[0_0_20px_rgba(0,240,255,0.05)]">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-8 h-8 rounded-sm bg-cyan/20 border border-cyan flex items-center justify-center shrink-0">
+                                            <Sparkles className="w-4 h-4 text-cyan animate-pulse" />
+                                        </div>
+                                        <div className="space-y-3">
+                                            <div className="text-[10px] font-bold text-cyan uppercase tracking-widest">Recommended Audible</div>
+                                            <p className="text-xs text-slate-300 leading-relaxed font-mono">
+                                                "Client <span className="text-white">John Doe</span> missed transport to DMV. Reassigning 14:00 slot to <span className="text-white">Robert Wilson</span> for ID collection. Optimizing path..."
+                                            </p>
+                                            <div className="flex gap-2">
+                                                <NeonButton variant="cyan" size="sm" className="h-8 text-[10px]" glow>
+                                                    APPROVE & NOTIFY
+                                                </NeonButton>
+                                                <NeonButton variant="outline" size="sm" className="h-8 text-[10px]">
+                                                    DISMISS
+                                                </NeonButton>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </GlassPanel>
+
+                                <GlassPanel className="border-orange/30">
+                                    <div className="flex items-start gap-4">
+                                        <div className="w-8 h-8 rounded-sm bg-orange/20 border border-orange flex items-center justify-center shrink-0">
+                                            <Zap className="w-4 h-4 text-orange" />
+                                        </div>
+                                        <div className="space-y-3">
+                                            <div className="text-[10px] font-bold text-orange uppercase tracking-widest">Efficiency Insight</div>
+                                            <p className="text-xs text-slate-300 leading-relaxed font-mono">
+                                                "Your average 'Time to Document' for Sector LB is 4 days above target. AI has drafted 5 missing SSA-1099 requests automatically."
+                                            </p>
+                                            <button className="flex items-center gap-2 text-[10px] font-bold text-white hover:text-cyan transition-colors uppercase tracking-widest">
+                                                Review drafted requests
+                                                <ArrowRight className="w-3 h-3" />
+                                            </button>
+                                        </div>
+                                    </div>
+                                </GlassPanel>
+
+                                {/* Automation Log */}
+                                <GlassPanel className="p-4 bg-start-900 shadow-inner">
+                                    <div className="text-[9px] font-bold text-slate-600 mb-3 uppercase tracking-[0.2em]">Automated Intelligence Log</div>
+                                    <div className="space-y-2 font-mono text-[9px]">
+                                        <div className="flex gap-2">
+                                            <span className="text-cyan">[11:42]</span>
+                                            <span className="text-slate-400">Syncing HMIS data for Org 402... </span>
+                                            <span className="text-cyan">OK</span>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <span className="text-cyan">[11:40]</span>
+                                            <span className="text-slate-400">Verifying SSN for Client Wilson... </span>
+                                            <span className="text-orange">FLAGGED</span>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <span className="text-cyan">[11:38]</span>
+                                            <span className="text-slate-400">Optimizing tomorrow's route for Team A... </span>
+                                        </div>
+                                        <div className="flex gap-2">
+                                            <span className="text-cyan">[11:35]</span>
+                                            <span className="text-slate-400">Scanning geofence: Sector LB-4... </span>
+                                        </div>
+                                    </div>
+                                </GlassPanel>
+                            </div>
                         </div>
+
                     </div>
-
                 </div>
-
-            </div>
+            </main>
         </div>
     );
 }

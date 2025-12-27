@@ -24,21 +24,24 @@ class AIStrategicAdvisor:
     Uses Claude 4.5 with database context injection for accurate, data-driven insights.
     """
 
-    def __init__(self, anthropic_api_key: Optional[str] = None):
-        """Initialize with Anthropic API key."""
-        self.api_key = anthropic_api_key
-        self.use_ai = bool(anthropic_api_key)
-
-        if self.use_ai:
-            try:
-                from anthropic import Anthropic
-                self.client = Anthropic(api_key=anthropic_api_key)
-                logger.info("AI Strategic Advisor initialized with Claude API")
-            except ImportError:
-                logger.warning("Anthropic library not installed, using rule-based responses")
-                self.use_ai = False
-        else:
-            logger.info("No API key provided, using rule-based advisor")
+    def __init__(self):
+        """Initialize with Vertex AI."""
+        try:
+            from anthropic import AnthropicVertex
+            import os
+            self.client = AnthropicVertex(
+                region=os.getenv("GCP_REGION", "us-east5"),
+                project_id=os.getenv("GCP_PROJECT_ID", "einharjer-valhalla")
+            )
+            self.model = "claude-3-5-sonnet@20240620"
+            self.use_ai = True
+            logger.info("AI Strategic Advisor initialized with Vertex AI (Claude 3.5 Sonnet)")
+        except ImportError:
+            logger.warning("Anthropic library not installed, using rule-based responses")
+            self.use_ai = False
+        except Exception as e:
+            logger.error(f"Failed to initialize Vertex AI: {e}")
+            self.use_ai = False
 
     async def get_strategic_insight(
         self,
@@ -214,12 +217,10 @@ Format your response as JSON:
   "confidence_score": 85
 }}"""
 
-        # Call Claude API
+        # Call Claude API (Vertex)
         message = self.client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=self.model,
             max_tokens=2500,
-            temperature=0.3,  # Lower temp for more factual responses
-            system=system_prompt,
             messages=[
                 {"role": "user", "content": user_prompt}
             ]

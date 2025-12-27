@@ -96,8 +96,8 @@ async def ask_strategic_question(
             detail="Question must be at least 5 characters"
         )
 
-    # Initialize AI advisor
-    advisor = AIStrategicAdvisor(anthropic_api_key=settings.ANTHROPIC_API_KEY)
+    # Initialize AI advisor (GCP Vertex Native)
+    advisor = AIStrategicAdvisor()
 
     # Generate insight with database context
     result = await advisor.get_strategic_insight(
@@ -191,7 +191,7 @@ async def get_context_summary(
 
     This helps city administrators understand what data informs AI responses.
     """
-    advisor = AIStrategicAdvisor(anthropic_api_key=settings.ANTHROPIC_API_KEY)
+    advisor = AIStrategicAdvisor()
     context = await advisor._fetch_context(user.organization_id, db)
 
     return {

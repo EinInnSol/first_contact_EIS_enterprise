@@ -260,44 +260,39 @@ Phase 4: SCALE
 │                                                                 │
 │  BLOCKCHAIN INTEGRATION:                                        │
 │  ├── Outcome data written to immutable ledger                  │
-│  ├── Smart contracts govern funding allocation                 │
-│  ├── Automatic payment based on verified outcomes              │
-│  └── Real-time contract adjustment                             │
+│  ├── "Smart Advisory" contracts                                │
+│  ├── Verified proof of performance                             │
+│  └── Real-time auditing capability                             │
 │                                                                 │
-│  SMART CONTRACT LOGIC:                                          │
+│  IMMUTABLE VERIFICATION LOGIC:                                  │
 │                                                                 │
 │  ┌─────────────────────────────────────────────────────────┐   │
-│  │ // Simplified Funding Contract                          │   │
+│  │ // Verified Outcome Ledger                              │   │
 │  │                                                          │   │
-│  │ contract VendorFunding {                                 │   │
+│  │ contract ServiceVerification {                           │   │
 │  │                                                          │   │
-│  │   function evaluatePerformance(vendorId) {              │   │
-│  │     outcomes = getVerifiedOutcomes(vendorId);           │   │
+│  │   function verifyOutcome(vendorId, clientId) {          │   │
+│  │     // System verifies, not humans                       │   │
+│  │     bool isHoused = checkHousingStatus(clientId);       │   │
+│  │     bool isRetained = checkRetention(clientId);         │   │
 │  │                                                          │   │
-│  │     if (outcomes.retention6mo >= 0.80) {                │   │
-│  │       release(fullPayment);                              │   │
-│  │       increaseAllocation(5%);                            │   │
-│  │     }                                                    │   │
-│  │     else if (outcomes.retention6mo >= 0.60) {           │   │
-│  │       release(payment * 0.85);                           │   │
-│  │       triggerReview();                                   │   │
-│  │     }                                                    │   │
-│  │     else {                                               │   │
-│  │       release(payment * 0.70);                           │   │
-│  │       decreaseAllocation(10%);                           │   │
-│  │       triggerIntervention();                             │   │
+│  │     if (isHoused && isRetained) {                       │   │
+│  │       // Write to permanent record                       │   │
+│  │       emit VerifiedSuccess(vendorId, "HOUSED_6MO");      │   │
+│  │       // Suggest payment release to Human Admin          │   │
+│  │       recommendPaymentRelease(vendorId);                 │   │
 │  │     }                                                    │   │
 │  │   }                                                      │   │
 │  │ }                                                        │   │
 │  └─────────────────────────────────────────────────────────┘   │
 │                                                                 │
 │  WHAT THIS MEANS:                                               │
-│  ├── No more annual reviews - continuous evaluation            │
-│  ├── No more self-reported metrics - verified outcomes         │
-│  ├── No more political contract awards - data-driven           │
-│  └── Money flows to what works, automatically                  │
+│  ├── We don't touch the money (Cities still pay)               │
+│  ├── We provide the INDISPUTABLE PROOF required to pay         │
+│  ├── No more "we trust you" - now "we verified you"            │
+│  └── Platform remains an Intelligence & Coordination layer     │
 │                                                                 │
-│  GOAL: Accountability becomes automatic and immutable.         │
+│  GOAL: Accountability becomes automatic. Payment remains human.│
 └─────────────────────────────────────────────────────────────────┘
 ```
 
@@ -462,11 +457,12 @@ LAYER 5: PROVIDER NETWORK
 ├── Referral management
 └── Waitlist monitoring
 
-LAYER 6: COMPLIANCE & REPORTING
-├── Automated HUD APR
-├── HMIS data export
-├── Grant reporting
-└── Audit trail
+LAYER 6: COMPLIANCE & REPORTING (The "Paperwork Killer")
+├── Automated HMIS Data Entry
+├── HUD APR Generation (One-click)
+├── CES (Coordinated Entry System) Compliance
+├── Grant Reporting Automation
+└── Audit Trail
 
 LAYER 7: CLIENT COMMUNICATION
 ├── SMS notifications
@@ -481,10 +477,10 @@ LAYER 7: CLIENT COMMUNICATION
 
 LAYER 8: ACCOUNTABILITY ENGINE (City Admin Only)
 ├── Vendor performance comparison
-├── Cost-per-outcome analysis
-├── Predictive analytics
+├── Cost-per-outcome analysis (ADVISORY ONLY)
+├── Predictive Analytics (Housing Demand, Capacity Forecasting)
 ├── Geographic intelligence
-├── Strategic recommendations
+├── Strategic Advisory (Financial & Operational Suggestions)
 ├── Contract optimization
 └── Automated alerts
 ```

@@ -38,6 +38,69 @@ class ComplianceAgent:
             "anomalies": anomalies
         }
 
+    async def generate_hud_apr(self, organization_id: int, start_date: datetime, end_date: datetime, db: Any) -> Dict[str, Any]:
+        """
+        Generates a HUD Annual Performance Report (APR) for the given period.
+        """
+        logger.info(f"Generating HUD APR for Org {organization_id} ({start_date} to {end_date})")
+        
+        # 1. Fetch Clients served in period
+        from sqlalchemy import select, and_, or_
+        from app.models.client import Client
+        
+        # Determine strict date range
+        stmt = select(Client).where(
+            and_(
+                Client.organization_id == organization_id,
+                or_(
+                    Client.intake_date.between(start_date, end_date),
+                    Client.exit_date.between(start_date, end_date),
+                    and_(Client.intake_date <= end_date, Client.exit_date == None)
+                )
+            )
+        )
+        result = await db.execute(stmt)
+        clients = result.scalars().all()
+        
+        total_clients = len(clients)
+        adults = len([c for c in clients if self._calculate_age(c.date_of_birth) >= 18])
+        children = total_clients - adults
+        
+        # 2. Q5: Validation
+        # Check for missing data (Q5a in APR)
+        missing_ssn = len([c for c in clients if not c.ssn or len(c.ssn) < 4])
+        missing_dob = len([c for c in clients if not c.date_of_birth])
+        
+        # 3. Construct CSV-like response (simulated for JSON)
+        apr_packet = {
+            "report_id": f"APR-{organization_id}-{datetime.now().strftime('%Y%m%d')}",
+            "period": {"start": start_date.isoformat(), "end": end_date.isoformat()},
+            "q5_data_quality": {
+                "total_clients": total_clients,
+                "missing_ssn_count": missing_ssn,
+                "missing_ssn_rate": f"{(missing_ssn/total_clients*100):.1f}%" if total_clients else "0%",
+                "missing_dob_count": missing_dob
+            },
+            "q7_demographics": {
+                "adults": adults,
+                "children": children,
+                "veterans": len([c for c in clients if getattr(c, 'veteran_status', False)])
+            },
+            "q23_exit_destinations": {
+                "permanent_housing": len([c for c in clients if c.status == 'housed']),
+                "temporary": len([c for c in clients if c.status == 'intake']),
+                "unknown": len([c for c in clients if c.status == 'disengaged'])
+            },
+            "compliance_status": "PASS" if (missing_ssn / total_clients if total_clients else 0) < 0.05 else "WARNING"
+        }
+        
+        return apr_packet
+
+    def _calculate_age(self, born) -> int:
+        if not born: return 0
+        today = datetime.today()
+        return today.year - born.year - ((today.month, today.day) < (born.month, born.day))
+
     async def _audit_data_quality(self, organization_id: str) -> List[str]:
         # Simulated check
         return ["3 clients missing SSN/DHS verification status"]
