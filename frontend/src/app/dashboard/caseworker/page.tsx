@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import {
     Users,
     Calendar,
@@ -15,6 +16,7 @@ import {
 
 export default function CaseworkerDashboard() {
     const [activeTab, setActiveTab] = useState('list');
+    const router = useRouter();
 
     return (
         <div className="p-8 space-y-8 max-w-[1600px] mx-auto">
@@ -70,13 +72,17 @@ export default function CaseworkerDashboard() {
 
                         <div className="divide-y divide-[var(--border-crisp)]">
                             {[
-                                { name: 'Robert Thompson', status: 'In Review', urgency: 14, task: 'Finalize Care Plan', color: 'red' },
-                                { name: 'Maria Garcia', status: 'Housed', urgency: 2, task: '30-Day Follow-up', color: 'green' },
-                                { name: 'Jennifer Wu', status: 'Intake', urgency: 9, task: 'Verify Identity Docs', color: 'blue' },
-                                { name: 'Marcus Miller', status: 'Pending Benefits', urgency: 12, task: 'Approve GR Application', color: 'orange' },
-                                { name: 'James Wilson', status: 'Active Support', urgency: 5, task: 'Schedule Transport', color: 'blue' },
+                                { id: 'demo-1', name: 'Robert Thompson', status: 'In Review', urgency: 14, task: 'Finalize Care Plan', color: 'red' },
+                                { id: 'demo-2', name: 'Maria Garcia', status: 'Housed', urgency: 2, task: '30-Day Follow-up', color: 'green' },
+                                { id: 'demo-3', name: 'Jennifer Wu', status: 'Intake', urgency: 9, task: 'Verify Identity Docs', color: 'blue' },
+                                { id: 'demo-4', name: 'Marcus Miller', status: 'Pending Benefits', urgency: 12, task: 'Approve GR Application', color: 'orange' },
+                                { id: 'demo-5', name: 'James Wilson', status: 'Active Support', urgency: 5, task: 'Schedule Transport', color: 'blue' },
                             ].sort((a, b) => b.urgency - a.urgency).map((client, i) => (
-                                <div key={i} className="flex items-center justify-between p-5 hover:bg-[var(--surface-hover)]/50 transition-all cursor-pointer group">
+                                <div
+                                    key={i}
+                                    className="flex items-center justify-between p-5 hover:bg-[var(--surface-hover)]/50 transition-all cursor-pointer group"
+                                    onClick={() => router.push(`/dashboard/caseworker/client/${client.id}`)}
+                                >
                                     <div className="flex items-center gap-4">
                                         <div className={`w-10 h-10 rounded-full bg-${client.color}-500/10 flex items-center justify-center text-${client.color}-500 font-bold border border-${client.color}-500/20`}>
                                             {client.name.charAt(0)}

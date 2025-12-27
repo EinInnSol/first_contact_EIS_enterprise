@@ -16,6 +16,7 @@ from contextlib import asynccontextmanager
 
 from app.config import settings
 from app.database import engine, Base, init_db
+from sqlalchemy import text
 
 # Import all models to register them with SQLAlchemy
 from app.models import (
@@ -24,7 +25,7 @@ from app.models import (
 )
 
 from app.middleware import OrganizationMiddleware
-from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps
+from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor
 
 
 @asynccontextmanager
@@ -165,6 +166,12 @@ app.include_router(
     tags=["Layer 8 - Map Data (City Admin Only)"]
 )
 
+app.include_router(
+    ai_advisor.router,
+    prefix="/api/v1",
+    tags=["Layer 8 - AI Strategic Advisor (City Admin Only)"]
+)
+
 
 
 # ============================================
@@ -210,11 +217,36 @@ async def root():
     }
 
 
+# Rate limiting
+from slowapi import Limiter, _rate_limit_exceeded_handler
+from slowapi.util import get_remote_address
+from slowapi.errors import RateLimitExceeded
+
+limiter = Limiter(key_func=get_remote_address)
+app.state.limiter = limiter
+app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
+
+
 @app.get("/health")
 async def health_check():
-    """Health check endpoint for Cloud Run and monitoring."""
-    return {
-        "status": "healthy",
-        "service": "first-contact-eis",
-        "version": "0.1.0"
-    }
+    """
+    Health check endpoint for Cloud Run and monitoring.
+    Performs a real database connectivity check.
+    """
+    try:
+        # Actually check DB connection
+        async with engine.connect() as conn:
+            await conn.execute(text("SELECT 1"))
+            
+        return {
+            "status": "healthy",
+            "service": "first-contact-eis",
+            "version": "0.1.0",
+            "database": "connected"
+        }
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "service": "first-contact-eis",
+            "error": str(e)
+        }

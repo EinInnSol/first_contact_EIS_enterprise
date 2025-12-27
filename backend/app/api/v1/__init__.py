@@ -10,6 +10,6 @@ Structure:
 - analytics: Layer 8 - City admin only (THE TROJAN HORSE)
 """
 
-from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics
+from app.api.v1 import auth, intake, clients, benefits, orchestrator, analytics, maps, ai_advisor
 
-__all__ = ["auth", "intake", "clients", "benefits", "orchestrator", "analytics"]
+__all__ = ["auth", "intake", "clients", "benefits", "orchestrator", "analytics", "maps", "ai_advisor"]

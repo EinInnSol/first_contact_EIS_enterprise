@@ -24,6 +24,11 @@ from app.models.vendor import Vendor
 from app.services.orchestration_engine import OrchestrationEngine
 
 
+from slowapi import Limiter
+from slowapi.util import get_remote_address
+
+limiter = Limiter(key_func=get_remote_address)
+
 router = APIRouter(prefix="/intake", tags=["QR Intake (Public)"])
 
 
@@ -56,10 +61,11 @@ def generate_case_number(org_slug: str) -> str:
 
 
 @router.post("/qr/{qr_location_id}", response_model=IntakeResponse)
+@limiter.limit("5/hour")  # 5 intakes per IP per hour
 async def qr_intake(
+    request: Request,
     qr_location_id: str,
     intake: IntakeRequest,
-    request: Request,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -176,6 +182,7 @@ async def qr_intake(
 
 
 @router.post("/qr/{qr_location_id}/scan")
+@limiter.limit("20/minute") # High volume for scans is okay
 async def record_scan(
     qr_location_id: str,
     request: Request,

@@ -15,17 +15,20 @@ from app.models.client import Client
 
 class AIRecommendationsService:
     """
-    Generates strategic recommendations using Claude Haiku 4.5.
+    Generates strategic recommendations using Vertex AI Claude Haiku.
     
-    This is the "Calling Audibles" feature - AI suggests policy
-    and contract changes based on Layer 8 data.
+    GCP-Native: Uses Vertex AI SDK with IAM authentication.
+    No API keys required - uses Application Default Credentials.
     """
     
     def __init__(self):
-        self.client = anthropic.Anthropic(
-            api_key=os.getenv("ANTHROPIC_API_KEY")
+        # GCP-native Vertex AI client
+        # Requires 'aiplatform.user' role on the service account
+        self.client = anthropic.AnthropicVertex(
+            region=os.getenv("GCP_REGION", "us-east5"),
+            project_id=os.getenv("GCP_PROJECT_ID", "einharjer-valhalla")
         )
-        self.model = "claude-haiku-4-20250514"
+        self.model = "claude-3-5-haiku@20240620"  # Vertex AI model name
     
     async def generate_vendor_insights(
         self,

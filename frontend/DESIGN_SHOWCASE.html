@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>First Contact E.I.S. - Design System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --indigo-50: #eef2ff;
+            --indigo-600: #4f46e5;
+            --indigo-700: #4338ca;
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-200: #e2e8f0;
+            --slate-300: #cbd5e1;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+            --slate-950: #020617;
+            --layer8-50: #ecfeff;
+            --layer8-500: #06b6d4;
+            --layer8-700: #0e7490;
+            --success-50: #ecfdf5;
+            --success-600: #059669;
+            --success-700: #047857;
+            --warning-50: #fffbeb;
+            --warning-600: #d97706;
+            --warning-700: #b45309;
+            --danger-50: #fff1f2;
+            --danger-600: #e11d48;
+            --danger-700: #be123c;
+            --font-display: 'Inter Tight', -apple-system, sans-serif;
+            --font-body: 'Inter', -apple-system, sans-serif;
+            --font-mono: 'JetBrains Mono', monospace;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--slate-50);
+            color: var(--slate-900);
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 3rem 2rem;
+        }
+
+        .header {
+            border-bottom: 1px solid var(--slate-200);
+            padding-bottom: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .header h1 {
+            font-family: var(--font-display);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            margin-bottom: 0.5rem;
+        }
+
+        .header p {
+            color: var(--slate-600);
+            font-size: 1rem;
+        }
+
+        .section {
+            margin-bottom: 4rem;
+        }
+
+        .section-title {
+            font-family: var(--font-display);
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--slate-900);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 2px solid var(--slate-200);
+        }
+
+        .grid {
+            display: grid;
+            gap: 1.5rem;
+        }
+
+        .grid-2 { grid-template-columns: repeat(2, 1fr); }
+        .grid-3 { grid-template-columns: repeat(3, 1fr); }
+
+        .card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+            transition: all 200ms ease;
+        }
+
+        .card:hover {
+            border-color: var(--slate-300);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.625rem 1.25rem;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 0.875rem;
+            border: none;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .btn-primary {
+            background: var(--indigo-600);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background: var(--indigo-700);
+            transform: translateY(-1px);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: var(--slate-700);
+            border: 1px solid var(--slate-300);
+        }
+
+        .btn-secondary:hover {
+            background: var(--slate-50);
+            border-color: var(--slate-500);
+        }
+
+        .btn-danger {
+            background: var(--danger-600);
+            color: white;
+        }
+
+        .btn-danger:hover {
+            background: var(--danger-700);
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            padding: 0.25rem 0.75rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            border-radius: 9999px;
+            letter-spacing: 0.025em;
+        }
+
+        .badge-success { background: var(--success-50); color: var(--success-700); }
+        .badge-warning { background: var(--warning-50); color: var(--warning-700); }
+        .badge-danger { background: var(--danger-50); color: var(--danger-700); }
+        .badge-layer8 { background: var(--layer8-50); color: var(--layer8-700); border: 1px solid var(--layer8-500); }
+
+        .metric-card {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.5rem;
+        }
+
+        .metric-value {
+            font-family: var(--font-mono);
+            font-size: 2.25rem;
+            font-weight: 700;
+            color: var(--slate-900);
+            line-height: 1;
+        }
+
+        .metric-change {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            margin-top: 0.75rem;
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .metric-change.positive { color: var(--success-600); }
+        .metric-change.negative { color: var(--danger-600); }
+
+        .table-container {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: var(--slate-50);
+            border-bottom: 2px solid var(--slate-200);
+        }
+
+        th {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-600);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--slate-100);
+            font-size: 0.875rem;
+            color: var(--slate-900);
+        }
+
+        tbody tr:hover {
+            background: var(--slate-50);
+        }
+
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 1rem;
+        }
+
+        .color-swatch {
+            text-align: center;
+        }
+
+        .color-box {
+            height: 80px;
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+            border: 1px solid rgba(0,0,0,0.1);
+        }
+
+        .color-name {
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--slate-900);
+        }
+
+        .color-code {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--slate-500);
+        }
+
+        .layout-demo {
+            background: white;
+            border: 1px solid var(--slate-200);
+            border-radius: 12px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 240px 1fr;
+            gap: 2rem;
+            min-height: 400px;
+        }
+
+        .sidebar {
+            background: var(--slate-900);
+            border-radius: 8px;
+            padding: 1.5rem;
+            color: white;
+        }
+
+        .sidebar h3 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: var(--slate-400);
+            margin-bottom: 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.625rem 1rem;
+            border-radius: 6px;
+            font-size: 0.875rem;
+            font-weight: 500;
+            margin-bottom: 0.25rem;
+            cursor: pointer;
+            transition: all 150ms ease;
+        }
+
+        .nav-item.active {
+            background: var(--indigo-600);
+            color: white;
+        }
+
+        .nav-item:not(.active) {
+            color: var(--slate-400);
+        }
+
+        .nav-item:not(.active):hover {
+            background: var(--slate-800);
+            color: var(--slate-200);
+        }
+
+        .nav-icon {
+            width: 18px;
+            height: 18px;
+            fill: none;
+            stroke: currentColor;
+            stroke-width: 2;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+        }
+
+        .main-content {
+            background: var(--slate-50);
+            border-radius: 8px;
+            padding: 2rem;
+        }
+
+        .arrow-up {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-bottom: 6px solid currentColor;
+            margin-right: 4px;
+        }
+
+        .arrow-down {
+            display: inline-block;
+            width: 0;
+            height: 0;
+            border-left: 4px solid transparent;
+            border-right: 4px solid transparent;
+            border-top: 6px solid currentColor;
+            margin-right: 4px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>First Contact E.I.S. Design System</h1>
+            <p>Enterprise-grade visual language for government infrastructure</p>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Color Palette</h2>
+            
+            <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--slate-700);">Primary - Indigo</h3>
+            <div class="color-grid" style="margin-bottom: 2rem;">
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #eef2ff;"></div>
+                    <div class="color-name">Indigo 50</div>
+                    <div class="color-code">#eef2ff</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #4f46e5;"></div>
+                    <div class="color-name">Indigo 600</div>
+                    <div class="color-code">#4f46e5</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #4338ca;"></div>
+                    <div class="color-name">Indigo 700</div>
+                    <div class="color-code">#4338ca</div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--slate-700);">Neutrals - Slate</h3>
+            <div class="color-grid" style="margin-bottom: 2rem;">
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #f8fafc;"></div>
+                    <div class="color-name">Slate 50</div>
+                    <div class="color-code">#f8fafc</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #cbd5e1;"></div>
+                    <div class="color-name">Slate 300</div>
+                    <div class="color-code">#cbd5e1</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #64748b;"></div>
+                    <div class="color-name">Slate 500</div>
+                    <div class="color-code">#64748b</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #334155;"></div>
+                    <div class="color-name">Slate 700</div>
+                    <div class="color-code">#334155</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #0f172a;"></div>
+                    <div class="color-name">Slate 900</div>
+                    <div class="color-code">#0f172a</div>
+                </div>
+            </div>
+
+            <h3 style="font-size: 1rem; font-weight: 600; margin-bottom: 1rem; color: var(--slate-700);">Layer 8 - Cyan</h3>
+            <div class="color-grid">
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #ecfeff;"></div>
+                    <div class="color-name">Cyan 50</div>
+                    <div class="color-code">#ecfeff</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #06b6d4;"></div>
+                    <div class="color-name">Cyan 500</div>
+                    <div class="color-code">#06b6d4</div>
+                </div>
+                <div class="color-swatch">
+                    <div class="color-box" style="background: #0e7490;"></div>
+                    <div class="color-name">Cyan 700</div>
+                    <div class="color-code">#0e7490</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Typography</h2>
+            <div class="grid grid-2">
+                <div class="card">
+                    <div style="font-family: var(--font-display); font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem;">Inter Tight</div>
+                    <p style="color: var(--slate-600); font-size: 0.875rem;">Display font for headings and titles</p>
+                </div>
+                <div class="card">
+                    <div style="font-family: var(--font-body); font-size: 2rem; font-weight: 400; margin-bottom: 0.5rem;">Inter</div>
+                    <p style="color: var(--slate-600); font-size: 0.875rem;">Body font for interface and content</p>
+                </div>
+                <div class="card" style="grid-column: span 2;">
+                    <div style="font-family: var(--font-mono); font-size: 1.5rem; font-weight: 600; margin-bottom: 0.5rem;">JetBrains Mono</div>
+                    <p style="color: var(--slate-600); font-size: 0.875rem;">Monospace for data, metrics, and code</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Buttons</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <button class="btn btn-primary">Primary Action</button>
+                <button class="btn btn-secondary">Secondary Action</button>
+                <button class="btn btn-danger">Destructive Action</button>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Badges</h2>
+            <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <span class="badge badge-success">Success</span>
+                <span class="badge badge-warning">Warning</span>
+                <span class="badge badge-danger">Danger</span>
+                <span class="badge badge-layer8">Layer 8 Access</span>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Metric Cards</h2>
+            <div class="grid grid-3">
+                <div class="metric-card">
+                    <div class="metric-label">Active Clients</div>
+                    <div class="metric-value">2,847</div>
+                    <div class="metric-change positive">
+                        <span class="arrow-up"></span>
+                        +12.3% from last month
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Housing Rate</div>
+                    <div class="metric-value">68.5%</div>
+                    <div class="metric-change positive">
+                        <span class="arrow-up"></span>
+                        +5.2% from last quarter
+                    </div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-label">Cost Per Outcome</div>
+                    <div class="metric-value">$28K</div>
+                    <div class="metric-change negative">
+                        <span class="arrow-down"></span>
+                        +8.1% from target
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Data Tables</h2>
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Vendor</th>
+                            <th style="text-align: right;">Clients</th>
+                            <th style="text-align: right;">Housing Rate</th>
+                            <th style="text-align: right;">Cost/Outcome</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span style="font-family: var(--font-mono); font-weight: 700;">#1</span></td>
+                            <td style="font-weight: 500;">PATH</td>
+                            <td style="text-align: right; font-family: var(--font-mono);">147</td>
+                            <td style="text-align: right;"><span class="badge badge-success">73%</span></td>
+                            <td style="text-align: right; font-family: var(--font-mono); color: var(--success-600); font-weight: 600;">$21K</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-family: var(--font-mono); font-weight: 700;">#2</span></td>
+                            <td style="font-weight: 500;">Long Beach Rescue Mission</td>
+                            <td style="text-align: right; font-family: var(--font-mono);">92</td>
+                            <td style="text-align: right;"><span class="badge badge-warning">61%</span></td>
+                            <td style="text-align: right; font-family: var(--font-mono); color: var(--warning-600); font-weight: 600;">$28K</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-family: var(--font-mono); font-weight: 700;">#3</span></td>
+                            <td style="font-weight: 500;">MHALA</td>
+                            <td style="text-align: right; font-family: var(--font-mono);">89</td>
+                            <td style="text-align: right;"><span class="badge badge-danger">24%</span></td>
+                            <td style="text-align: right; font-family: var(--font-mono); color: var(--danger-600); font-weight: 600;">$78K</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2 class="section-title">Dashboard Layout</h2>
+            <div class="layout-demo">
+                <div class="sidebar">
+                    <h3>Navigation</h3>
+                    <div class="nav-item active">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+                        Dashboard
+                    </div>
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                        Clients
+                    </div>
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                        Analytics
+                    </div>
+                    <div class="nav-item">
+                        <svg class="nav-icon" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+                        Settings
+                    </div>
+                </div>
+                <div class="main-content">
+                    <h3 style="font-size: 1.25rem; font-weight: 600; margin-bottom: 1rem;">Main Content Area</h3>
+                    <p style="color: var(--slate-600);">This demonstrates the dashboard layout with sidebar navigation and main content area. Clean, professional, and purpose-built for government infrastructure.</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</body>
+</html>

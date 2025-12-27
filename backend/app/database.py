@@ -55,10 +55,13 @@ try:
     engine = create_async_engine(
         database_url,
         echo=settings.DEBUG,
-        pool_pre_ping=True,
-        # Pool settings differ for SQLite vs PostgreSQL
-        pool_size=5 if "sqlite" not in database_url else 1,
-        max_overflow=10 if "sqlite" not in database_url else 0,
+
+        # GCP Cloud SQL optimized connection pooling
+        pool_pre_ping=True,        # Verify connections before use
+        pool_size=20 if "sqlite" not in database_url else 1,      # Core pool size
+        max_overflow=10 if "sqlite" not in database_url else 0,   # Additional connections when needed
+        pool_recycle=3600,         # Recycle connections after 1 hour
+        pool_timeout=30,           # Wait 30s for connection from pool
     )
 except Exception as e:
     safe_print(f"[DB] Database connection error: {e}")
@@ -86,15 +89,18 @@ class Base(DeclarativeBase):
 async def set_tenant_context(session: AsyncSession, organization_id: int) -> None:
     """
     Set PostgreSQL RLS context for current session.
-    
+
     CRITICAL: This MUST be called for every authenticated request.
     This sets the app.organization_id session variable that RLS policies use.
-    
+
+    SECURITY: Uses parameterized query to prevent SQL injection.
     Note: For SQLite (testing), this is a no-op since SQLite doesn't support RLS.
     """
     try:
+        # FIXED: Use parameterized query to prevent SQL injection
         await session.execute(
-            text(f"SET app.organization_id = '{organization_id}'")
+            text("SET LOCAL app.organization_id = :org_id"),
+            {"org_id": organization_id}
         )
     except Exception:
         # SQLite doesn't support SET - that's okay for testing

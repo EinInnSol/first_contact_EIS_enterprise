@@ -80,7 +80,18 @@ class Settings(BaseSettings):
     # API Configuration
     API_V1_PREFIX: str = "/api/v1"
     DEBUG: bool = os.getenv("DEBUG", "True").lower() == "true"
-    CORS_ORIGINS: List[str] = ["*"]
+    
+    @property
+    def cors_origins(self) -> List[str]:
+        """Return appropriate CORS origins based on environment."""
+        if self.is_production:
+            return [
+                # Add your production frontend domains here
+                "https://nexus-dashboard.web.app", 
+                "https://first-contact-eis.web.app"
+            ]
+        # Allow all in development for ease of use
+        return ["*"]
 
     class Config:
         env_file = ".env"

@@ -1,0 +1,48 @@
+# This file tells gcloud which files to ignore during deployment
+# Reduces build time and container size
+
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+dist/
+build/
+venv/
+env/
+.venv
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Documentation
+*.md
+docs/
+
+# SQLite (don't deploy test database)
+*.db
+*.sqlite
+*.sqlite3
+
+# Seed scripts (deploy separately as Cloud Run job)
+seed_*.py

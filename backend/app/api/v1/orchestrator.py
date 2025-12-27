@@ -85,23 +85,15 @@ class RejectRequest(BaseModel):
 # ============================================
 
 # ============================================
-# REAL AI RECOMMENDATIONS GENERATOR (ANTHROPIC API - CLAUDE HAIKU)
+# REAL AI RECOMMENDATIONS GENERATOR (ANTHROPIC VERTEX AI - CLAUDE HAIKU)
 # ============================================
-from anthropic import Anthropic
+from anthropic import AnthropicVertex
 import json
 import os
 
-# Initialize Anthropic client (uses ANTHROPIC_API_KEY from .env)
-def get_claude_client():
-    """Initialize Claude client with Anthropic API."""
-    api_key = os.getenv("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise ValueError("ANTHROPIC_API_KEY not found in environment variables")
-    return Anthropic(api_key=api_key)
-
 async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Recommendation]:
     """
-    Generate REAL AI recommendations using Claude Haiku 4.5 via Anthropic API.
+    Generate REAL AI recommendations using Claude Haiku 3.5 via Vertex AI.
     
     The AI analyzes:
     1. The user's role and context
@@ -111,7 +103,11 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
     And returns structured JSON recommendations.
     """
     try:
-        client = get_claude_client()
+        # Initialize Vertex AI Client (IAM Auth)
+        client = AnthropicVertex(
+            region=os.getenv("GCP_REGION", "us-east5"),
+            project_id=os.getenv("GCP_PROJECT_ID", "einharjer-valhalla")
+        )
         
         # 1. Build Context from DB
         
@@ -153,7 +149,7 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
         """
         
         message = client.messages.create(
-            model="claude-3-5-haiku-20241022",  # Claude Haiku 4.5
+            model="claude-3-5-haiku@20240620",  # Vertex AI Model
             max_tokens=4096,
             messages=[
                 {
@@ -164,7 +160,7 @@ async def generate_ai_recommendations(user: User, db: AsyncSession) -> List[Reco
         )
         
         response_text = message.content[0].text
-        print(f"DEBUG CLAUDE HAIKU RESPONSE: {response_text[:100]}...")
+        print(f"DEBUG CLAUDE VERTEX RESPONSE: {response_text[:100]}...")
         
         # Clean response (sometimes AI adds backticks)
         clean_json = response_text.replace("```json", "").replace("```", "").strip()

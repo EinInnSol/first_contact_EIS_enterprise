@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(cat:*)",
+      "Bash(ls -la \"C:\\Users\\james\\Downloads\\FirstContactEIS\\.antigravity\"\" 2>/dev/null || echo \"Checking antigravity directory... \")",
+      "Bash(tree:*)"
+    ]
+  }
+}

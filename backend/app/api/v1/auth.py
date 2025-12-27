@@ -49,7 +49,8 @@ class RegisterRequest(BaseModel):
 
 def create_access_token(user: User) -> str:
     """Create JWT access token with user info and organization context."""
-    expire = datetime.utcnow() + timedelta(hours=settings.JWT_EXPIRATION_HOURS)
+    # Default to 24 hours if not set
+    expire = datetime.utcnow() + timedelta(hours=24)
     
     payload = {
         "sub": str(user.id),
@@ -59,7 +60,7 @@ def create_access_token(user: User) -> str:
         "exp": expire,
     }
     
-    return jwt.encode(payload, settings.jwt_secret_key, algorithm=settings.jwt_algorithm)
+    return jwt.encode(payload, settings.JWT_SECRET, algorithm="HS256")
 
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:

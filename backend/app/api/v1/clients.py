@@ -21,6 +21,8 @@ from app.api.deps import get_current_user, require_vendor_access
 from app.models.user import User, UserRole
 from app.models.client import Client
 from app.models.vendor import Vendor
+from app.services.ai_case_plan import AICasePlanGenerator
+from app.config import settings
 
 
 router = APIRouter(prefix="/clients", tags=["Clients (Layers 1-7)"])
@@ -299,50 +301,139 @@ async def get_client_timeline(
         select(Client).where(Client.id == uuid.UUID(client_id))
     )
     client = result.scalar_one_or_none()
-    
+
     if not client:
         raise HTTPException(
             status_code=status.HTTP_404_NOT_FOUND,
             detail="Client not found"
         )
-    
+
     # Build timeline from available data
     timeline = []
-    
+
     if client.intake_date:
         timeline.append({
             "date": client.intake_date.isoformat(),
             "event": "intake",
             "description": "Client intake completed"
         })
-    
+
     if client.vi_spdat_date:
         timeline.append({
             "date": client.vi_spdat_date.isoformat(),
             "event": "assessment",
             "description": f"VI-SPDAT assessment completed (Score: {client.vi_spdat_score})"
         })
-    
+
     if client.housed_date:
         timeline.append({
             "date": client.housed_date.isoformat(),
             "event": "housed",
             "description": f"Client housed ({client.housing_type})"
         })
-    
+
     if client.exit_date:
         timeline.append({
             "date": client.exit_date.isoformat(),
             "event": "exit",
             "description": f"Client exited program ({client.exit_type})"
         })
-    
+
     # Sort by date
     timeline.sort(key=lambda x: x["date"])
-    
+
     return {
         "client_id": str(client.id),
         "case_number": client.case_number,
         "current_status": client.status,
         "timeline": timeline
     }
+
+
+@router.post("/{client_id}/case-plan/generate")
+async def generate_case_plan(
+    client_id: str,
+    user: User = Depends(require_vendor_access),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    Generate AI-powered case plan for a client.
+
+    Uses Claude 4.5 to create personalized 90-day plan with:
+    - Phase-based milestones (Week 1-2, 3-4, etc.)
+    - Specific action items with timelines
+    - Identified barriers and success factors
+    - Estimated days to housing
+    - Confidence score
+
+    Caseworker can review, edit, and approve the plan.
+    """
+    # Fetch client
+    result = await db.execute(
+        select(Client).where(Client.id == uuid.UUID(client_id))
+    )
+    client = result.scalar_one_or_none()
+
+    if not client:
+        raise HTTPException(
+            status_code=status.HTTP_404_NOT_FOUND,
+            detail="Client not found"
+        )
+
+    # Check access based on role
+    if user.role == UserRole.CASEWORKER.value:
+        if client.assigned_caseworker_id != user.id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized to generate plan for this client"
+            )
+    elif user.role == UserRole.VENDOR_ADMIN.value:
+        if client.assigned_vendor_id != user.vendor_id:
+            raise HTTPException(
+                status_code=status.HTTP_403_FORBIDDEN,
+                detail="Not authorized to generate plan for this client"
+            )
+
+    # Fetch vendor info for context
+    vendor_result = await db.execute(
+        select(Vendor).where(Vendor.id == client.assigned_vendor_id)
+    )
+    vendor = vendor_result.scalar_one_or_none()
+    vendor_name = vendor.name if vendor else "Vendor"
+
+    # Fetch organization info
+    from app.models.organization import Organization
+    org_result = await db.execute(
+        select(Organization).where(Organization.id == client.organization_id)
+    )
+    org = org_result.scalar_one_or_none()
+    org_name = org.name if org else "Organization"
+
+    # Prepare client data for AI
+    client_data = {
+        "id": str(client.id),
+        "first_name": client.first_name,
+        "last_name": client.last_name,
+        "date_of_birth": client.date_of_birth,
+        "vi_spdat_score": client.vi_spdat_score,
+        "acuity_level": client.acuity_level,
+        "status": client.status,
+        "intake_date": client.intake_date,
+        "phone": client.phone,
+        "email": client.email,
+    }
+
+    # Generate plan using AI service
+    generator = AICasePlanGenerator(anthropic_api_key=settings.ANTHROPIC_API_KEY)
+    case_plan = await generator.generate_case_plan(
+        client_data=client_data,
+        vendor_name=vendor_name,
+        organization_name=org_name
+    )
+
+    # Add client identifiers to response
+    case_plan["client_id"] = str(client.id)
+    case_plan["case_number"] = client.case_number
+    case_plan["client_name"] = f"{client.first_name} {client.last_name}"
+
+    return case_plan
