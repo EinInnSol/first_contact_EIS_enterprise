@@ -25,7 +25,7 @@ from app.models import (
 )
 
 from app.middleware import OrganizationMiddleware
-from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance
+from app.api.v1 import auth, intake, analytics, clients, benefits, orchestrator, maps, ai_advisor, compliance, init
 
 
 @asynccontextmanager
@@ -154,6 +154,15 @@ app.include_router(
     compliance.router,
     prefix="/api/v1",
     tags=["Layers 1-7 - Compliance & Reporting"]
+)
+
+# ============================================
+# ADMIN - Database Initialization (ONE-TIME USE)
+# ============================================
+app.include_router(
+    init.router,
+    prefix="/api/v1/admin",
+    tags=["Admin - Database Setup"]
 )
 
 

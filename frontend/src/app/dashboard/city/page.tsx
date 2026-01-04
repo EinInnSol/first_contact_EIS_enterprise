@@ -1,20 +1,67 @@
 "use client";
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Sidebar } from '@/components/ui/Sidebar';
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import { NeonButton } from '@/components/ui/NeonButton';
 import { StrategicMap } from '@/components/dashboard/StrategicMap';
+import dynamic from 'next/dynamic';
 import {
   TrendingUp,
   Users,
   Home,
   AlertCircle,
   Download,
-  Filter
+  Filter,
+  X
 } from 'lucide-react';
 
+// Dynamic import to avoid SSR issues with AIStrategicAdvisor
+const AIStrategicAdvisor = dynamic(() => import('@/components/city/AIStrategicAdvisor'), {
+  ssr: false,
+  loading: () => <div className="p-4 text-center text-slate-400">Loading AI Advisor...</div>
+});
+
 export default function CityDashboard() {
+  const [showAIAdvisor, setShowAIAdvisor] = useState(false);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const handleExportIntelligence = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/analytics/vendor-performance`,
+        {
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        }
+      );
+      const data = await response.json();
+
+      // Create CSV export
+      const csv = [
+        ['Vendor', 'Total Clients', 'Housed', 'Housing Rate'],
+        ...data.vendors.map((v: any) => [
+          v.name,
+          v.metrics.total_clients,
+          v.metrics.housed_count,
+          `${(v.metrics.housing_rate * 100).toFixed(1)}%`
+        ])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `vendor-performance-${new Date().toISOString().split('T')[0]}.csv`;
+      a.click();
+    } catch (error) {
+      console.error('Export failed:', error);
+      alert('Failed to export data. Please try again.');
+    }
+  };
+
   return (
     <div className="flex min-h-screen bg-start selection:bg-cyan/30">
       {/* Sidebar Navigation */}
@@ -36,13 +83,13 @@ export default function CityDashboard() {
               <span className="text-[10px] font-bold text-orange uppercase tracking-wider">3 Urgent Alerts</span>
             </div>
             <div className="h-8 w-[1px] bg-glass-border mx-2" />
-            <NeonButton variant="outline" size="sm">
+            <NeonButton variant="outline" size="sm" onClick={handleExportIntelligence}>
               <Download className="w-3 h-3 mr-2" />
               Export Intelligence
             </NeonButton>
-            <NeonButton variant="cyan" size="sm" glow>
+            <NeonButton variant="cyan" size="sm" glow onClick={() => setShowFilters(!showFilters)}>
               <Filter className="w-3 h-3 mr-2" />
-              Active Filters
+              {showFilters ? 'Hide Filters' : 'Active Filters'}
             </NeonButton>
           </div>
         </header>
@@ -139,7 +186,7 @@ export default function CityDashboard() {
               <p className="text-[11px] leading-relaxed text-slate-300 mb-4 italic">
                 "Based on current trends, reallocating 15% of the Sector II outreach budget to the 'Identity Document Automation' grant could reduce housing delay by 8 days."
               </p>
-              <NeonButton fullWidth size="sm" glow>
+              <NeonButton fullWidth size="sm" glow onClick={() => setShowAIAdvisor(true)}>
                 Ask Strategic Question
               </NeonButton>
             </GlassPanel>
@@ -167,6 +214,61 @@ export default function CityDashboard() {
 
         </section>
       </main>
+
+      {/* AI Strategic Advisor Modal */}
+      {showAIAdvisor && (
+        <div className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+          <div className="bg-start-900 border border-cyan/30 rounded-lg w-full max-w-4xl max-h-[90vh] overflow-hidden flex flex-col">
+            <div className="p-4 border-b border-cyan/30 flex items-center justify-between">
+              <h2 className="text-xl font-bold text-white">AI Strategic Advisor</h2>
+              <button
+                onClick={() => setShowAIAdvisor(false)}
+                className="p-2 hover:bg-white/10 rounded transition-colors"
+              >
+                <X className="w-5 h-5 text-white" />
+              </button>
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <AIStrategicAdvisor />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Filters Panel */}
+      {showFilters && (
+        <div className="fixed top-20 right-6 z-40 w-80">
+          <GlassPanel className="p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-sm font-bold uppercase tracking-widest text-cyan">Map Filters</h3>
+              <button onClick={() => setShowFilters(false)}>
+                <X className="w-4 h-4 text-white" />
+              </button>
+            </div>
+            <div className="space-y-3 text-sm">
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Performance Metric</label>
+                <select className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white">
+                  <option>Housing Rate</option>
+                  <option>Cost per Outcome</option>
+                  <option>Efficiency Score</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs text-slate-400 mb-1">Date Range</label>
+                <select className="w-full bg-white/5 border border-white/10 rounded px-2 py-1 text-white">
+                  <option>Last 30 Days</option>
+                  <option>Last 90 Days</option>
+                  <option>Last Year</option>
+                </select>
+              </div>
+              <NeonButton fullWidth size="sm" variant="cyan">
+                Apply Filters
+              </NeonButton>
+            </div>
+          </GlassPanel>
+        </div>
+      )}
     </div>
   );
 }
