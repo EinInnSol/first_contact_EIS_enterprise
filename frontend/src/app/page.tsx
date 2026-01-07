@@ -16,10 +16,17 @@ import {
 import { NeonButton } from '@/components/ui/NeonButton';
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import { motion } from 'framer-motion';
+import { AgreementOverlay } from '@/components/AgreementOverlay';
+import { PresentationOverlay } from '@/components/PresentationOverlay';
+import { useState } from 'react';
 
 export default function Home() {
+  const [showPresentation, setShowPresentation] = useState(false);
+
   return (
     <div className="min-h-screen bg-start text-white flex flex-col items-center justify-center p-6 relative overflow-hidden">
+      <AgreementOverlay />
+      <PresentationOverlay isOpen={showPresentation} onClose={() => setShowPresentation(false)} />
 
       {/* Background Animated Elements */}
       <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
@@ -37,10 +44,22 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-2 border border-cyan/20 bg-cyan/5 rounded-full"
+            className="flex flex-col items-center gap-4"
           >
-            <Zap className="w-4 h-4 text-cyan fill-cyan/20" />
-            <span className="text-[10px] font-mono font-bold text-cyan uppercase tracking-[0.3em]">Version 2.0 Oracle Active</span>
+            <div className="inline-flex items-center gap-2 px-4 py-2 border border-cyan/20 bg-cyan/5 rounded-full">
+              <Zap className="w-4 h-4 text-cyan fill-cyan/20" />
+              <span className="text-[10px] font-mono font-bold text-cyan uppercase tracking-[0.3em]">Version 2.0 Oracle Active</span>
+            </div>
+
+            {/* Briefing Button */}
+            <button
+              onClick={() => setShowPresentation(true)}
+              className="group flex items-center gap-2 text-[10px] font-mono text-slate-400 hover:text-cyan transition-colors uppercase tracking-widest border-b border-transparent hover:border-cyan/50 pb-1"
+            >
+              <Database size={12} />
+              <span>Initialize System Briefing sequence</span>
+              <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
+            </button>
           </motion.div>
 
           <motion.div

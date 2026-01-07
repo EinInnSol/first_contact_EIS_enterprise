@@ -1,6 +1,7 @@
 "use client";
 
 import React from 'react';
+import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/ui/Sidebar';
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import { NeonButton } from '@/components/ui/NeonButton';
@@ -18,6 +19,7 @@ import {
 } from 'lucide-react';
 
 export default function CaseworkerDashboard() {
+    const router = useRouter();
     const clients = [
         { id: '1', name: 'John Doe', status: 'In Review', priority: 'High', lastAction: '2h ago', assigned: 'Housing Plan' },
         { id: '2', name: 'James Smith', status: 'Housed', priority: 'Low', lastAction: '1d ago', assigned: 'Stabilization' },
@@ -47,7 +49,7 @@ export default function CaseworkerDashboard() {
                                 className="bg-black/40 border border-glass-border rounded-sm pl-10 pr-4 py-2 text-xs font-mono text-white focus:outline-none focus:border-cyan w-64 transition-all"
                             />
                         </div>
-                        <NeonButton variant="cyan" size="sm" glow>
+                        <NeonButton variant="cyan" size="sm" glow onClick={() => router.push('/intake')}>
                             <Plus className="w-4 h-4 mr-2" />
                             NEW INTAKE
                         </NeonButton>
@@ -92,7 +94,7 @@ export default function CaseworkerDashboard() {
                                                 <td className="font-bold text-white">{client.name}</td>
                                                 <td>
                                                     <span className={`badge ${client.status === 'Housed' ? 'badge-cyan' :
-                                                            client.status === 'Intake' ? 'badge-orange' : 'badge-outline'
+                                                        client.status === 'Intake' ? 'badge-orange' : 'badge-outline'
                                                         }`}>
                                                         {client.status}
                                                     </span>
@@ -126,10 +128,10 @@ export default function CaseworkerDashboard() {
                                             <div className="h-full bg-cyan shadow-[0_0_10px_#00F0FF]" style={{ width: '88%' }} />
                                         </div>
                                         <div className="flex gap-2 pt-2">
-                                            <NeonButton variant="outline" size="sm" fullWidth className="text-[10px]">
+                                            <NeonButton variant="outline" size="sm" fullWidth className="text-[10px]" onClick={() => router.push('/dashboard/caseworker/reports')}>
                                                 Audit Data Quality
                                             </NeonButton>
-                                            <NeonButton variant="cyan" size="sm" fullWidth className="text-[10px]">
+                                            <NeonButton variant="cyan" size="sm" fullWidth className="text-[10px]" onClick={() => router.push('/dashboard/caseworker/reports')}>
                                                 Generate HUD Report
                                             </NeonButton>
                                         </div>

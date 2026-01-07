@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { Sidebar } from '@/components/ui/Sidebar';
 import { GlassPanel } from '@/components/ui/GlassPanel';
 import { NeonButton } from '@/components/ui/NeonButton';
@@ -23,6 +24,7 @@ const AIStrategicAdvisor = dynamic(() => import('@/components/city/AIStrategicAd
 });
 
 export default function CityDashboard() {
+  const router = useRouter();
   const [showAIAdvisor, setShowAIAdvisor] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -132,7 +134,7 @@ export default function CityDashboard() {
               </div>
 
               <div className="mt-4">
-                <NeonButton fullWidth variant="outline" size="sm">
+                <NeonButton fullWidth variant="outline" size="sm" onClick={() => router.push('/dashboard/city/vendors')}>
                   Full Analytics Report
                 </NeonButton>
               </div>
@@ -146,7 +148,7 @@ export default function CityDashboard() {
               <p className="text-[11px] text-slate-400 mb-3">
                 <span className="text-orange font-bold">WARNING:</span> Shelter capacity in Sector B-4 projected to hit 100% in 12 days.
               </p>
-              <NeonButton fullWidth variant="orange" size="sm">
+              <NeonButton fullWidth variant="orange" size="sm" onClick={() => router.push('/dashboard/city/gaps')}>
                 View Advisory Actions
               </NeonButton>
             </GlassPanel>
