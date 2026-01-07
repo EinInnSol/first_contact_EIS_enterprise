@@ -26,6 +26,7 @@ from app.services.executor_service import ExecutorService
 from app.models.orchestration_event import OrchestrationEvent
 from app.services.pilot_seeder import PilotSeederService
 from app.services.neural_nexus_service import NeuralNexusService
+from app.services.self_learning_service import SelfLearningService
 from sqlalchemy import select, and_
 
 

@@ -60,12 +60,14 @@ def generate_case_number(org_slug: str) -> str:
     return f"{prefix}-{number}"
 
 
+from app.schemas.hud_compliance import HUDIntakeAssessment
+
 @router.post("/qr/{qr_location_id}", response_model=IntakeResponse)
 @limiter.limit("5/hour")  # 5 intakes per IP per hour
 async def qr_intake(
     request: Request,
     qr_location_id: str,
-    intake: IntakeRequest,
+    intake: HUDIntakeAssessment,
     db: AsyncSession = Depends(get_db)
 ):
     """
@@ -122,12 +124,15 @@ async def qr_intake(
         case_number=case_number,
         first_name=intake.first_name,
         last_name=intake.last_name,
-        middle_name=intake.middle_name,
-        date_of_birth=intake.date_of_birth,
-        phone=intake.phone,
-        email=intake.email,
-        preferred_contact=intake.preferred_contact,
+        # middle_name=intake.middle_name, # Not in basic HUD schema anymore
+        date_of_birth=intake.dob,
+        phone=None, # Will be collected in step 2
+        email=None, 
+        preferred_contact="phone",
         status="intake",
+        # Map HUD Specifics to potential notes or extending the model later
+        notes=f"HUD Intake. Prior Residence: {intake.current_residence}. Functioning Score: {intake.daily_functioning_score}",
+        vi_spdat_score=intake.daily_functioning_score + intake.wellness_score + intake.social_risk_score, # Rough calc for now
         intake_date=date.today(),
     )
     
