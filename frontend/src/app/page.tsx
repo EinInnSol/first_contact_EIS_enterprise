@@ -112,8 +112,8 @@ export default function Home() {
             </GlassPanel>
           </Link>
 
-          {/* Public Intake */}
-          <Link href="/intake">
+          {/* Public Intake (Client Portal) */}
+          <Link href="/client">
             <GlassPanel className="h-full border-white/10 hover:border-cyan/50 transition-all group flex flex-col" hoverEffect>
               <div className="p-4 bg-white/5 border border-white/10 w-fit rounded-sm mb-6 group-hover:bg-cyan/10 group-hover:border-cyan/30 transition-all">
                 <QrCode className="w-8 h-8 text-slate-400 group-hover:text-cyan transition-all" />
