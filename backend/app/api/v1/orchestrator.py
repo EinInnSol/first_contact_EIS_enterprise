@@ -30,6 +30,7 @@ from app.models.client import Client
 from app.services.executor_service import ExecutorService
 from app.models.orchestration_event import OrchestrationEvent
 from app.services.pilot_seeder import PilotSeederService
+from app.services.neural_nexus_service import NeuralNexusService
 from sqlalchemy import select, and_
 
 
@@ -540,4 +541,27 @@ async def get_orchestrator_stats(
             {"type": "transport_optimization", "count": 28},
             {"type": "urgent_intervention", "count": 22}
         ]
+    }
+
+
+@router.post("/nexus/scan")
+async def trigger_nexus_scan(
+    organization_id: int = 1,  # Default for demo
+    user: User = Depends(require_vendor_access),
+    db: AsyncSession = Depends(get_db)
+):
+    """
+    TRIGGER THE NEURAL NEXUS (Layer 9).
+    Manual trigger for the Autonomic Nervous System scan.
+    
+    In production, this runs every 5-15 minutes automatically.
+    """
+    nexus = NeuralNexusService(db)
+    result = await nexus.run_system_scan(organization_id)
+    
+    return {
+        "success": True,
+        "mode": "autonomic_scan",
+        "diagnosis": result,
+        "scanned_at": datetime.utcnow().isoformat()
     }

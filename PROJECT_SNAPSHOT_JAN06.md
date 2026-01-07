@@ -9,6 +9,13 @@
 
 ### New capabilities "Installed"
 We have successfully upgraded the workspace with "Agentic Memory" and "Role Definitions".
+We have also formulated and implemented the **Neural Nexus (Layer 9)**.
+
+#### 0. NEURAL NEXUS (The Nervous System)
+*   *Location*: `backend/app/services/neural_nexus_service.py`
+*   *Design*: `.agent/knowledge/NEURAL_NEXUS_DESIGN.md`
+*   *Function*: Autonomic system monitoring and intervention using Vertex AI.
+*   *Trigger*: `POST /api/v1/orchestrator/nexus/scan`
 
 #### 1. PROMETHEUS (The Cloud Architect)
 *   *Location*: `.agent/roles/cloud_architect.md`
@@ -20,7 +27,13 @@ We have successfully upgraded the workspace with "Agentic Memory" and "Role Defi
 *   *Skillset*: Extrapolating ideas into high-margin AI products.
 *   *Usage*: Ask "How do I monetize this?" or "What acts as a force multiplier here?".
 
-#### 3. Execution Workflows
+#### 3. KNOWLEDGE CORE (New Modules)
+*   **The Einharjer Protocol**: `.agent/knowledge/THE_EINHARJER_PROTOCOL.md` (Idea-to-Empire Logic).
+*   **Master Execution Plan**: `.agent/knowledge/MASTER_EXECUTION_PLAN.md` (Caseworker Replacement Strategy).
+*   **Operational Blueprint**: `.agent/knowledge/EIS_OPERATIONAL_BLUEPRINT.md` (Scheduler/Communication).
+*   **AI Eligibility**: `.agent/knowledge/AI_ELIGIBILITY_LOGIC.md` (The "Embedded Detective").
+
+#### 4. Execution Workflows
 *   *Deploy to Production*: `.agent/workflows/deploy_production.md`
 *   These are machine-readable guides for consistent execution.
 

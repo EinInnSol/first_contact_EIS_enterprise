@@ -21,22 +21,31 @@ class AICasePlanGenerator:
 
     def __init__(self, anthropic_api_key: Optional[str] = None):
         """
-        Initialize with Anthropic API key.
-        Falls back to demo/rule-based plans if API key not available.
+        Initialize with Vertex AI (GCP Native).
+        No API key required - uses Service Account credentials.
         """
-        self.api_key = anthropic_api_key
-        self.use_ai = bool(anthropic_api_key)
-
-        if self.use_ai:
-            try:
-                from anthropic import Anthropic
-                self.client = Anthropic(api_key=anthropic_api_key)
-                logger.info("AI Case Plan Generator initialized with Claude API")
-            except ImportError:
-                logger.warning("Anthropic library not installed, using rule-based plans")
-                self.use_ai = False
-        else:
-            logger.info("No API key provided, using rule-based case plans")
+        self.use_ai = True
+        try:
+            from anthropic import AnthropicVertex
+            import os
+            
+            # GCP Native Initialization
+            project_id = os.getenv("GCP_PROJECT_ID", "einharjer-valhalla")
+            region = os.getenv("GCP_REGION", "us-east5")
+            
+            self.client = AnthropicVertex(
+                region=region,
+                project_id=project_id
+            )
+            self.model = "claude-3-5-sonnet@20240620"
+            logger.info(f"AI Case Plan Generator initialized with Vertex AI ({region})")
+            
+        except ImportError:
+            logger.warning("anthropic[vertex] not installed, falling back to rule-based")
+            self.use_ai = False
+        except Exception as e:
+            logger.warning(f"Failed to initialize Vertex AI: {e}")
+            self.use_ai = False
 
     async def generate_case_plan(
         self,
@@ -137,9 +146,9 @@ Focus on these typical phases:
 
 Be specific about timelines, who does what, and concrete next steps."""
 
-        # Call Claude API
+        # Call Claude API (Vertex)
         message = self.client.messages.create(
-            model="claude-sonnet-4-20250514",
+            model=self.model,
             max_tokens=2000,
             temperature=0.7,
             system=system_prompt,
