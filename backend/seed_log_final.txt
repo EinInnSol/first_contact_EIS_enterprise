@@ -1,0 +1,504 @@
+[DB] Connecting to database: postgresql+asyncpg://firstcontact_app:FCeis2025!Se...
+2026-01-07 09:37:33,311 INFO sqlalchemy.engine.Engine select pg_catalog.version()
+2026-01-07 09:37:33,312 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-07 09:37:33,739 INFO sqlalchemy.engine.Engine select current_schema()
+2026-01-07 09:37:33,740 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-07 09:37:34,301 INFO sqlalchemy.engine.Engine show standard_conforming_strings
+2026-01-07 09:37:34,301 INFO sqlalchemy.engine.Engine [raw sql] ()
+2026-01-07 09:37:34,653 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:34,660 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:34,660 INFO sqlalchemy.engine.Engine [generated in 0.00051s] ('organizations', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:35,268 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:35,269 INFO sqlalchemy.engine.Engine [cached since 0.609s ago] ('vendors', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:35,461 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:35,462 INFO sqlalchemy.engine.Engine [cached since 0.802s ago] ('users', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:35,583 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:35,584 INFO sqlalchemy.engine.Engine [cached since 0.924s ago] ('qr_locations', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:35,777 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:35,777 INFO sqlalchemy.engine.Engine [cached since 1.118s ago] ('qr_scan_events', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:35,902 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:35,903 INFO sqlalchemy.engine.Engine [cached since 1.243s ago] ('clients', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:36,018 INFO sqlalchemy.engine.Engine SELECT pg_catalog.pg_class.relname 
+FROM pg_catalog.pg_class JOIN pg_catalog.pg_namespace ON pg_catalog.pg_namespace.oid = pg_catalog.pg_class.relnamespace 
+WHERE pg_catalog.pg_class.relname = $1::VARCHAR AND pg_catalog.pg_class.relkind = ANY (ARRAY[$2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR]) AND pg_catalog.pg_table_is_visible(pg_catalog.pg_class.oid) AND pg_catalog.pg_namespace.nspname != $7::VARCHAR
+2026-01-07 09:37:36,018 INFO sqlalchemy.engine.Engine [cached since 1.358s ago] ('orchestration_events', 'r', 'p', 'f', 'v', 'm', 'pg_catalog')
+2026-01-07 09:37:36,187 INFO sqlalchemy.engine.Engine 
+CREATE TABLE organizations (
+	id SERIAL NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	slug VARCHAR(50) NOT NULL, 
+	city VARCHAR(100), 
+	state VARCHAR(2), 
+	settings JSON, 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	updated_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id), 
+	UNIQUE (slug)
+)
+
+
+2026-01-07 09:37:36,187 INFO sqlalchemy.engine.Engine [no key 0.00053s] ()
+2026-01-07 09:37:36,596 INFO sqlalchemy.engine.Engine 
+CREATE TABLE vendors (
+	id SERIAL NOT NULL, 
+	organization_id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	slug VARCHAR(50) NOT NULL, 
+	contact_email VARCHAR(255), 
+	contact_phone VARCHAR(20), 
+	address VARCHAR(500), 
+	active BOOLEAN NOT NULL, 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	updated_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(organization_id) REFERENCES organizations (id)
+)
+
+
+2026-01-07 09:37:36,596 INFO sqlalchemy.engine.Engine [no key 0.00024s] ()
+2026-01-07 09:37:37,333 INFO sqlalchemy.engine.Engine CREATE INDEX ix_vendors_organization_id ON vendors (organization_id)
+2026-01-07 09:37:37,333 INFO sqlalchemy.engine.Engine [no key 0.00022s] ()
+2026-01-07 09:37:37,582 INFO sqlalchemy.engine.Engine 
+CREATE TABLE users (
+	id UUID NOT NULL, 
+	organization_id INTEGER NOT NULL, 
+	vendor_id INTEGER, 
+	email VARCHAR(255) NOT NULL, 
+	password_hash VARCHAR(255) NOT NULL, 
+	first_name VARCHAR(50), 
+	last_name VARCHAR(50), 
+	role VARCHAR(20) NOT NULL, 
+	active BOOLEAN NOT NULL, 
+	last_login TIMESTAMP WITHOUT TIME ZONE, 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	updated_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(organization_id) REFERENCES organizations (id), 
+	FOREIGN KEY(vendor_id) REFERENCES vendors (id)
+)
+
+
+2026-01-07 09:37:37,582 INFO sqlalchemy.engine.Engine [no key 0.00024s] ()
+2026-01-07 09:37:37,838 INFO sqlalchemy.engine.Engine CREATE INDEX ix_users_organization_id ON users (organization_id)
+2026-01-07 09:37:37,839 INFO sqlalchemy.engine.Engine [no key 0.00041s] ()
+2026-01-07 09:37:38,230 INFO sqlalchemy.engine.Engine 
+CREATE TABLE qr_locations (
+	id VARCHAR(50) NOT NULL, 
+	organization_id INTEGER NOT NULL, 
+	vendor_id INTEGER NOT NULL, 
+	name VARCHAR(100) NOT NULL, 
+	address VARCHAR(500), 
+	latitude NUMERIC(10, 8), 
+	longitude NUMERIC(11, 8), 
+	location_type VARCHAR(50), 
+	qr_code_url VARCHAR(500), 
+	active BOOLEAN NOT NULL, 
+	scan_count INTEGER NOT NULL, 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	updated_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(organization_id) REFERENCES organizations (id), 
+	FOREIGN KEY(vendor_id) REFERENCES vendors (id)
+)
+
+
+2026-01-07 09:37:38,230 INFO sqlalchemy.engine.Engine [no key 0.00034s] ()
+2026-01-07 09:37:38,544 INFO sqlalchemy.engine.Engine CREATE INDEX ix_qr_locations_organization_id ON qr_locations (organization_id)
+2026-01-07 09:37:38,545 INFO sqlalchemy.engine.Engine [no key 0.00037s] ()
+2026-01-07 09:37:38,946 INFO sqlalchemy.engine.Engine CREATE INDEX ix_qr_locations_vendor_id ON qr_locations (vendor_id)
+2026-01-07 09:37:38,946 INFO sqlalchemy.engine.Engine [no key 0.00023s] ()
+2026-01-07 09:37:39,263 INFO sqlalchemy.engine.Engine 
+CREATE TABLE qr_scan_events (
+	id UUID NOT NULL, 
+	organization_id INTEGER NOT NULL, 
+	qr_location_id VARCHAR(50) NOT NULL, 
+	scanned_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	device_type VARCHAR(50), 
+	user_agent VARCHAR(500), 
+	ip_address VARCHAR(45), 
+	resulted_in_intake BOOLEAN NOT NULL, 
+	client_id UUID, 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(organization_id) REFERENCES organizations (id), 
+	FOREIGN KEY(qr_location_id) REFERENCES qr_locations (id)
+)
+
+
+2026-01-07 09:37:39,264 INFO sqlalchemy.engine.Engine [no key 0.00052s] ()
+2026-01-07 09:37:39,716 INFO sqlalchemy.engine.Engine CREATE INDEX ix_qr_scan_events_qr_location_id ON qr_scan_events (qr_location_id)
+2026-01-07 09:37:39,716 INFO sqlalchemy.engine.Engine [no key 0.00025s] ()
+2026-01-07 09:37:40,232 INFO sqlalchemy.engine.Engine CREATE INDEX ix_qr_scan_events_organization_id ON qr_scan_events (organization_id)
+2026-01-07 09:37:40,232 INFO sqlalchemy.engine.Engine [no key 0.00031s] ()
+2026-01-07 09:37:40,480 INFO sqlalchemy.engine.Engine 
+CREATE TABLE clients (
+	id UUID NOT NULL, 
+	organization_id INTEGER NOT NULL, 
+	assigned_vendor_id INTEGER NOT NULL, 
+	assigned_caseworker_id UUID, 
+	intake_qr_location_id VARCHAR(50), 
+	case_number VARCHAR(20), 
+	first_name VARCHAR(50) NOT NULL, 
+	last_name VARCHAR(50) NOT NULL, 
+	middle_name VARCHAR(50), 
+	date_of_birth DATE, 
+	ssn_encrypted VARCHAR(255), 
+	phone VARCHAR(20), 
+	email VARCHAR(255), 
+	preferred_contact VARCHAR(20) NOT NULL, 
+	vi_spdat_score INTEGER, 
+	vi_spdat_date DATE, 
+	acuity_level VARCHAR(20), 
+	status VARCHAR(30) NOT NULL, 
+	housing_type VARCHAR(50), 
+	notes VARCHAR(500), 
+	intake_date DATE, 
+	housed_date DATE, 
+	exit_date DATE, 
+	exit_type VARCHAR(50), 
+	exit_income_monthly NUMERIC(10, 2), 
+	created_at TIMESTAMP WITHOUT TIME ZONE NOT NULL, 
+	updated_at TIMESTAMP WITHOUT TIME ZONE, 
+	PRIMARY KEY (id), 
+	FOREIGN KEY(organization_id) REFERENCES organizations (id), 
+	FOREIGN KEY(assigned_vendor_id) REFERENCES vendors (id), 
+	FOREIGN KEY(assigned_caseworker_id) REFERENCES users (id), 
+	FOREIGN KEY(intake_qr_location_id) REFERENCES qr_locations (id), 
+	UNIQUE (case_number)
+)
+
+
+2026-01-07 09:37:40,480 INFO sqlalchemy.engine.Engine [no key 0.00031s] ()
+2026-01-07 09:37:40,810 INFO sqlalchemy.engine.Engine CREATE INDEX ix_clients_organization_id ON clients (organization_id)
+2026-01-07 09:37:40,810 INFO sqlalchemy.engine.Engine [no key 0.00023s] ()
+2026-01-07 09:37:41,126 INFO sqlalchemy.engine.Engine CREATE INDEX ix_clients_assigned_vendor_id ON clients (assigned_vendor_id)
+2026-01-07 09:37:41,127 INFO sqlalchemy.engine.Engine [no key 0.00020s] ()
+2026-01-07 09:37:41,425 INFO sqlalchemy.engine.Engine COMMIT
+
+============================================================
+SEEDING DEMO DATA FOR FIRST CONTACT E.I.S.
+============================================================
+
+Creating Organization: Long Beach CoC...
+2026-01-07 09:37:41,552 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:41,555 INFO sqlalchemy.engine.Engine INSERT INTO organizations (name, slug, city, state, settings, created_at, updated_at) VALUES ($1::VARCHAR, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::JSON, $6::TIMESTAMP WITHOUT TIME ZONE, $7::TIMESTAMP WITHOUT TIME ZONE) RETURNING organizations.id
+2026-01-07 09:37:41,556 INFO sqlalchemy.engine.Engine [generated in 0.00071s] ('Long Beach Continuum of Care', 'longbeach', 'Long Beach', 'CA', '{}', datetime.datetime(2026, 1, 7, 17, 37, 41, 555416), datetime.datetime(2026, 1, 7, 17, 37, 41, 555426))
+2026-01-07 09:37:41,873 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:41,978 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:41,981 INFO sqlalchemy.engine.Engine SELECT organizations.id, organizations.name, organizations.slug, organizations.city, organizations.state, organizations.settings, organizations.created_at, organizations.updated_at 
+FROM organizations 
+WHERE organizations.id = $1::INTEGER
+2026-01-07 09:37:41,981 INFO sqlalchemy.engine.Engine [generated in 0.00034s] (1,)
+   Organization created: Long Beach Continuum of Care (ID: 1)
+
+Creating Vendors...
+2026-01-07 09:37:42,340 INFO sqlalchemy.engine.Engine INSERT INTO vendors (organization_id, name, slug, contact_email, contact_phone, address, active, created_at, updated_at) VALUES ($1::INTEGER, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::TIMESTAMP WITHOUT TIME ZONE, $9::TIMESTAMP WITHOUT TIME ZONE) RETURNING vendors.id
+2026-01-07 09:37:42,341 INFO sqlalchemy.engine.Engine [generated in 0.00039s] (1, 'PATH (People Assisting the Homeless)', 'path', 'info@path.org', '(562) 555-0100', 'Long Beach, CA', True, datetime.datetime(2026, 1, 7, 17, 37, 42, 340826), datetime.datetime(2026, 1, 7, 17, 37, 42, 340832))
+2026-01-07 09:37:42,644 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:42,811 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:42,813 INFO sqlalchemy.engine.Engine SELECT vendors.id, vendors.organization_id, vendors.name, vendors.slug, vendors.contact_email, vendors.contact_phone, vendors.address, vendors.active, vendors.created_at, vendors.updated_at 
+FROM vendors 
+WHERE vendors.id = $1::INTEGER
+2026-01-07 09:37:42,813 INFO sqlalchemy.engine.Engine [generated in 0.00030s] (1,)
+   Vendor: PATH (People Assisting the Homeless) (ID: 1)
+2026-01-07 09:37:43,145 INFO sqlalchemy.engine.Engine INSERT INTO vendors (organization_id, name, slug, contact_email, contact_phone, address, active, created_at, updated_at) VALUES ($1::INTEGER, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::TIMESTAMP WITHOUT TIME ZONE, $9::TIMESTAMP WITHOUT TIME ZONE) RETURNING vendors.id
+2026-01-07 09:37:43,145 INFO sqlalchemy.engine.Engine [cached since 0.8047s ago] (1, 'HOPICS', 'hopics', 'info@hopics.org', '(562) 555-0100', 'Long Beach, CA', True, datetime.datetime(2026, 1, 7, 17, 37, 43, 145057), datetime.datetime(2026, 1, 7, 17, 37, 43, 145063))
+2026-01-07 09:37:43,317 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:43,502 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:43,502 INFO sqlalchemy.engine.Engine SELECT vendors.id, vendors.organization_id, vendors.name, vendors.slug, vendors.contact_email, vendors.contact_phone, vendors.address, vendors.active, vendors.created_at, vendors.updated_at 
+FROM vendors 
+WHERE vendors.id = $1::INTEGER
+2026-01-07 09:37:43,502 INFO sqlalchemy.engine.Engine [cached since 0.6894s ago] (2,)
+   Vendor: HOPICS (ID: 2)
+2026-01-07 09:37:43,764 INFO sqlalchemy.engine.Engine INSERT INTO vendors (organization_id, name, slug, contact_email, contact_phone, address, active, created_at, updated_at) VALUES ($1::INTEGER, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::TIMESTAMP WITHOUT TIME ZONE, $9::TIMESTAMP WITHOUT TIME ZONE) RETURNING vendors.id
+2026-01-07 09:37:43,764 INFO sqlalchemy.engine.Engine [cached since 1.424s ago] (1, 'LAMP Community', 'lamp', 'info@lamp.org', '(562) 555-0100', 'Long Beach, CA', True, datetime.datetime(2026, 1, 7, 17, 37, 43, 764121), datetime.datetime(2026, 1, 7, 17, 37, 43, 764125))
+2026-01-07 09:37:43,968 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:44,109 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:44,110 INFO sqlalchemy.engine.Engine SELECT vendors.id, vendors.organization_id, vendors.name, vendors.slug, vendors.contact_email, vendors.contact_phone, vendors.address, vendors.active, vendors.created_at, vendors.updated_at 
+FROM vendors 
+WHERE vendors.id = $1::INTEGER
+2026-01-07 09:37:44,110 INFO sqlalchemy.engine.Engine [cached since 1.297s ago] (3,)
+   Vendor: LAMP Community (ID: 3)
+2026-01-07 09:37:44,338 INFO sqlalchemy.engine.Engine INSERT INTO vendors (organization_id, name, slug, contact_email, contact_phone, address, active, created_at, updated_at) VALUES ($1::INTEGER, $2::VARCHAR, $3::VARCHAR, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::BOOLEAN, $8::TIMESTAMP WITHOUT TIME ZONE, $9::TIMESTAMP WITHOUT TIME ZONE) RETURNING vendors.id
+2026-01-07 09:37:44,338 INFO sqlalchemy.engine.Engine [cached since 1.998s ago] (1, 'MHALA (Mental Health America of Los Angeles)', 'mhala', 'info@mhala.org', '(562) 555-0100', 'Long Beach, CA', True, datetime.datetime(2026, 1, 7, 17, 37, 44, 338613), datetime.datetime(2026, 1, 7, 17, 37, 44, 338620))
+2026-01-07 09:37:44,496 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:44,607 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:44,607 INFO sqlalchemy.engine.Engine SELECT vendors.id, vendors.organization_id, vendors.name, vendors.slug, vendors.contact_email, vendors.contact_phone, vendors.address, vendors.active, vendors.created_at, vendors.updated_at 
+FROM vendors 
+WHERE vendors.id = $1::INTEGER
+2026-01-07 09:37:44,607 INFO sqlalchemy.engine.Engine [cached since 1.794s ago] (4,)
+   Vendor: MHALA (Mental Health America of Los Angeles) (ID: 4)
+
+Creating Users...
+2026-01-07 09:37:45,287 INFO sqlalchemy.engine.Engine INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES ($1::UUID, $2::INTEGER, $3::INTEGER, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::BOOLEAN, $10::TIMESTAMP WITHOUT TIME ZONE, $11::TIMESTAMP WITHOUT TIME ZONE, $12::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:45,290 INFO sqlalchemy.engine.Engine [generated in 0.00338s] (UUID('7adaae7d-7522-4190-b99f-6f0e9ee6f8b6'), 1, None, 'admin@longbeach.gov', '$2b$12$bsQogaxRs/rSWJMnV6bdduYoT5n9uWU8k/OM10RLbUOPBACWN7aDe', None, None, 'city_admin', True, None, datetime.datetime(2026, 1, 7, 17, 37, 45, 287686), datetime.datetime(2026, 1, 7, 17, 37, 45, 287692))
+2026-01-07 09:37:45,599 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:45,693 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:45,695 INFO sqlalchemy.engine.Engine SELECT users.id, users.organization_id, users.vendor_id, users.email, users.password_hash, users.first_name, users.last_name, users.role, users.active, users.last_login, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::UUID
+2026-01-07 09:37:45,695 INFO sqlalchemy.engine.Engine [generated in 0.00034s] (UUID('7adaae7d-7522-4190-b99f-6f0e9ee6f8b6'),)
+   User: admin@longbeach.gov (city_admin)
+2026-01-07 09:37:47,047 INFO sqlalchemy.engine.Engine INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES ($1::UUID, $2::INTEGER, $3::INTEGER, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::BOOLEAN, $10::TIMESTAMP WITHOUT TIME ZONE, $11::TIMESTAMP WITHOUT TIME ZONE, $12::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:47,047 INFO sqlalchemy.engine.Engine [cached since 1.76s ago] (UUID('09ede2a1-ebf0-426b-ab8c-0124cab99a60'), 1, 1, 'maria@path.org', '$2b$12$oOtPreCF1FY4F4BQLAk8iOxByXZ7ks/H/yaqEa5sTk8fgNkOKqioO', None, None, 'caseworker', True, None, datetime.datetime(2026, 1, 7, 17, 37, 47, 47441), datetime.datetime(2026, 1, 7, 17, 37, 47, 47443))
+2026-01-07 09:37:47,248 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:47,366 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:47,367 INFO sqlalchemy.engine.Engine SELECT users.id, users.organization_id, users.vendor_id, users.email, users.password_hash, users.first_name, users.last_name, users.role, users.active, users.last_login, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::UUID
+2026-01-07 09:37:47,367 INFO sqlalchemy.engine.Engine [cached since 1.672s ago] (UUID('09ede2a1-ebf0-426b-ab8c-0124cab99a60'),)
+   User: maria@path.org (caseworker)
+2026-01-07 09:37:47,800 INFO sqlalchemy.engine.Engine INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES ($1::UUID, $2::INTEGER, $3::INTEGER, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::BOOLEAN, $10::TIMESTAMP WITHOUT TIME ZONE, $11::TIMESTAMP WITHOUT TIME ZONE, $12::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:47,800 INFO sqlalchemy.engine.Engine [cached since 2.513s ago] (UUID('ea919499-be60-4353-aacf-e43cd752a5a4'), 1, 2, 'john@hopics.org', '$2b$12$JmcVfpxJ2sgKOxLwqa2ycul4YXAF33S5Heo.FuU/PGQPEiFnqYkdG', None, None, 'caseworker', True, None, datetime.datetime(2026, 1, 7, 17, 37, 47, 799937), datetime.datetime(2026, 1, 7, 17, 37, 47, 799940))
+2026-01-07 09:37:47,964 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:48,076 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:48,077 INFO sqlalchemy.engine.Engine SELECT users.id, users.organization_id, users.vendor_id, users.email, users.password_hash, users.first_name, users.last_name, users.role, users.active, users.last_login, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::UUID
+2026-01-07 09:37:48,077 INFO sqlalchemy.engine.Engine [cached since 2.382s ago] (UUID('ea919499-be60-4353-aacf-e43cd752a5a4'),)
+   User: john@hopics.org (caseworker)
+2026-01-07 09:37:48,736 INFO sqlalchemy.engine.Engine INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES ($1::UUID, $2::INTEGER, $3::INTEGER, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::BOOLEAN, $10::TIMESTAMP WITHOUT TIME ZONE, $11::TIMESTAMP WITHOUT TIME ZONE, $12::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:48,736 INFO sqlalchemy.engine.Engine [cached since 3.449s ago] (UUID('133863ed-b57c-4dfe-8c13-5eae732a1f87'), 1, 3, 'lisa@lamp.org', '$2b$12$2YD78UmwxQK7/Pf0yV84WeFLPLHs7q2WSy/SHKwtDbS07tBZbbwX.', None, None, 'caseworker', True, None, datetime.datetime(2026, 1, 7, 17, 37, 48, 736154), datetime.datetime(2026, 1, 7, 17, 37, 48, 736162))
+2026-01-07 09:37:48,865 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:48,975 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:48,976 INFO sqlalchemy.engine.Engine SELECT users.id, users.organization_id, users.vendor_id, users.email, users.password_hash, users.first_name, users.last_name, users.role, users.active, users.last_login, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::UUID
+2026-01-07 09:37:48,976 INFO sqlalchemy.engine.Engine [cached since 3.281s ago] (UUID('133863ed-b57c-4dfe-8c13-5eae732a1f87'),)
+   User: lisa@lamp.org (caseworker)
+2026-01-07 09:37:49,586 INFO sqlalchemy.engine.Engine INSERT INTO users (id, organization_id, vendor_id, email, password_hash, first_name, last_name, role, active, last_login, created_at, updated_at) VALUES ($1::UUID, $2::INTEGER, $3::INTEGER, $4::VARCHAR, $5::VARCHAR, $6::VARCHAR, $7::VARCHAR, $8::VARCHAR, $9::BOOLEAN, $10::TIMESTAMP WITHOUT TIME ZONE, $11::TIMESTAMP WITHOUT TIME ZONE, $12::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:49,586 INFO sqlalchemy.engine.Engine [cached since 4.299s ago] (UUID('361c66e4-7b9f-4ca3-841d-81a9d8cab619'), 1, 4, 'mike@mhala.org', '$2b$12$IRLcYjoVY6X5aUjudfXGuu0IXlxvo/3V11wE88fE8tEIBjZDAK5XW', None, None, 'caseworker', True, None, datetime.datetime(2026, 1, 7, 17, 37, 49, 586146), datetime.datetime(2026, 1, 7, 17, 37, 49, 586153))
+2026-01-07 09:37:49,698 INFO sqlalchemy.engine.Engine COMMIT
+2026-01-07 09:37:49,891 INFO sqlalchemy.engine.Engine BEGIN (implicit)
+2026-01-07 09:37:49,891 INFO sqlalchemy.engine.Engine SELECT users.id, users.organization_id, users.vendor_id, users.email, users.password_hash, users.first_name, users.last_name, users.role, users.active, users.last_login, users.created_at, users.updated_at 
+FROM users 
+WHERE users.id = $1::UUID
+2026-01-07 09:37:49,892 INFO sqlalchemy.engine.Engine [cached since 4.196s ago] (UUID('361c66e4-7b9f-4ca3-841d-81a9d8cab619'),)
+<sys>:0: SAWarning: Column 'qr_locations.id' is marked as a member of the primary key for table 'qr_locations', but has no Python-side or server-side default generator indicated, nor does it indicate 'autoincrement=True' or 'nullable=True', and no explicit value is passed.  Primary key columns typically may not store NULL.
+   User: mike@mhala.org (caseworker)
+
+Creating QR Locations...
+2026-01-07 09:37:50,221 INFO sqlalchemy.engine.Engine INSERT INTO qr_locations (organization_id, vendor_id, name, address, latitude, longitude, location_type, qr_code_url, active, scan_count, created_at, updated_at) VALUES ($1::INTEGER, $2::INTEGER, $3::VARCHAR, $4::VARCHAR, $5::NUMERIC(10, 8), $6::NUME ... 704 characters truncated ... HAR, $45::BOOLEAN, $46::INTEGER, $47::TIMESTAMP WITHOUT TIME ZONE, $48::TIMESTAMP WITHOUT TIME ZONE)
+2026-01-07 09:37:50,221 INFO sqlalchemy.engine.Engine [generated in 0.00063s (insertmanyvalues) 1/1 (unordered)] (1, 1, 'MLK Park Entrance', 'MLK Park Entrance, Long Beach, CA', 33.7866, -118.1589, None, 'https://firstcontact.app/intake/path-6210', True, 83, datetime.datetime(2026, 1, 7, 17, 37, 50, 220708), datetime.datetime(2026, 1, 7, 17, 37, 50, 220716), 1, 1, 'Beach Shelter', 'Beach Shelter, Long Beach, CA', 33.7701, -118.1937, None, 'https://firstcontact.app/intake/path-7869', True, 171, datetime.datetime(2026, 1, 7, 17, 37, 50, 220720), datetime.datetime(2026, 1, 7, 17, 37, 50, 220722), 1, 2, 'Downtown Library', 'Downtown Library, Long Beach, CA', 33.7683, -118.1956, None, 'https://firstcontact.app/intake/hopics-5245', True, 113, datetime.datetime(2026, 1, 7, 17, 37, 50, 220725), datetime.datetime(2026, 1, 7, 17, 37, 50, 220727), 1, 3, 'Community Center', 'Community Center, Long Beach, CA', 33.77, -118.188, None, 'https://firstcontact.app/intake/lamp-9232', True, 199, datetime.datetime(2026, 1, 7, 17, 37, 50, 220729), datetime.datetime(2026, 1, 7, 17, 37, 50, 220732))
+2026-01-07 09:37:50,828 INFO sqlalchemy.engine.Engine ROLLBACK
+Traceback (most recent call last):
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 545, in _prepare_and_execute
+    self._rows = deque(await prepared_stmt.fetch(*parameters))
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\asyncpg\prepared_stmt.py", line 176, in fetch
+    data = await self.__bind_execute(args, 0, timeout)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\asyncpg\prepared_stmt.py", line 267, in __bind_execute
+    data, status, _ = await self.__do_execute(
+                      ^^^^^^^^^^^^^^^^^^^^^^^^
+        lambda protocol: protocol.bind_execute(
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            self._state, args, '', limit, True, timeout))
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\asyncpg\prepared_stmt.py", line 256, in __do_execute
+    return await executor(protocol)
+           ^^^^^^^^^^^^^^^^^^^^^^^^
+  File "asyncpg\\protocol\\protocol.pyx", line 206, in bind_execute
+asyncpg.exceptions.NotNullViolationError: null value in column "id" of relation "qr_locations" violates not-null constraint
+DETAIL:  Failing row contains (null, 1, 1, MLK Park Entrance, MLK Park Entrance, Long Beach, CA, 33.78660000, -118.15890000, null, https://firstcontact.app/intake/path-6210, t, 83, 2026-01-07 17:37:50.220708, 2026-01-07 17:37:50.220716).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 580, in execute
+    self._adapt_connection.await_(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self._prepare_and_execute(operation, parameters)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 558, in _prepare_and_execute
+    self._handle_exception(error)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 508, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 792, in _handle_exception
+    raise translated_error from error
+sqlalchemy.dialects.postgresql.asyncpg.AsyncAdapt_asyncpg_dbapi.IntegrityError: <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id" of relation "qr_locations" violates not-null constraint
+DETAIL:  Failing row contains (null, 1, 1, MLK Park Entrance, MLK Park Entrance, Long Beach, CA, 33.78660000, -118.15890000, null, https://firstcontact.app/intake/path-6210, t, 83, 2026-01-07 17:37:50.220708, 2026-01-07 17:37:50.220716).
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\james\Downloads\FirstContactEIS\backend\seed_complete_demo.py", line 364, in <module>
+    asyncio.run(seed_demo_data())
+    ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 195, in run
+    return runner.run(main)
+           ~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^
+  File "C:\Python313\Lib\asyncio\base_events.py", line 725, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "C:\Users\james\Downloads\FirstContactEIS\backend\seed_complete_demo.py", line 174, in seed_demo_data
+    await session.commit()
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\ext\asyncio\session.py", line 1014, in commit
+    await greenlet_spawn(self.sync_session.commit)
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 203, in greenlet_spawn
+    result = context.switch(value)
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 2032, in commit
+    trans.commit(_to_root=True)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^
+  File "<string>", line 2, in commit
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 1313, in commit
+    self._prepare_impl()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "<string>", line 2, in _prepare_impl
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\state_changes.py", line 137, in _go
+    ret_value = fn(self, *arg, **kw)
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 1288, in _prepare_impl
+    self.session.flush()
+    ~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 4345, in flush
+    self._flush(objects)
+    ~~~~~~~~~~~^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 4480, in _flush
+    with util.safe_reraise():
+         ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\langhelpers.py", line 224, in __exit__
+    raise exc_value.with_traceback(exc_tb)
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\session.py", line 4441, in _flush
+    flush_context.execute()
+    ~~~~~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\unitofwork.py", line 466, in execute
+    rec.execute(self)
+    ~~~~~~~~~~~^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\unitofwork.py", line 642, in execute
+    util.preloaded.orm_persistence.save_obj(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.mapper,
+        ^^^^^^^^^^^^
+        uow.states_for_mapper_hierarchy(self.mapper, False, False),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        uow,
+        ^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\persistence.py", line 93, in save_obj
+    _emit_insert_statements(
+    ~~~~~~~~~~~~~~~~~~~~~~~^
+        base_mapper,
+        ^^^^^^^^^^^^
+    ...<3 lines>...
+        insert,
+        ^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\orm\persistence.py", line 1143, in _emit_insert_statements
+    result = connection.execute(
+        statement, multiparams, execution_options=execution_options
+    )
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1419, in execute
+    return meth(
+        self,
+        distilled_parameters,
+        execution_options or NO_OPTIONS,
+    )
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\sql\elements.py", line 526, in _execute_on_connection
+    return connection._execute_clauseelement(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self, distilled_params, execution_options
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1641, in _execute_clauseelement
+    ret = self._execute_context(
+        dialect,
+    ...<8 lines>...
+        cache_hit=cache_hit,
+    )
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 1844, in _execute_context
+    return self._exec_insertmany_context(dialect, context)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 2126, in _exec_insertmany_context
+    self._handle_dbapi_exception(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        e,
+        ^^
+    ...<4 lines>...
+        is_sub_exec=True,
+        ^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 2355, in _handle_dbapi_exception
+    raise sqlalchemy_exception.with_traceback(exc_info[2]) from e
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\base.py", line 2118, in _exec_insertmany_context
+    dialect.do_execute(
+    ~~~~~~~~~~~~~~~~~~^
+        cursor,
+        ^^^^^^^
+    ...<2 lines>...
+        context,
+        ^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\engine\default.py", line 951, in do_execute
+    cursor.execute(statement, parameters)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 580, in execute
+    self._adapt_connection.await_(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        self._prepare_and_execute(operation, parameters)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 132, in await_only
+    return current.parent.switch(awaitable)  # type: ignore[no-any-return,attr-defined] # noqa: E501
+           ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\util\_concurrency_py3k.py", line 196, in greenlet_spawn
+    value = await result
+            ^^^^^^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 558, in _prepare_and_execute
+    self._handle_exception(error)
+    ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 508, in _handle_exception
+    self._adapt_connection._handle_exception(error)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "C:\Users\james\AppData\Roaming\Python\Python313\site-packages\sqlalchemy\dialects\postgresql\asyncpg.py", line 792, in _handle_exception
+    raise translated_error from error
+sqlalchemy.exc.IntegrityError: (sqlalchemy.dialects.postgresql.asyncpg.IntegrityError) <class 'asyncpg.exceptions.NotNullViolationError'>: null value in column "id" of relation "qr_locations" violates not-null constraint
+DETAIL:  Failing row contains (null, 1, 1, MLK Park Entrance, MLK Park Entrance, Long Beach, CA, 33.78660000, -118.15890000, null, https://firstcontact.app/intake/path-6210, t, 83, 2026-01-07 17:37:50.220708, 2026-01-07 17:37:50.220716).
+[SQL: INSERT INTO qr_locations (organization_id, vendor_id, name, address, latitude, longitude, location_type, qr_code_url, active, scan_count, created_at, updated_at) VALUES ($1::INTEGER, $2::INTEGER, $3::VARCHAR, $4::VARCHAR, $5::NUMERIC(10, 8), $6::NUME ... 704 characters truncated ... HAR, $45::BOOLEAN, $46::INTEGER, $47::TIMESTAMP WITHOUT TIME ZONE, $48::TIMESTAMP WITHOUT TIME ZONE)]
+[parameters: (1, 1, 'MLK Park Entrance', 'MLK Park Entrance, Long Beach, CA', 33.7866, -118.1589, None, 'https://firstcontact.app/intake/path-6210', True, 83, datetime.datetime(2026, 1, 7, 17, 37, 50, 220708), datetime.datetime(2026, 1, 7, 17, 37, 50, 220716), 1, 1, 'Beach Shelter', 'Beach Shelter, Long Beach, CA', 33.7701, -118.1937, None, 'https://firstcontact.app/intake/path-7869', True, 171, datetime.datetime(2026, 1, 7, 17, 37, 50, 220720), datetime.datetime(2026, 1, 7, 17, 37, 50, 220722), 1, 2, 'Downtown Library', 'Downtown Library, Long Beach, CA', 33.7683, -118.1956, None, 'https://firstcontact.app/intake/hopics-5245', True, 113, datetime.datetime(2026, 1, 7, 17, 37, 50, 220725), datetime.datetime(2026, 1, 7, 17, 37, 50, 220727), 1, 3, 'Community Center', 'Community Center, Long Beach, CA', 33.77, -118.188, None, 'https://firstcontact.app/intake/lamp-9232', True, 199, datetime.datetime(2026, 1, 7, 17, 37, 50, 220729), datetime.datetime(2026, 1, 7, 17, 37, 50, 220732))]
+(Background on this error at: https://sqlalche.me/e/20/gkpj)

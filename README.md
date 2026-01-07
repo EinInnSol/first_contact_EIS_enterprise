@@ -31,28 +31,23 @@ Transform how $7+ billion in annual homeless services funding delivers outcomes 
 
 ```
 FirstContactEIS/
-├── START_HERE.md              ← BEGIN HERE
-├── CURRENT_STATE.md            ← Track progress
-├── SPRINT_PLAN.md              ← 6-week roadmap
-├── GCP_SETUP.md                ← Environment setup
-│
-├── .claude/
-│   ├── CLAUDE.md               ← Complete project memory
-│   └── rules/                  ← Non-negotiable rules
-│       ├── MULTI_TENANT.md     ← Data isolation
-│       ├── LAYER8_SECURITY.md  ← Trojan Horse protection
-│       ├── GCP_ONLY.md         ← Infrastructure rules
-│       └── TESTING.md          ← Quality requirements
-│
-├── docs/                       ← Technical documentation
-│   ├── ARCHITECTURE.md
-│   ├── DATABASE_SCHEMA.sql
-│   ├── API_STRUCTURE.md
-│   └── BENEFIT_PROGRAMS.json
-│
-├── backend/                    ← FastAPI application (to be created)
-├── frontend/                   ← Next.js application (to be created)
-└── scripts/                    ← Setup utilities (to be created)
+├── README.md                   ← YOU ARE HERE
+├── .gitignore                  ← Git configuration
+├── backend/                    ← FastAPI Application (Python)
+│   ├── app/                    ← Application Source
+│   ├── scripts/                ← Utility scripts
+│   └── tests/                  ← Pytest suite
+├── frontend/                   ← Next.js Application (TypeScript)
+│   ├── src/                    ← Application Source
+│   └── public/                 ← Static assets
+├── docs/                       ← Documentation
+│   ├── project_history/        ← Archived build plans & logs
+│   ├── ARCHITECTURE.md         ← Technical Blueprint
+│   └── VISION_MANIFESTO.md     ← Product Vision
+├── scripts/                    ← Deployment & Setup Scripts
+│   ├── windows/                ← PowerShell & Batch files
+│   └── linux/                  ← Bash scripts
+└── bin/                        ← Development tools (ignored by git)
 ```
 
 ---

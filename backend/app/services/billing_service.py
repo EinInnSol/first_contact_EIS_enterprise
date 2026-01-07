@@ -17,38 +17,31 @@ class BillingService:
     Handles the 'Monetization' layer of the platform.
     """
     
-    # Set to True for Pilot/POC version to bypass payment enforcement
-    PILOT_MODE = True
-
-    async def get_subscription_status(self, organization_id: str) -> Dict[str, Any]:
+    async def get_subscription_status(self, organization_id: int) -> Dict[str, Any]:
         """
         Returns the subscription status for an organization.
-        In PILOT_MODE, this always returns 'active'.
         """
-        if self.PILOT_MODE:
+        # In a real app, this would query the Organizations table or Stripe.
+        # For our "Trojan Horse" demo, we treat the 'City of Long Beach' (ID 1) as Enterprise.
+        if organization_id == 1:
             return {
                 "status": "active",
-                "tier": "pilot_premium",
-                "is_pilot": True,
+                "tier": "enterprise",
+                "is_pilot": False, # Graduated from pilot!
                 "is_restricted": False
             }
 
-        # Real production logic would go here
         return {
-            "status": "active",
-            "tier": "enterprise",
+            "status": "inactive",
+            "tier": "none",
             "is_pilot": False,
-            "is_restricted": False
+            "is_restricted": True
         }
 
-    async def check_access_permission(self, organization_id: str) -> bool:
+    async def check_access_permission(self, organization_id: int) -> bool:
         """
         Enforce access based on subscription status.
-        In PILOT_MODE, always returns True.
         """
-        if self.PILOT_MODE:
-            return True
-            
         status_info = await self.get_subscription_status(organization_id)
         return status_info.get("status") in ["active", "trailing"]
 

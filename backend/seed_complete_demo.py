@@ -83,8 +83,9 @@ async def seed_demo_data():
     """Seed complete demo data."""
 
     # Create async engine
-    DATABASE_URL = "postgresql+asyncpg://postgres@localhost:5432/firstcontact"
-    engine = create_async_engine(DATABASE_URL, echo=True)
+    # Create async engine
+    from app.config import settings
+    engine = create_async_engine(settings.DATABASE_URL, echo=True)
 
     # Create tables
     async with engine.begin() as conn:
@@ -95,19 +96,19 @@ async def seed_demo_data():
 
     async with async_session() as session:
         print("\n" + "="*60)
-        print("🌱 SEEDING DEMO DATA FOR FIRST CONTACT E.I.S.")
+        print("SEEDING DEMO DATA FOR FIRST CONTACT E.I.S.")
         print("="*60 + "\n")
 
         # 1. Create Organization
-        print("📍 Creating Organization: Long Beach CoC...")
+        print("Creating Organization: Long Beach CoC...")
         org = Organization(**DEMO_ORG)
         session.add(org)
         await session.commit()
         await session.refresh(org)
-        print(f"   ✅ Organization created: {org.name} (ID: {org.id})")
+        print(f"   Organization created: {org.name} (ID: {org.id})")
 
         # 2. Create Vendors
-        print("\n🏢 Creating Vendors...")
+        print("\nCreating Vendors...")
         vendors = {}
         for vendor_data in DEMO_VENDORS:
             vendor = Vendor(
@@ -123,10 +124,10 @@ async def seed_demo_data():
             await session.commit()
             await session.refresh(vendor)
             vendors[vendor_data["slug"]] = vendor
-            print(f"   ✅ Vendor: {vendor.name} (ID: {vendor.id})")
+            print(f"   Vendor: {vendor.name} (ID: {vendor.id})")
 
         # 3. Create Users
-        print("\n👥 Creating Users...")
+        print("\nCreating Users...")
         users = {}
         for user_data in DEMO_USERS:
             vendor_id = vendors[user_data["vendor"]].id if "vendor" in user_data else None
@@ -143,10 +144,10 @@ async def seed_demo_data():
             await session.commit()
             await session.refresh(user)
             users[user_data["email"]] = user
-            print(f"   ✅ User: {user_data['email']} ({user_data['role'].value})")
+            print(f"   User: {user_data['email']} ({user_data['role'].value})")
 
         # 4. Create QR Locations
-        print("\n📍 Creating QR Locations...")
+        print("\nCreating QR Locations...")
         qr_locations = []
         locations_data = [
             {"name": "MLK Park Entrance", "vendor": "path", "lat": 33.7866, "lng": -118.1589},
@@ -157,6 +158,7 @@ async def seed_demo_data():
 
         for loc_data in locations_data:
             qr_loc = QRLocation(
+                id=f"{loc_data['vendor']}-{random.randint(1000,9999)}",
                 organization_id=org.id,
                 vendor_id=vendors[loc_data["vendor"]].id,
                 name=loc_data["name"],
@@ -250,6 +252,82 @@ async def seed_demo_data():
         await session.commit()
         print(f"\n   📊 Total clients created: {total_clients}")
 
+        # 6. Create Orchestrator Specific Stories (Crucial for "Calling Audibles" Demo)
+        print("\n🎭 Creating Orchestrator Demo Scenarios...")
+        
+        # Get PATH vendor for these scenarios
+        path_vendor = vendors["path"]
+        maria_caseworker = caseworkers_by_vendor["path"] 
+
+        # Story 1: Appointment Swap (Maria Cancels, Robert takes slot)
+        # Maria Garcia
+        maria = Client(
+            organization_id=org.id,
+            assigned_vendor_id=path_vendor.id,
+            assigned_caseworker_id=maria_caseworker.id,
+            case_number="FC-2025-MARIA",
+            first_name="Maria",
+            last_name="Garcia",
+            status="active",
+            vi_spdat_score=6,
+            date_of_birth=date(1980, 5, 20),
+            intake_date=date.today() - timedelta(days=45),
+            notes="Requires wheelchair access. consistently attends appointments. Has upcoming DPSS appointment."
+        )
+        session.add(maria)
+
+        # Robert Thompson (Waitlist, High Urgency)
+        robert = Client(
+            organization_id=org.id,
+            assigned_vendor_id=path_vendor.id,
+            assigned_caseworker_id=maria_caseworker.id, # Assigning to same/pool
+            case_number="FC-2025-ROB",
+            first_name="Robert",
+            last_name="Thompson",
+            status="waitlist",
+            vi_spdat_score=8, 
+            date_of_birth=date(1975, 3, 12),
+            intake_date=date.today() - timedelta(days=12),
+            notes="High vulnerability. Veteran. Document ready. Currently at Library shelter. Needs DPSS appointment."
+        )
+        session.add(robert)
+
+        # Story 2: At Risk (Jennifer)
+        jennifer = Client(
+            organization_id=org.id,
+            assigned_vendor_id=path_vendor.id,
+            assigned_caseworker_id=maria_caseworker.id,
+            case_number="FC-2025-JEN",
+            first_name="Jennifer",
+            last_name="Wu",
+            status="active",
+            vi_spdat_score=12,
+            date_of_birth=date(1998, 11, 2),
+            intake_date=date.today() - timedelta(days=30),
+            notes="History of trauma. Needs female case manager. Missed last 3 check-ins."
+        )
+        session.add(jennifer)
+
+        # Story 3: Benefit Opp (Marcus)
+        marcus = Client(
+            organization_id=org.id,
+            assigned_vendor_id=path_vendor.id,
+            assigned_caseworker_id=maria_caseworker.id,
+            case_number="FC-2025-MARC",
+            first_name="Marcus",
+            last_name="Johnson",
+            status="housed",
+            vi_spdat_score=4,
+            date_of_birth=date(1985, 7, 7),
+            intake_date=date.today() - timedelta(days=90),
+            exit_date=date.today() - timedelta(days=3),
+            notes="Recently housed. Receiving GR ($221)."
+        )
+        session.add(marcus)
+
+        await session.commit()
+        print("   ✅ Created specific demo characters: Maria, Robert, Jennifer, Marcus")
+
         # Summary
         print("\n" + "="*60)
         print("✅ DEMO DATA SEEDING COMPLETE!")
@@ -282,4 +360,6 @@ async def seed_demo_data():
 
 
 if __name__ == "__main__":
+    if sys.platform == 'win32':
+        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
     asyncio.run(seed_demo_data())

@@ -118,7 +118,80 @@ class PilotSeederService:
                 )
                 self.db.add(client)
 
+        # 5. Inject Specific Demo Stories (The "Maria & Robert" Scenario)
+        await self.seed_demo_stories(org, vendors)
+
         await self.db.commit()
         logger.info("SEEDER: Pilot data seeding complete. Dashboards now high-impact.")
+
+    async def seed_demo_stories(self, org: Organization, vendors_list: List[Any]):
+        """
+        Injects the specific narrative characters for the 'Calling Audibles' demo.
+        """
+        from app.models.client import Client
+        from app.models.user import User # Assuming we might need this later
+        
+        # We need specific vendors for the story
+        dpss_vendor = next((v for v, p in vendors_list if v.name == "Pathways Long Beach"), vendors_list[0][0])
+        
+        # STORY 1: The Appointment Swap
+        # Maria Garcia: The Cancellation
+        maria = Client(
+            first_name="Maria",
+            last_name="Garcia",
+            organization_id=org.id,
+            assigned_vendor_id=dpss_vendor.id,
+            status="active",
+            vi_spdat_score=6,
+            intake_date=datetime.now() - timedelta(days=45),
+            notes="Requires wheelchair access. consistently attends appointments."
+        )
+        self.db.add(maria)
+        
+        # Robert Thompson: The Waitlist Candidate
+        robert = Client(
+            first_name="Robert", 
+            last_name="Thompson",
+            organization_id=org.id,
+            assigned_vendor_id=dpss_vendor.id,
+            status="waitlist",
+            vi_spdat_score=8, # Higher urgency
+            intake_date=datetime.now() - timedelta(days=12),
+            notes="High vulnerability. Veteran. Document ready. Currently at Library shelter."
+        )
+        self.db.add(robert)
+
+        # STORY 2: The At-Risk Youth
+        # Jennifer Wu: The 'Ghosting' Risk
+        jennifer = Client(
+            first_name="Jennifer",
+            last_name="Wu", 
+            organization_id=org.id,
+            assigned_vendor_id=dpss_vendor.id,
+            status="active",
+            vi_spdat_score=12,
+            intake_date=datetime.now() - timedelta(days=30),
+            notes="History of trauma. Needs female case manager. Missed last 3 check-ins."
+        )
+        self.db.add(jennifer)
+
+        # STORY 3: The Benefit Opportunity
+        # Marcus Johnson
+        marcus = Client(
+            first_name="Marcus",
+            last_name="Johnson",
+            organization_id=org.id,
+            assigned_vendor_id=dpss_vendor.id,
+            status="housed",
+            vi_spdat_score=4,
+            intake_date=datetime.now() - timedelta(days=90),
+            exit_date=datetime.now() - timedelta(days=3),
+            notes="Recently housed. Receiving GR ($221)."
+        )
+        self.db.add(marcus)
+        
+        # Flush to get IDs for potential future appointments/events linkage
+        await self.db.flush()
+        logger.info("SEEDER: Injected 'Maria', 'Robert', 'Jennifer', and 'Marcus' for demo scenarios.")
 
 from decimal import Decimal

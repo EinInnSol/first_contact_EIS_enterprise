@@ -57,6 +57,7 @@ class Client(Base):
     # Status
     status: Mapped[str] = mapped_column(String(30), default="intake")
     housing_type: Mapped[Optional[str]] = mapped_column(String(50))
+    notes: Mapped[Optional[str]] = mapped_column(String(500))
     
     # Outcomes (for Layer 8)
     intake_date: Mapped[Optional[date]] = mapped_column(Date, default=date.today)

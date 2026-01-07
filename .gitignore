@@ -1,0 +1,14 @@
+__pycache__/
+*.pyc
+.env
+.venv
+venv/
+bin/
+logs/
+*.log
+*.db
+backend/test.db
+backend/services.json
+.DS_Store
+.checkpoints/
+.antigravity/

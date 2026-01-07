@@ -13,6 +13,12 @@ API Structure:
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
+import sys
+import asyncio
+
+# Fix for Windows asyncio loop with asyncpg
+if sys.platform == 'win32':
+    asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 from app.config import settings
 from app.database import engine, Base, init_db
