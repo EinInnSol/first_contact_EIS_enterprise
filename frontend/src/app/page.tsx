@@ -51,15 +51,17 @@ export default function Home() {
               <span className="text-[10px] font-mono font-bold text-cyan uppercase tracking-[0.3em]">Version 2.0 Oracle Active</span>
             </div>
 
-            {/* Briefing Button */}
-            <button
+            {/* Premium Briefing Button */}
+            <motion.button
+              whileHover={{ scale: 1.05, boxShadow: "0 0 20px rgba(0, 240, 255, 0.3)" }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setShowPresentation(true)}
-              className="group flex items-center gap-2 text-[10px] font-mono text-slate-400 hover:text-cyan transition-colors uppercase tracking-widest border-b border-transparent hover:border-cyan/50 pb-1"
+              className="mt-4 px-8 py-4 bg-cyan/10 backdrop-blur-md border border-cyan/50 rounded-xl text-cyan font-bold text-sm hover:bg-cyan/20 transition-all flex items-center gap-3 shadow-[0_0_15px_rgba(0,240,255,0.1)] ring-1 ring-cyan/30"
             >
-              <Database size={12} />
-              <span>Initialize System Briefing sequence</span>
-              <ChevronRight size={12} className="group-hover:translate-x-1 transition-transform" />
-            </button>
+              <Database className="w-5 h-5" />
+              <span>Start System Briefing Sequence</span>
+              <ChevronRight className="w-5 h-5" />
+            </motion.button>
           </motion.div>
 
           <motion.div
